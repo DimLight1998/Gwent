@@ -23,6 +23,13 @@ public:
     virtual void OnDeathWish() = 0;
 protected:
     CardMeta *CardMetaInfo; //<! stores meta-info of the card, not for sharing
+
+    int CardId;
+public:
+    CardMeta *GetCardMetaInfo() const;
+    void SetCardMetaInfo(CardMeta *CardMetaInfo);
+    int GetCardId() const;
+    void SetCardId(int CardId);
 };
 
 

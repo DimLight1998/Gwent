@@ -18,6 +18,7 @@ protected:
     CardContainer *HandCards;
     CardContainer *GraveCards;
     CardContainer *DeckCards;
+    CardContainer *DiscardCards; //!< cards removed from game stores here
 };
 
 

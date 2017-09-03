@@ -15,3 +15,14 @@ void BattleLine::SetWeather(BattleLine::WeatherEnum Weather)
 {
     BattleLine::Weather = Weather;
 }
+
+
+void BattleLine::InsertUnit(int unitId, int index)
+{
+    if (index < 0 || index > Units.size())
+    {
+        throw 0;
+    }
+
+    Units.insert(unitId, index);
+}

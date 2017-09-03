@@ -19,3 +19,9 @@ void BitingFrost::OnDestroy()
 void BitingFrost::OnDeathWish()
 {
 }
+
+
+BitingFrost::BitingFrost()
+{
+    CardMetaInfo = CardMeta::GetMetaByCardName("BitingFrost");
+}

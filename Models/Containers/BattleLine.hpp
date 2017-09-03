@@ -18,11 +18,17 @@ public:
     };
 
 protected:
-    QVector<Unit *> Units;
-    WeatherEnum     Weather;
+    QVector<int> Units; //!< stores id of the units
+    WeatherEnum  Weather;
 public:
     WeatherEnum GetWeather() const;
     void SetWeather(WeatherEnum Weather);
+
+    //! \brief this function can insert a unit to the battle line
+    //! \param unitId the id of the unit
+    //! \param index the index of the inserting position, ranged from 0 to Units.size()
+    //! \throw 0 if index not correct
+    void InsertUnit(int unitId, int index);
 };
 
 

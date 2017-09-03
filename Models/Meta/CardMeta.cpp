@@ -3,7 +3,6 @@
 //
 
 #include "CardMeta.hpp"
-#include "../../GwentException.hpp"
 #include "EffectsMeta.hpp"
 
 
@@ -86,5 +85,5 @@ CardMeta *CardMeta::GetMetaByCardName(const QString& name)
         return cardMeta;
     }
 
-    throw GwentException::CardMetaNotFound;
+    throw 263784;
 }
