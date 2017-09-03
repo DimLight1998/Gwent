@@ -9,6 +9,7 @@
 #include "BattleSide.hpp"
 
 
+class BattleSide;
 class BattleField
 {
 protected:

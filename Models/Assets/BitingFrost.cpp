@@ -7,7 +7,7 @@
 
 void BitingFrost::OnDeploy()
 {
-    SelectedLine->SetWeather(BattleLine::WeatherEnum::Frost);
+    GlobalGameController->SetWeatherToBattleLine(SelectedLine, BattleLine::WeatherEnum::Frost);
 }
 
 

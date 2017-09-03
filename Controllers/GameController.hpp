@@ -10,6 +10,12 @@
 #include "../Models/Containers/CardManager.hpp"
 
 
+class CardManager;
+
+
+class BattleField;
+
+
 class GameController
 {
 private:
@@ -24,6 +30,11 @@ public:
     /// \param index the index of the battle line, starting from 0
     /// \note the function won't check if the card can be deployed, it just does what is told
     void DeployUnitToBattleLine(int cardId, const QString& battleLineName, int index);
+
+    /// \brief set weather to a specific battle line
+    /// \param battleLineName the battle line weather will be set at, format: (Enemy|Allied)(Melee|Ranged|Siege)
+    /// \param weather the weather, can be None
+    void SetWeatherToBattleLine(const QString& battleLineName, BattleLine::WeatherEnum weather);
 };
 
 

@@ -10,3 +10,9 @@ void GameController::DeployUnitToBattleLine(int cardId, const QString& battleLin
     _battleField->GetBattleLineByName(battleLineName)->InsertUnit(cardId, index);
     _cardManager->GetCardById(cardId)->OnDeploy();
 }
+
+
+void GameController::SetWeatherToBattleLine(const QString& battleLineName, BattleLine::WeatherEnum weather)
+{
+    _battleField->GetBattleLineByName(battleLineName)->SetWeather(weather);
+}

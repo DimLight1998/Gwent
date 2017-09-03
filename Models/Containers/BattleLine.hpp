@@ -6,8 +6,6 @@
 #define GWENT_BATTLELINE_HPP
 
 #include <QVector>
-#include "../Card/Unit.hpp"
-
 
 class BattleLine
 {
@@ -22,7 +20,7 @@ protected:
     WeatherEnum  Weather;
 public:
     WeatherEnum GetWeather() const;
-    void SetWeather(WeatherEnum Weather);
+    void SetWeather(WeatherEnum weather);
 
     /// \brief this function can insert a unit to the battle line
     /// \param unitId the id of the unit

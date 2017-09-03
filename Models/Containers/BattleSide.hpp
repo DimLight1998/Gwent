@@ -9,6 +9,7 @@
 #include "CardContainer.hpp"
 
 
+class CardContainer;
 class BattleSide
 {
 

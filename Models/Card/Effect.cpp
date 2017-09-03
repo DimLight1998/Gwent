@@ -5,25 +5,25 @@
 #include "Effect.hpp"
 
 
-Unit *Effect::GetSelectedUnit() const
+int Effect::GetSelectedUnit() const
 {
     return SelectedUnit;
 }
 
 
-void Effect::SetSelectedUnit(Unit *SelectedUnit)
+void Effect::SetSelectedUnit(int SelectedUnit)
 {
     Effect::SelectedUnit = SelectedUnit;
 }
 
 
-BattleLine *Effect::GetSelectedLine() const
+const QString& Effect::GetSelectedLine() const
 {
     return SelectedLine;
 }
 
 
-void Effect::SetSelectedLine(BattleLine *SelectedLine)
+void Effect::SetSelectedLine(const QString& SelectedLine)
 {
     Effect::SelectedLine = SelectedLine;
 }

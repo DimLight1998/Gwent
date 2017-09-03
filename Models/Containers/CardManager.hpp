@@ -9,6 +9,7 @@
 #include "../Card/Card.hpp"
 
 
+class Card;
 class CardManager
 {
 protected:

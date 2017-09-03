@@ -6,8 +6,10 @@
 #define GWENT_CARD_HPP
 
 #include "../Meta/CardMeta.hpp"
+#include "../../Controllers/GameController.hpp"
 
 
+class GameController;
 class Card
 {
 public:
@@ -25,6 +27,8 @@ protected:
     CardMeta *CardMetaInfo; //<! stores meta-info of the card, not for sharing
 
     int CardId;
+
+    GameController *GlobalGameController;
 public:
     CardMeta *GetCardMetaInfo() const;
     void SetCardMetaInfo(CardMeta *CardMetaInfo);

@@ -11,9 +11,9 @@ BattleLine::WeatherEnum BattleLine::GetWeather() const
 }
 
 
-void BattleLine::SetWeather(BattleLine::WeatherEnum Weather)
+void BattleLine::SetWeather(BattleLine::WeatherEnum weather)
 {
-    BattleLine::Weather = Weather;
+    BattleLine::Weather = weather;
 }
 
 

@@ -13,14 +13,14 @@
 class Effect : public Card
 {
 protected:
-    Unit       *SelectedUnit; ///< used for effects unit select
-    BattleLine *SelectedLine; ///< used for effects line select
+    int     SelectedUnit; ///< used for effects unit select
+    QString SelectedLine; ///< used for effects line select
 
 public:
-    Unit *GetSelectedUnit() const;
-    void SetSelectedUnit(Unit *SelectedUnit);
-    BattleLine *GetSelectedLine() const;
-    void SetSelectedLine(BattleLine *SelectedLine);
+    int GetSelectedUnit() const;
+    void SetSelectedUnit(int SelectedUnit);
+    const QString& GetSelectedLine() const;
+    void SetSelectedLine(const QString& SelectedLine);
 };
 
 
