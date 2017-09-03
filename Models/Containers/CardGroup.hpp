@@ -12,7 +12,12 @@
 class CardGroup
 {
 private:
-    QVector<CardMeta> CardMetaGroup;
+    QVector<CardMeta> _cardMetaGroup;
+
+public:
+    /// \brief check if this is a valid card group
+    /// \return true if it's a valid card group, else false
+    bool Validate();
 };
 
 
