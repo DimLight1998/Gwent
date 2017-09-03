@@ -5,8 +5,8 @@
 #include "GameController.hpp"
 
 
-void GameController::DeployUnitToBattleLine(int cardId, BattleLine *battleLine, int index)
+void GameController::DeployUnitToBattleLine(int cardId, const QString& battleLineName, int index)
 {
-    battleLine->InsertUnit(cardId, index);
+    _battleField->GetBattleLineByName(battleLineName)->InsertUnit(cardId, index);
     _cardManager->GetCardById(cardId)->OnDeploy();
 }

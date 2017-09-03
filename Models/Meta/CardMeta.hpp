@@ -32,12 +32,12 @@ public:
     const QString& GetPictureResourcePath() const;
     void SetPictureResourcePath(const QString& pictureResourcePath);
 
-    //! \brief get the meta-info about the card
-    //! \param name name of the card
-    //! \return pointer to the card meta-info
-    //! \warning this function will allocate a new CardMeta object, you should delete the function by yourself
-    //! \note all other data is based on this function
-    //! \throw 263784 if name is incorrect
+    /// \brief get the meta-info about the card
+    /// \param name name of the card
+    /// \return pointer to the card meta-info
+    /// \warning this function will allocate a new CardMeta object, you should delete the function by yourself
+    /// \note all other data is based on this function
+    /// \throw 263784 if name is incorrect
     static CardMeta *GetMetaByCardName(const QString& name);
 };
 

@@ -3,3 +3,19 @@
 //
 
 #include "BattleField.hpp"
+
+
+BattleLine *BattleField::GetBattleLineByName(const QString& name)
+{
+    if (name.startsWith("Enemy"))
+    {
+        return EnemyBattleSide->GetBattleLineByName(name.mid(5));
+    }
+
+    if (name.startsWith("Allied"))
+    {
+        return AlliedBattleSide->GetBattleLineByName(name.mid(6));
+    }
+
+    throw 347853;
+}

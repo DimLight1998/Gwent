@@ -14,10 +14,10 @@ class CardManager
 protected:
     QVector<Card *> CardsOnBoard;
 public:
-    //! \brief get a pointer to the card by its id
-    //! \param cardId id of the card
-    //! \return pointer to the card
-    //! \throw 349534 if cardId incorrect
+    /// \brief get a pointer to the card by its id
+    /// \param cardId id of the card
+    /// \return pointer to the card
+    /// \throw 349534 if cardId incorrect
     Card *GetCardById(int cardId);
 };
 

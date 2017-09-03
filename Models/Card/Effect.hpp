@@ -13,8 +13,8 @@
 class Effect : public Card
 {
 protected:
-    Unit       *SelectedUnit; //!< used for effects unit select
-    BattleLine *SelectedLine; //!< used for effects line select
+    Unit       *SelectedUnit; ///< used for effects unit select
+    BattleLine *SelectedLine; ///< used for effects line select
 
 public:
     Unit *GetSelectedUnit() const;

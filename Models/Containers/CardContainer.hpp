@@ -12,7 +12,7 @@
 class CardContainer
 {
 protected:
-    QVector<int> Cards; //!< stores id of the cards
+    QVector<int> Cards; ///< stores id of the cards
 };
 
 
