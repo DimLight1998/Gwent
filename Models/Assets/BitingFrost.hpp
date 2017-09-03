@@ -14,8 +14,6 @@ public:
     BitingFrost();
 
     void OnDeploy() override;
-    void OnDestroy() override;
-    void OnDeathWish() override;
 };
 
 

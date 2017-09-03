@@ -27,3 +27,9 @@ void Card::SetCardId(int CardId)
 {
     Card::CardId = CardId;
 }
+
+
+Card::~Card()
+{
+    delete CardMetaInfo;
+}

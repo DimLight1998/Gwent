@@ -24,3 +24,26 @@ BattleLine *BattleSide::GetBattleLineByName(const QString& name) const
 
     throw 23458782;
 }
+
+
+CardContainer *BattleSide::GetCardContainerByName(const QString& name) const
+{
+    if (name == "Hand")
+    {
+        return HandCards;
+    }
+    if (name == "Grave")
+    {
+        return GraveCards;
+    }
+    if (name == "Deck")
+    {
+        return DeckCards;
+    }
+    if (name == "Discard")
+    {
+        return DiscardCards;
+    }
+
+    throw 23423425;
+}

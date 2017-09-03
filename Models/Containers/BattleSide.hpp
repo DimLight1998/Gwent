@@ -10,6 +10,8 @@
 
 
 class CardContainer;
+
+
 class BattleSide
 {
 
@@ -30,6 +32,12 @@ public:
     /// \note I use this for transmitting via network
     /// \throw 23458782 if name incorrect
     BattleLine *GetBattleLineByName(const QString& name) const;
+
+    /// \brief get the card container by name
+    /// \param name name of the container, options: (Hand|Grave|Deck|Discard)
+    /// \return pointer to the container
+    /// \throw 23423425 if name incorrect
+    CardContainer *GetCardContainerByName(const QString& name) const;
 };
 
 

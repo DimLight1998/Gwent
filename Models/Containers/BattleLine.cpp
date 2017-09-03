@@ -26,3 +26,23 @@ void BattleLine::InsertUnit(int unitId, int index)
 
     Units.insert(unitId, index);
 }
+
+
+const QVector<int>& BattleLine::GetUnits() const
+{
+    return Units;
+}
+
+
+bool BattleLine::IsBattleLineContainingCard(int id)
+{
+    for (auto& i:Units)
+    {
+        if (i == id)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}

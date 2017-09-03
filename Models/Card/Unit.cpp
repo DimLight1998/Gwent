@@ -33,3 +33,9 @@ void Unit::Damage(int damage)
         OnDestroy();
     }
 }
+
+
+void Unit::Gain(int gain)
+{
+    Power += gain;
+}

@@ -35,6 +35,18 @@ public:
     /// \param battleLineName the battle line weather will be set at, format: (Enemy|Allied)(Melee|Ranged|Siege)
     /// \param weather the weather, can be None
     void SetWeatherToBattleLine(const QString& battleLineName, BattleLine::WeatherEnum weather);
+
+    /// \brief try to deploy a unit from a specific container to a specific battle line
+    /// \param cardName name of the card
+    /// \param containerName name of the container, in format: (Enemy|Allied)(Hand|Deck|Grave|Discard)
+    /// \param battleLineName name of the battle line, in format: (Enemy|Allied)(Melee|Ranged|Siege)
+    /// \param index index of the insertion
+    /// \return true if success, else false
+    /// \throw 4593453 if name incorrect
+    bool DeployCardFromContainerToBattleLine
+        (const QString& cardName, const QString& containerName, const QString& battleLineName, int index);
+    BattleField *GetBattleField() const;
+    CardManager *GetCardManager() const;
 };
 
 

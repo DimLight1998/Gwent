@@ -27,6 +27,14 @@ public:
     /// \param index the index of the inserting position, ranged from 0 to Units.size()
     /// \throw 0 if index not correct
     void InsertUnit(int unitId, int index);
+
+    /// \brief test if the battle line contains the certain card
+    /// \param id id of the card
+    /// \return true if yes, otherwise no
+    bool IsBattleLineContainingCard(int id);
+
+
+    const QVector<int>& GetUnits() const;
 };
 
 

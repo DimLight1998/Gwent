@@ -6,10 +6,14 @@
 #define GWENT_BATTLEFIELD_HPP
 
 #include "BattleLine.hpp"
-#include "BattleSide.hpp"
 
 
 class BattleSide;
+
+
+class CardContainer;
+
+
 class BattleField
 {
 protected:
@@ -23,6 +27,17 @@ public:
     /// \note I use this for transmitting via network
     /// \throw 347853 if name incorrect
     BattleLine *GetBattleLineByName(const QString& name);
+
+    /// \brief get the card container by name
+    /// \param name name of the container, options: (Enemy|Allied)(Hand|Grave|Deck|Discard)
+    /// \return pointer to the container
+    /// \throw 4583595 if name incorrect
+    CardContainer *GetCardContainerByName(const QString& name);
+
+    /// \brief get the battle line containing a certain card
+    /// \param id id of the card
+    /// \return name of the battle line, "" if not found
+    QString GetBattleLineContainingCard(int id);
 };
 
 

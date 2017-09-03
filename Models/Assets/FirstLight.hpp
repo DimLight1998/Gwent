@@ -14,8 +14,6 @@ public:
     FirstLight();
 
     void OnDeploy() override;
-    void OnDestroy() override;
-    void OnDeathWish() override;
 };
 
 

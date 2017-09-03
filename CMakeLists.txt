@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.7)
+cmake_minimum_required(VERSION 3.8)
 project(Gwent)
 
 set(CMAKE_CXX_STANDARD 11)
@@ -20,7 +20,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/bin")
 # qrc file put here
 set(
         SOURCE_FILES
-        Main.cpp
         Main.cpp
         Models/Meta/CardMeta.cpp
         Models/Meta/CardMeta.hpp
@@ -52,7 +51,14 @@ set(
         Models/Assets/BitingFrost.hpp
         Models/Containers/CardManager.cpp
         Models/Containers/CardManager.hpp
-)
+        Models/Assets/ImpenetrableFog.cpp
+        Models/Assets/ImpenetrableFog.hpp
+        Models/Assets/Foglet.cpp
+        Models/Assets/Foglet.hpp
+        Models/Assets/TorrentialRain.cpp
+        Models/Assets/TorrentialRain.hpp
+        Models/Assets/Lacerate.cpp
+        Models/Assets/Lacerate.hpp Models/Assets/CommandersHorn.cpp Models/Assets/CommandersHorn.hpp)
 
 add_executable(Gwent ${SOURCE_FILES})
 

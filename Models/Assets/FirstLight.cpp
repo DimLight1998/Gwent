@@ -11,18 +11,6 @@ void FirstLight::OnDeploy()
 }
 
 
-void FirstLight::OnDestroy()
-{
-    // todo
-}
-
-
-void FirstLight::OnDeathWish()
-{
-    // todo
-}
-
-
 FirstLight::FirstLight()
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("FirstLight");

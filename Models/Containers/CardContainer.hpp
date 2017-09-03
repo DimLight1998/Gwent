@@ -13,6 +13,18 @@ class CardContainer
 {
 protected:
     QVector<int> Cards; ///< stores id of the cards
+public:
+    const QVector<int>& GetCards() const;
+
+    /// \brief remove the card of id
+    /// \param id id of the card
+    /// \throw 849532 if id incorrect
+    void RemoveCardOfId(int id);
+
+    /// \brief test if the card container contains the card
+    /// \param id id of the card
+    /// \return true if yes, otherwise no
+    bool IsCardContainerContainingCard(int id);
 };
 
 

@@ -10,6 +10,8 @@
 
 
 class GameController;
+
+
 class Card
 {
 public:
@@ -23,6 +25,9 @@ public:
     /// \bried triggered when the death wish of the unit is triggered
     /// \note The reason why I use this function is because some unit can trigger death wish but they don't need to die
     virtual void OnDeathWish() = 0;
+
+    /// \brief will handle the deletion of CardMetaInfo
+    virtual ~Card();
 protected:
     CardMeta *CardMetaInfo; //<! stores meta-info of the card, not for sharing
 
