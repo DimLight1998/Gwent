@@ -5,7 +5,7 @@
 #ifndef GWENT_LACERATE_HPP
 #define GWENT_LACERATE_HPP
 
-#include "../Card/Effect.hpp"
+#include "../../Card/Effect.hpp"
 
 
 class Lacerate : public Effect

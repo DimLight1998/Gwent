@@ -5,7 +5,7 @@
 #ifndef GWENT_FOGLET_HPP
 #define GWENT_FOGLET_HPP
 
-#include "../Card/Unit.hpp"
+#include "../../Card/Unit.hpp"
 
 
 class Foglet : public Unit

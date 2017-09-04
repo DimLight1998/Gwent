@@ -35,7 +35,72 @@ void Unit::Damage(int damage)
 }
 
 
-void Unit::Gain(int gain)
+void Unit::GainPower(int gain)
 {
     Power += gain;
+}
+
+
+void Unit::DamageIgnoringArmorAndShield(int damage)
+{
+    Power -= damage;
+
+    if (Power <= 0)
+    {
+        OnDestroy();
+    }
+}
+
+
+int Unit::GetPower() const
+{
+    return Power;
+}
+
+
+void Unit::SetPower(int Power)
+{
+    Unit::Power = Power;
+}
+
+
+int Unit::GetArmor() const
+{
+    return Armor;
+}
+
+
+void Unit::SetArmor(int Armor)
+{
+    Unit::Armor = Armor;
+}
+
+
+int Unit::GetTimeCount() const
+{
+    return TimeCount;
+}
+
+
+void Unit::SetTimeCount(int TimeCount)
+{
+    Unit::TimeCount = TimeCount;
+}
+
+
+bool Unit::IsHasShield() const
+{
+    return HasShield;
+}
+
+
+void Unit::SetHasShield(bool HasShield)
+{
+    Unit::HasShield = HasShield;
+}
+
+
+void Unit::GainArmor(int gain)
+{
+    Armor += gain;
 }

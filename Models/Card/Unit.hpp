@@ -17,13 +17,32 @@ public:
 
     /// \brief increase the unit's power
     /// \param gain the point of the gain
-    void Gain(int gain);
+    void GainPower(int gain);
+
+    /// \brief damage the unit, OnDestroy will bea called if the unit is dead,
+    /// this function ignores unit's armor and shield
+    /// \param damage damage to the unit
+    void DamageIgnoringArmorAndShield(int damage);
+
+    /// \brief increase the unit's armor
+    /// \param gain the point of the gain
+    void GainArmor(int gain);
 
 protected:
     int  Power;
     int  Armor;
     int  TimeCount;
     bool HasShield;
+public:
+    int GetPower() const;
+    void SetPower(int Power);
+    int GetArmor() const;
+    void SetArmor(int Armor);
+    int GetTimeCount() const;
+    void SetTimeCount(int TimeCount);
+    bool IsHasShield() const;
+    void SetHasShield(bool HasShield);
+protected:
 
     QString SelectedLine;
     int     SelectedIndex;

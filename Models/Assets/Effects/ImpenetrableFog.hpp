@@ -5,7 +5,7 @@
 #ifndef GWENT_IMPENETRABLEFOG_HPP
 #define GWENT_IMPENETRABLEFOG_HPP
 
-#include "../Card/Effect.hpp"
+#include "../../Card/Effect.hpp"
 
 
 class ImpenetrableFog : public Effect

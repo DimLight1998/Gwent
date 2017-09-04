@@ -5,7 +5,7 @@
 #ifndef GWENT_COMMANDERSHORN_HPP
 #define GWENT_COMMANDERSHORN_HPP
 
-#include "../Card/Effect.hpp"
+#include "../../Card/Effect.hpp"
 
 
 class CommandersHorn : public Effect

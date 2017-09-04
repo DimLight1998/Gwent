@@ -5,7 +5,7 @@
 #ifndef GWENT_FIRSTLIGHT_HPP
 #define GWENT_FIRSTLIGHT_HPP
 
-#include "../Card/Effect.hpp"
+#include "../../Card/Effect.hpp"
 
 
 class FirstLight : public Effect

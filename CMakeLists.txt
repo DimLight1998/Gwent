@@ -43,22 +43,22 @@ set(
         Models/Containers/BattleSide.hpp
         Models/Containers/BattleField.cpp
         Models/Containers/BattleField.hpp
-        Models/Assets/FirstLight.cpp
-        Models/Assets/FirstLight.hpp
+        Models/Assets/Effects/FirstLight.cpp
+        Models/Assets/Effects/FirstLight.hpp
         Controllers/GameController.cpp
         Controllers/GameController.hpp
-        Models/Assets/BitingFrost.cpp
-        Models/Assets/BitingFrost.hpp
+        Models/Assets/Effects/BitingFrost.cpp
+        Models/Assets/Effects/BitingFrost.hpp
         Models/Containers/CardManager.cpp
         Models/Containers/CardManager.hpp
-        Models/Assets/ImpenetrableFog.cpp
-        Models/Assets/ImpenetrableFog.hpp
-        Models/Assets/Foglet.cpp
-        Models/Assets/Foglet.hpp
-        Models/Assets/TorrentialRain.cpp
-        Models/Assets/TorrentialRain.hpp
-        Models/Assets/Lacerate.cpp
-        Models/Assets/Lacerate.hpp Models/Assets/CommandersHorn.cpp Models/Assets/CommandersHorn.hpp)
+        Models/Assets/Effects/ImpenetrableFog.cpp
+        Models/Assets/Effects/ImpenetrableFog.hpp
+        Models/Assets/Units/Foglet.cpp
+        Models/Assets/Units/Foglet.hpp
+        Models/Assets/Effects/TorrentialRain.cpp
+        Models/Assets/Effects/TorrentialRain.hpp
+        Models/Assets/Effects/Lacerate.cpp
+        Models/Assets/Effects/Lacerate.hpp Models/Assets/Effects/CommandersHorn.cpp Models/Assets/Effects/CommandersHorn.hpp Models/Assets/Effects/BekkersTwistedMirror.cpp Models/Assets/Effects/BekkersTwistedMirror.hpp Models/Assets/Effects/ThunderboltPotion.cpp Models/Assets/Effects/ThunderboltPotion.hpp)
 
 add_executable(Gwent ${SOURCE_FILES})
 

@@ -23,26 +23,26 @@ void CommandersHorn::OnDeploy()
         {
             auto cardManager = GlobalGameController->GetCardManager();
 
-            dynamic_cast<Unit *>(cardManager->GetCardById(id))->Gain(4);
+            dynamic_cast<Unit *>(cardManager->GetCardById(id))->GainPower(4);
 
             if (i - 1 >= 0)
             {
-                dynamic_cast<Unit *>(cardManager->GetCardById(battleLine->GetUnits()[i - 1]))->Gain(4);
+                dynamic_cast<Unit *>(cardManager->GetCardById(battleLine->GetUnits()[i - 1]))->GainPower(4);
             }
 
             if (i - 2 >= 0)
             {
-                dynamic_cast<Unit *>(cardManager->GetCardById(battleLine->GetUnits()[i - 2]))->Gain(4);
+                dynamic_cast<Unit *>(cardManager->GetCardById(battleLine->GetUnits()[i - 2]))->GainPower(4);
             }
 
             if (i + 1 <= battleLine->GetUnits().size())
             {
-                dynamic_cast<Unit *>(cardManager->GetCardById(battleLine->GetUnits()[i + 1]))->Gain(4);
+                dynamic_cast<Unit *>(cardManager->GetCardById(battleLine->GetUnits()[i + 1]))->GainPower(4);
             }
 
             if (i + 2 <= battleLine->GetUnits().size())
             {
-                dynamic_cast<Unit *>(cardManager->GetCardById(battleLine->GetUnits()[i + 2]))->Gain(4);
+                dynamic_cast<Unit *>(cardManager->GetCardById(battleLine->GetUnits()[i + 2]))->GainPower(4);
             }
         }
     }

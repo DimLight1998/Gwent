@@ -5,7 +5,7 @@
 #ifndef GWENT_TORRENTIALRAIN_HPP
 #define GWENT_TORRENTIALRAIN_HPP
 
-#include "../Card/Effect.hpp"
+#include "../../Card/Effect.hpp"
 
 
 class TorrentialRain : public Effect

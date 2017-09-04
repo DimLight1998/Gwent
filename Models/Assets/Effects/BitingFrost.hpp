@@ -5,7 +5,7 @@
 #ifndef GWENT_BITINGFROST_HPP
 #define GWENT_BITINGFROST_HPP
 
-#include "../Card/Effect.hpp"
+#include "../../Card/Effect.hpp"
 
 
 class BitingFrost : public Effect
