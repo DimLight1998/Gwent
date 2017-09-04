@@ -65,3 +65,43 @@ QString BattleField::GetBattleLineContainingCard(int id)
         return "AlliedSiege";
     }
 }
+
+
+bool BattleField::IsAContainer(const QString& name)
+{
+    QVector<QString> prefix  = {"Enemy", "Allied"};
+    QVector<QString> postfix = {"Hand", "Deck", "Grave", "Discard"};
+
+    for (const auto& i:prefix)
+    {
+        for (const auto& j:postfix)
+        {
+            if (name == i + j)
+            {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+
+bool BattleField::IsABattleLine(const QString& name)
+{
+    QVector<QString> prefix  = {"Enemy", "Allied"};
+    QVector<QString> postfix = {"Siege", "Ranged", "Melee"};
+
+    for (const auto& i:prefix)
+    {
+        for (const auto& j:postfix)
+        {
+            if (name == i + j)
+            {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}

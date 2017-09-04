@@ -57,6 +57,7 @@ void CardMeta::SetPictureResourcePath(const QString& pictureResourcePath)
 
 CardMeta *CardMeta::GetMetaByCardName(const QString& name)
 {
+    //<editor-fold desc="these cards are basic">
     if (name == "FirstLight") // todo there is something wrong with this
     {
         auto cardMeta = new EffectsMeta();
@@ -487,6 +488,93 @@ CardMeta *CardMeta::GetMetaByCardName(const QString& name)
 
         return cardMeta;
     }
+    //</editor-fold>
+
+    //<editor-fold desc="these units are spanned">
+    if (name == "HarpyEgg")
+    {
+        auto cardMeta = new UnitMeta();
+        cardMeta->SetName("HarpyEgg");
+        cardMeta->SetCardType(CardTypeEnum::Bronze);
+        cardMeta->SetDescription(
+            "Doomed.\n"
+                "When Consumed by another Unit, Boost that Unit by an additional 5.\n"
+                "Deathwish: Spawn a Harpy Hatchling on a random row."
+        );
+        cardMeta->SetPictureResourcePath(""); //todo fill this
+        cardMeta->SetIsLoyal(true);
+        cardMeta->SetInitialPower(1);
+        cardMeta->SetDeployLocation(UnitMeta::DeployLocationEnum::Any);
+
+        return cardMeta;
+    }
+
+    if (name == "HarpyHatchling")
+    {
+        auto cardMeta = new UnitMeta();
+        cardMeta->SetName("HarpyHatchling");
+        cardMeta->SetCardType(CardTypeEnum::Bronze);
+        cardMeta->SetDescription(
+            "Doomed."
+        );
+        cardMeta->SetPictureResourcePath(""); //todo fill this
+        cardMeta->SetIsLoyal(true);
+        cardMeta->SetInitialPower(1);
+        cardMeta->SetDeployLocation(UnitMeta::DeployLocationEnum::Any);
+
+        return cardMeta;
+    }
+
+    if (name == "RabidWolf")
+    {
+        auto cardMeta = new UnitMeta();
+        cardMeta->SetName("RabidWolf");
+        cardMeta->SetCardType(CardTypeEnum::Bronze);
+        cardMeta->SetDescription(
+            "Doomed."
+        );
+        cardMeta->SetPictureResourcePath(""); //todo fill this
+        cardMeta->SetIsLoyal(true);
+        cardMeta->SetInitialPower(1);
+        cardMeta->SetDeployLocation(UnitMeta::DeployLocationEnum::Melee);
+
+        return cardMeta;
+    }
+
+    if (name == "LesserEarthElemental")
+    {
+        auto cardMeta = new UnitMeta();
+        cardMeta->SetName("LesserEarthElemental");
+        cardMeta->SetCardType(CardTypeEnum::Bronze);
+        cardMeta->SetDescription(
+            "Doomed."
+        );
+        cardMeta->SetPictureResourcePath(""); //todo fill this
+        cardMeta->SetIsLoyal(true);
+        cardMeta->SetInitialPower(2);
+        cardMeta->SetDeployLocation(UnitMeta::DeployLocationEnum::Melee);
+
+        return cardMeta;
+    }
+
+    if (name == "ArachasHatchling")
+    {
+        auto cardMeta = new UnitMeta();
+        cardMeta->SetName("ArachasHatchling");
+        cardMeta->SetCardType(CardTypeEnum::Bronze);
+        cardMeta->SetDescription(
+            "Doomed.\n"
+                "Deploy: Play all Arachasae from your Deck."
+        );
+        cardMeta->SetPictureResourcePath(""); //todo fill this
+        cardMeta->SetIsLoyal(true);
+        cardMeta->SetInitialPower(3);
+        cardMeta->SetDeployLocation(UnitMeta::DeployLocationEnum::Any);
+
+        return cardMeta;
+    }
+
+    //</editor-fold>
 
     throw 263784;
 }

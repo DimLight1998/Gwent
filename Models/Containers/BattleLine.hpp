@@ -33,6 +33,11 @@ public:
     /// \return true if yes, otherwise no
     bool IsBattleLineContainingCard(int id);
 
+    /// \brief remove the card of the id from the battle line
+    /// \param id id of the card
+    /// \throw 23975462 if id incorrect
+    void RemoveCardOfId(int id);
+
 
     const QVector<int>& GetUnits() const;
 };

@@ -25,6 +25,12 @@ public:
     /// \param id id of the card
     /// \return true if yes, otherwise no
     bool IsCardContainerContainingCard(int id);
+
+    /// \brief this function can insert a card to the container
+    /// \param cardId id of the card
+    /// \param index the index of the inserting position, ranged from 0 to Cards.size()
+    /// \throw 233333 if index not correct
+    void InsertCard(int cardId, int index);
 };
 
 

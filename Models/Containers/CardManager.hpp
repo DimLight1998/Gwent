@@ -20,6 +20,10 @@ public:
     /// \return pointer to the card
     /// \throw 349534 if cardId incorrect
     Card *GetCardById(int cardId);
+
+    /// \brief insert a card to the container and it will be managed
+    /// \param card pointer to the card
+    void RegisterCard(Card *card);
 };
 
 

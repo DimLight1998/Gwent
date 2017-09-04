@@ -14,6 +14,7 @@ class BattleSide;
 class CardContainer;
 
 
+/// \brief the class helps to get battle lines and containers
 class BattleField
 {
 protected:
@@ -38,6 +39,18 @@ public:
     /// \param id id of the card
     /// \return name of the battle line, "" if not found
     QString GetBattleLineContainingCard(int id);
+
+    /// \brief judge if it is a container by the given name
+    /// \param name name of the container/battle line in format
+    /// (Enemy|Allied)(Hand|Grave|Deck|Discard|Melee|Ranged|Siege)
+    /// \return true if its a container otherwise false
+    static bool IsAContainer(const QString& name);
+
+    /// \brief judge if it is a container by the given name
+    /// \param name name of the container/battle line in format
+    /// (Enemy|Allied)(Hand|Grave|Deck|Discard|Melee|Ranged|Siege)
+    /// \return true if its a battle line otherwise false
+    static bool IsABattleLine(const QString& name);
 };
 
 

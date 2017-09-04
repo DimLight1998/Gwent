@@ -28,6 +28,13 @@ public:
 
     /// \brief will handle the deletion of CardMetaInfo
     virtual ~Card();
+
+    /// \brief get a pointer to the card by its name
+    /// \param name name of the card
+    /// \return pointer to the card
+    /// \note you only have a instance of the card and you should add it to the card system,
+    /// maybe you want to use GameController::SpanCard
+    static Card *SpanCardByName(const QString& name);
 protected:
     CardMeta *CardMetaInfo; //<! stores meta-info of the card, not for sharing
 

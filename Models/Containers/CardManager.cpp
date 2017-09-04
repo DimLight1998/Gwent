@@ -17,3 +17,9 @@ Card *CardManager::GetCardById(int cardId)
 
     throw 349534;
 }
+
+
+void CardManager::RegisterCard(Card *card)
+{
+    CardsOnBoard.insert(0, card);
+}

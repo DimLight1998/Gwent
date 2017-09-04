@@ -58,7 +58,18 @@ set(
         Models/Assets/Effects/TorrentialRain.cpp
         Models/Assets/Effects/TorrentialRain.hpp
         Models/Assets/Effects/Lacerate.cpp
-        Models/Assets/Effects/Lacerate.hpp Models/Assets/Effects/CommandersHorn.cpp Models/Assets/Effects/CommandersHorn.hpp Models/Assets/Effects/BekkersTwistedMirror.cpp Models/Assets/Effects/BekkersTwistedMirror.hpp Models/Assets/Effects/ThunderboltPotion.cpp Models/Assets/Effects/ThunderboltPotion.hpp)
+        Models/Assets/Effects/Lacerate.hpp
+        Models/Assets/Effects/CommandersHorn.cpp
+        Models/Assets/Effects/CommandersHorn.hpp
+        Models/Assets/Effects/BekkersTwistedMirror.cpp
+        Models/Assets/Effects/BekkersTwistedMirror.hpp
+        Models/Assets/Effects/ThunderboltPotion.cpp
+        Models/Assets/Effects/ThunderboltPotion.hpp
+        Models/Assets/Units/GeraltIgni.cpp
+        Models/Assets/Units/GeraltIgni.hpp
+        Models/Assets/Units/WildHuntRider.cpp
+        Models/Assets/Units/WildHuntRider.hpp
+        Models/Assets/Units/Roach.cpp Models/Assets/Units/Roach.hpp Models/Assets/Units/CroneWeavess.cpp Models/Assets/Units/CroneWeavess.hpp Models/Assets/Units/CroneBrewess.cpp Models/Assets/Units/CroneBrewess.hpp Models/Assets/Units/CroneWhispess.cpp Models/Assets/Units/CroneWhispess.hpp Models/Assets/Units/Arachas.cpp Models/Assets/Units/Arachas.hpp Models/Assets/Units/HarpyEgg.cpp Models/Assets/Units/HarpyEgg.hpp Models/Assets/Units/HarpyHatchling.cpp Models/Assets/Units/HarpyHatchling.hpp Models/Assets/Units/RabidWolf.cpp Models/Assets/Units/RabidWolf.hpp Models/Assets/Units/LesserEarthElemental.cpp Models/Assets/Units/LesserEarthElemental.hpp Models/Assets/Units/ArachasHatchling.cpp Models/Assets/Units/ArachasHatchling.hpp)
 
 add_executable(Gwent ${SOURCE_FILES})
 

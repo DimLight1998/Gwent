@@ -28,6 +28,9 @@ public:
     /// \param gain the point of the gain
     void GainArmor(int gain);
 
+    /// \brief destroy the unit directly and trigger its OnDestroy
+    void Destroy();
+
 protected:
     int  Power;
     int  Armor;

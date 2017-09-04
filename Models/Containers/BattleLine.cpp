@@ -46,3 +46,23 @@ bool BattleLine::IsBattleLineContainingCard(int id)
 
     return false;
 }
+
+
+void BattleLine::RemoveCardOfId(int id)
+{
+    try
+    {
+        for (int i = 0; i < Units.size(); i++)
+        {
+            if (Units[i] == id)
+            {
+                Units.remove(i);
+                return;
+            }
+        }
+    }
+    catch (...)
+    {
+        throw 23975462;
+    }
+}

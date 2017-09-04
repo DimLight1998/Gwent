@@ -104,3 +104,12 @@ void Unit::GainArmor(int gain)
 {
     Armor += gain;
 }
+
+
+void Unit::Destroy()
+{
+    HasShield = false;
+    Armor     = 0;
+    Power     = 0;
+    OnDestroy();
+}

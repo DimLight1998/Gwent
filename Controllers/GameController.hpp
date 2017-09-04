@@ -45,8 +45,39 @@ public:
     /// \throw 4593453 if name incorrect
     bool DeployCardFromContainerToBattleLine
         (const QString& cardName, const QString& containerName, const QString& battleLineName, int index);
+
+    /// \brief move a card from a specific battle line to another specific battle line
+    /// \param id id of the card to be moved
+    /// \param sourceBattleLineName name of the source battle line, in format:
+    /// (Enemy|Allied)(Melee|Ranged|Siege)
+    /// \param destinationBattleLineName name of the destination battle line,
+    /// in format: (Enemy|Allied)(Melee|Ranged|Siege)
+    /// \param index index of the position of insertion
+    /// \return true if success, else false
+    /// \note it won't throw any exception because if the card is not in the source battle line, it will return false
+    bool MoveCardFromBattleLineToBattleLine
+        (int id, const QString& sourceBattleLineName, const QString& destinationBattleLineName, int index);
+
+    /// \brief handle the result of deploying an impenetrable fog
+    /// \param battleLine
+    void HandleImpenetrableFogDeployed(const QString& battleLine);
+
+    /// \brief span a card, allocate an id for it, add it to the card management system,
+    /// then add it to a battle field of container by index
+    /// \param cardName name of the card
+    /// \param containerOrBattleLineName name of the container, in format (Enemy|Allied)(Hand|Deck|Grave|Discard|Melee|Ranged|Siege)
+    /// \param index index of insertion, if index == -1, a random index will be used
+    /// \return id of the card
+    int SpanCard(const QString& cardName, const QString& containerOrBattleLineName, int index);
+
     BattleField *GetBattleField() const;
     CardManager *GetCardManager() const;
+protected:
+    /// \brief get the next allocatable id
+    /// \return the next allocatable id
+    /// \todo synchronize with the server
+    /// \note the id is starting from 1
+    int GetNextId();
 };
 
 

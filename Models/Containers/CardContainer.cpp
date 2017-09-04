@@ -43,3 +43,14 @@ bool CardContainer::IsCardContainerContainingCard(int id)
 
     return false;
 }
+
+
+void CardContainer::InsertCard(int cardId, int index)
+{
+    if (index < 0 || index > Cards.size())
+    {
+        throw 233333;
+    }
+
+    Cards.insert(index, cardId);
+}
