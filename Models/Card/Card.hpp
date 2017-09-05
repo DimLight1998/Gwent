@@ -37,6 +37,8 @@ public:
     /// \note you only have a instance of the card and you should add it to the card system,
     /// maybe you want to use GameController::SpanCard
     static Card *SpanCardByName(const QString& name);
+
+    virtual void RoundUpdate();
 protected:
     CardMeta *CardMetaInfo; ///< stores meta-info of the card, not for sharing
 

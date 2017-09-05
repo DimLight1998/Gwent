@@ -64,3 +64,8 @@ void Card::OnDestroy()
 void Card::OnDeathWish()
 {
 }
+
+
+void Card::RoundUpdate()
+{
+}

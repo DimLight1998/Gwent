@@ -108,7 +108,16 @@ set(
         Models/Assets/Units/Archgriffin.cpp
         Models/Assets/Units/Archgriffin.hpp
         Models/Assets/Units/Frightener.cpp
-        Models/Assets/Units/Frightener.hpp Models/Assets/Units/GeEls.cpp Models/Assets/Units/GeEls.hpp)
+        Models/Assets/Units/Frightener.hpp
+        Models/Assets/Units/GeEls.cpp
+        Models/Assets/Units/GeEls.hpp
+        Models/Assets/Units/VranWarrior.cpp
+        Models/Assets/Units/VranWarrior.hpp
+        Models/Assets/Units/ArachasBehemoth.cpp
+        Models/Assets/Units/ArachasBehemoth.hpp
+        Models/Assets/Units/UnseenElder.cpp
+        Models/Assets/Units/UnseenElder.hpp
+)
 
 add_executable(Gwent ${SOURCE_FILES})
 

@@ -13,6 +13,6 @@ CelaenoHarpy::CelaenoHarpy()
 
 void CelaenoHarpy::OnDeploy()
 {
-    GlobalGameController->SpanCard("HarpyEgg", SelectedLine, SelectedIndex);
-    GlobalGameController->SpanCard("HarpyEgg", SelectedLine, SelectedIndex);
+    GlobalGameController->SpawnCard("HarpyEgg", SelectedLine, SelectedIndex);
+    GlobalGameController->SpawnCard("HarpyEgg", SelectedLine, SelectedIndex);
 }

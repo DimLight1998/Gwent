@@ -25,6 +25,6 @@ void EarthElemental::OnDeathWish()
     for (int i = 0; i < 2; i++)
     {
         auto size = battleLine->GetUnits().size();
-        GlobalGameController->SpanCard("LesserEarthElemental", SelectedLine, size);
+        GlobalGameController->SpawnCard("LesserEarthElemental", SelectedLine, size);
     }
 }

@@ -14,6 +14,8 @@ GeEls::GeEls()
 
 void GeEls::OnDeploy()
 {
+    GlobalGameController->HandleGoldCardDeploying();
+
     auto hasSilver = false;
     auto hasGold   = false;
     int  silverId  = 0;

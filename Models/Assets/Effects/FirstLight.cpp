@@ -20,7 +20,7 @@ void FirstLight::OnDeploy()
         delete i;
     }
 
-    auto id = GlobalGameController->SpanCard(selectedCardMeta.GetName(), "AlliedDiscard", 0);
+    auto id = GlobalGameController->SpawnCard(selectedCardMeta.GetName(), "AlliedDiscard", 0);
     GlobalGameController->GetCardManager()->GetCardById(id)->OnDeploy();
 }
 

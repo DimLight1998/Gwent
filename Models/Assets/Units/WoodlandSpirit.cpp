@@ -13,6 +13,8 @@ WoodlandSpirit::WoodlandSpirit()
 
 void WoodlandSpirit::OnDeploy()
 {
+    GlobalGameController->HandleGoldCardDeploying();
+
     auto selectedLine     = SelectedLine;
     auto alliedBattleLine = GlobalGameController->GetBattleField()->GetBattleLineByName(selectedLine);
 
@@ -26,7 +28,7 @@ void WoodlandSpirit::OnDeploy()
     for (int i = 0; i < 3; i++)
     {
         auto size = alliedBattleLine->GetUnits().size();
-        GlobalGameController->SpanCard("RabidWolf", selectedLine, size);
+        GlobalGameController->SpawnCard("RabidWolf", selectedLine, size);
     }
 
     GlobalGameController->SetWeatherToBattleLine(enemyLine, BattleLine::WeatherEnum::Frost);

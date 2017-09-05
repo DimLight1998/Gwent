@@ -13,6 +13,8 @@ Caranthir::Caranthir()
 
 void Caranthir::OnDeploy()
 {
+    GlobalGameController->HandleGoldCardDeploying();
+
     auto enemyLine = SelectedLine;
     if (SelectedLine.startsWith("Allied"))
     {

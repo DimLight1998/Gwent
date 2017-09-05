@@ -100,6 +100,14 @@ public:
     /// \brief handle gold card deploying before it calculates its result
     void HandleGoldCardDeploying();
 
+    /// \brief get the power of the card if swallow the card
+    /// \param swallowedCardId id of the card to be swallowed
+    /// \return the gain of power if swallow the card
+    int GetPowerUpOfSwallowing(int swallowedCardId);
+
+    /// \brief handle the result of some unit swallowed
+    void HandleUnitSwallowed();
+
     /// \brief spawn a card, allocate an id for it, add it to the card management system,
     /// then add it to a battle field of container by index
     /// \param cardName name of the card
@@ -107,7 +115,7 @@ public:
     /// in format (Enemy|Allied)(Hand|Deck|Grave|Discard|Melee|Ranged|Siege)
     /// \param index index of insertion, if index == -1, a random index will be used
     /// \return id of the card
-    int SpanCard(const QString& cardName, const QString& containerOrBattleLineName, int index);
+    int SpawnCard(const QString& cardName, const QString& containerOrBattleLineName, int index);
 
     /// \brief deploy the card with id and trigger its OnDeploy, no matter where is the card
     /// \note this function will let user choose a location or what

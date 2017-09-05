@@ -28,7 +28,7 @@ void Dagon::OnDeploy()
         delete i;
     }
 
-    auto id = GlobalGameController->SpanCard(selectedCardMeta.GetName(), "AlliedDiscard", 0);
+    auto id = GlobalGameController->SpawnCard(selectedCardMeta.GetName(), "AlliedDiscard", 0);
 
     auto isValid = false;
     do

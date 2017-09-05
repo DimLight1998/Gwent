@@ -68,6 +68,8 @@ CardManager *GameController::GetCardManager() const
 }
 
 
+//<editor-fold desc="special rules">
+
 void GameController::HandleImpenetrableFogDeployed(const QString& battleLine)
 {
     auto fogletDeployLine = battleLine;
@@ -90,8 +92,58 @@ void GameController::HandleImpenetrableFogDeployed(const QString& battleLine)
 
 void GameController::HandleGoldCardDeploying()
 {
-    // todo complete this function
+    qsrand(static_cast<uint>(QDateTime::currentMSecsSinceEpoch()));
+    auto lineNumber = qrand() % 3;
+    auto lineName   = QVector<QString>({QString("AlliedSiege"),
+                                        QString("AlliedRanged"),
+                                        QString("AlliedMelee")})[lineNumber];
+
+    auto size  = _battleField->GetBattleLineByName(lineName)->GetUnits().size();
+    auto index = qrand() % (size + 1);
+
+    DeployCardFromContainerToBattleLine("Roach", "AlliedDeck", lineName, index);
 }
+
+
+int GameController::GetPowerUpOfSwallowing(int swallowedCardId)
+{
+    auto unit  = dynamic_cast<Unit *>(_cardManager->GetCardById(swallowedCardId));
+    auto power = unit->GetPower();
+
+    if (unit->GetCardMetaInfo()->GetName() == "HarpyEgg")
+    {
+        power += 5;
+    }
+
+    return power;
+}
+
+
+void GameController::HandleUnitSwallowed()
+{
+    for (const auto& lineName:QVector<QString>({QString("Melee"), QString("Ranged"), QString("Siege")}))
+    {
+        auto battleLineName = "Allied" + lineName;
+
+        for (const auto item:_battleField->GetBattleLineByName(battleLineName)->GetUnits())
+        {
+            if (_cardManager->GetCardById(item)->GetCardMetaInfo()->GetName() == "ArachasBehemoth")
+            {
+                dynamic_cast<Unit *>(_cardManager->GetCardById(item))->DamageIgnoringArmorAndShield(1);
+
+                // deploy arachas hatchling
+                auto arachasHatchling = CardMeta::GetMetaByCardName("ArachasHatchling");
+                Interacting->GetSelectedCardFromSpanningCards(QVector<CardMeta *>({arachasHatchling}));
+                delete arachasHatchling;
+
+                auto id = SpawnCard("ArachasHatchling", "AlliedHand", 0);
+                DeployTheCardOfId(id);
+            }
+        }
+    }
+}
+
+//</editor-fold>
 
 
 int GameController::GetNextId()
@@ -102,7 +154,7 @@ int GameController::GetNextId()
 }
 
 
-int GameController::SpanCard(const QString& cardName, const QString& containerOrBattleLineName, int index)
+int GameController::SpawnCard(const QString& cardName, const QString& containerOrBattleLineName, int index)
 {
     auto card = Card::SpanCardByName(cardName);
     card->SetCardId(GetNextId());

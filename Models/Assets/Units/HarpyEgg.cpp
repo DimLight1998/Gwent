@@ -31,5 +31,5 @@ void HarpyEgg::OnDeathWish()
         deployLine = "AlliedMelee";
     }
 
-    GlobalGameController->SpanCard("HarpyHatchling", deployLine, -1);
+    GlobalGameController->SpawnCard("HarpyHatchling", deployLine, -1);
 }
