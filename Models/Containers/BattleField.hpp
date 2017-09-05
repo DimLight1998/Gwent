@@ -40,6 +40,11 @@ public:
     /// \return name of the battle line, "" if not found
     QString GetBattleLineContainingCard(int id);
 
+    /// \brief get the container containing a certain card
+    /// \param id id of the card
+    /// \return name of the battle line, "" if not found
+    QString getCardContainerContainingCard(int id);
+
     /// \brief judge if it is a container by the given name
     /// \param name name of the container/battle line in format
     /// (Enemy|Allied)(Hand|Grave|Deck|Discard|Melee|Ranged|Siege)

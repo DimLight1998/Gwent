@@ -31,6 +31,12 @@ public:
     /// \brief destroy the unit directly and trigger its OnDestroy
     void Destroy();
 
+    /// \brief test if the card is a unit
+    /// \param card pointer to the card to be tested
+    /// \return true if yes otherwise no
+    static bool IsCardUnit(Card *card);
+
+
 protected:
     int  Power;
     int  Armor;
@@ -45,6 +51,10 @@ public:
     void SetTimeCount(int TimeCount);
     bool IsHasShield() const;
     void SetHasShield(bool HasShield);
+    const QString& GetSelectedLine() const;
+    void SetSelectedLine(const QString& SelectedLine);
+    int GetSelectedIndex() const;
+    void SetSelectedIndex(int SelectedIndex);
 protected:
 
     QString SelectedLine;

@@ -27,3 +27,9 @@ void Effect::SetSelectedLine(const QString& SelectedLine)
 {
     Effect::SelectedLine = SelectedLine;
 }
+
+
+bool Effect::IsCardEffect(Card *card)
+{
+    return (dynamic_cast<Effect *>(card) != nullptr);
+}

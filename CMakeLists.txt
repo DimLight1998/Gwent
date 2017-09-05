@@ -69,7 +69,46 @@ set(
         Models/Assets/Units/GeraltIgni.hpp
         Models/Assets/Units/WildHuntRider.cpp
         Models/Assets/Units/WildHuntRider.hpp
-        Models/Assets/Units/Roach.cpp Models/Assets/Units/Roach.hpp Models/Assets/Units/CroneWeavess.cpp Models/Assets/Units/CroneWeavess.hpp Models/Assets/Units/CroneBrewess.cpp Models/Assets/Units/CroneBrewess.hpp Models/Assets/Units/CroneWhispess.cpp Models/Assets/Units/CroneWhispess.hpp Models/Assets/Units/Arachas.cpp Models/Assets/Units/Arachas.hpp Models/Assets/Units/HarpyEgg.cpp Models/Assets/Units/HarpyEgg.hpp Models/Assets/Units/HarpyHatchling.cpp Models/Assets/Units/HarpyHatchling.hpp Models/Assets/Units/RabidWolf.cpp Models/Assets/Units/RabidWolf.hpp Models/Assets/Units/LesserEarthElemental.cpp Models/Assets/Units/LesserEarthElemental.hpp Models/Assets/Units/ArachasHatchling.cpp Models/Assets/Units/ArachasHatchling.hpp)
+        Models/Assets/Units/Roach.cpp
+        Models/Assets/Units/Roach.hpp
+        Models/Assets/Units/CroneWeavess.cpp
+        Models/Assets/Units/CroneWeavess.hpp
+        Models/Assets/Units/CroneBrewess.cpp
+        Models/Assets/Units/CroneBrewess.hpp
+        Models/Assets/Units/CroneWhispess.cpp
+        Models/Assets/Units/CroneWhispess.hpp
+        Models/Assets/Units/Arachas.cpp
+        Models/Assets/Units/Arachas.hpp
+        Models/Assets/Units/HarpyEgg.cpp
+        Models/Assets/Units/HarpyEgg.hpp
+        Models/Assets/Units/HarpyHatchling.cpp
+        Models/Assets/Units/HarpyHatchling.hpp
+        Models/Assets/Units/RabidWolf.cpp
+        Models/Assets/Units/RabidWolf.hpp
+        Models/Assets/Units/LesserEarthElemental.cpp
+        Models/Assets/Units/LesserEarthElemental.hpp
+        Models/Assets/Units/ArachasHatchling.cpp
+        Models/Assets/Units/ArachasHatchling.hpp
+        Models/Assets/Units/WoodlandSpirit.cpp
+        Models/Assets/Units/WoodlandSpirit.hpp
+        Models/Assets/Units/EarthElemental.cpp
+        Models/Assets/Units/EarthElemental.hpp
+        Models/Assets/Units/CelaenoHarpy.cpp
+        Models/Assets/Units/CelaenoHarpy.hpp
+        Controllers/InteractingController.cpp
+        Controllers/InteractingController.hpp
+        Models/Assets/Effects/ClearSkies.cpp
+        Models/Assets/Effects/ClearSkies.hpp
+        Models/Assets/Effects/Rally.cpp
+        Models/Assets/Effects/Rally.hpp
+        Models/Assets/Units/Dagon.cpp
+        Models/Assets/Units/Dagon.hpp
+        Models/Assets/Units/Caranthir.cpp
+        Models/Assets/Units/Caranthir.hpp
+        Models/Assets/Units/Archgriffin.cpp
+        Models/Assets/Units/Archgriffin.hpp
+        Models/Assets/Units/Frightener.cpp
+        Models/Assets/Units/Frightener.hpp Models/Assets/Units/GeEls.cpp Models/Assets/Units/GeEls.hpp)
 
 add_executable(Gwent ${SOURCE_FILES})
 

@@ -32,6 +32,8 @@ public:
     const QString& GetPictureResourcePath() const;
     void SetPictureResourcePath(const QString& pictureResourcePath);
 
+    virtual ~CardMeta(); // I got "source type is not polymorphic" error and need to add a virtual function
+
     /// \brief get the meta-info about the card
     /// \param name name of the card
     /// \return pointer to the card meta-info

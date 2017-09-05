@@ -56,14 +56,33 @@ QString BattleField::GetBattleLineContainingCard(int id)
     {
         return "AlliedMelee";
     }
-    if (AlliedBattleSide->GetBattleLineByName("Melee")->IsBattleLineContainingCard(id))
+    if (AlliedBattleSide->GetBattleLineByName("Ranged")->IsBattleLineContainingCard(id))
     {
         return "AlliedRanged";
     }
-    if (AlliedBattleSide->GetBattleLineByName("Melee")->IsBattleLineContainingCard(id))
+    if (AlliedBattleSide->GetBattleLineByName("Siege")->IsBattleLineContainingCard(id))
     {
         return "AlliedSiege";
     }
+
+    return "";
+}
+
+
+QString BattleField::getCardContainerContainingCard(int id)
+{
+    for (auto& prefix:QVector<QString>({QString("Allied"), QString("Enemy")}))
+    {
+        for (auto& postfix:QVector<QString>({QString("Siege"), QString("Ranged"), QString("Melee")}))
+        {
+            if (GetCardContainerByName(prefix + postfix)->IsCardContainerContainingCard(id))
+            {
+                return prefix + postfix;
+            }
+        }
+    }
+
+    return "";
 }
 
 
@@ -105,3 +124,4 @@ bool BattleField::IsABattleLine(const QString& name)
 
     return false;
 }
+

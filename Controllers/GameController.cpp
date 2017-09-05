@@ -6,12 +6,28 @@
 #include "GameController.hpp"
 
 #include "../Models/Containers/CardContainer.hpp"
+#include "../Models/Card/Unit.hpp"
+#include "../Models/Card/Effect.hpp"
+#include "../Models/Meta/UnitMeta.hpp"
+#include "../Models/Meta/EffectsMeta.hpp"
 
 
 void GameController::DeployUnitToBattleLine(int cardId, const QString& battleLineName, int index)
 {
     _battleField->GetBattleLineByName(battleLineName)->InsertUnit(cardId, index);
     _cardManager->GetCardById(cardId)->OnDeploy();
+}
+
+
+bool GameController::IsThisUnitEnemy(int id)
+{
+    return _battleField->GetBattleLineContainingCard(id).startsWith("Enemy");
+}
+
+
+bool GameController::IsThisUnitAllied(int id)
+{
+    return _battleField->GetBattleLineContainingCard(id).startsWith("Allied");
 }
 
 
@@ -72,6 +88,12 @@ void GameController::HandleImpenetrableFogDeployed(const QString& battleLine)
 }
 
 
+void GameController::HandleGoldCardDeploying()
+{
+    // todo complete this function
+}
+
+
 int GameController::GetNextId()
 {
     static int currentId = 0;
@@ -118,7 +140,6 @@ bool GameController::MoveCardFromBattleLineToBattleLine
 {
     try
     {
-
         auto sourceBattleLine = _battleField->GetBattleLineByName(sourceBattleLineName);
         sourceBattleLine->RemoveCardOfId(id);
         auto destinationBattleLine = _battleField->GetBattleLineByName(destinationBattleLineName);
@@ -130,3 +151,156 @@ bool GameController::MoveCardFromBattleLineToBattleLine
         return false;
     }
 }
+
+
+InteractingController *GameController::GetInteracting() const
+{
+    return Interacting;
+}
+
+
+void GameController::SetInteracting(InteractingController *Interacting)
+{
+    GameController::Interacting = Interacting;
+}
+
+
+bool GameController::MoveCardFromCardsSetToCardsSet
+    (int id, const QString& sourceCardsSetName, const QString& destinationCardsSetName, int index)
+{
+    try
+    {
+        if (_battleField->IsAContainer(sourceCardsSetName))
+        {
+            auto sourceContainer = _battleField->GetCardContainerByName(sourceCardsSetName);
+            sourceContainer->RemoveCardOfId(id);
+        }
+        else if (_battleField->IsABattleLine(sourceCardsSetName))
+        {
+            auto sourceBattleLine = _battleField->GetBattleLineByName(sourceCardsSetName);
+            sourceBattleLine->RemoveCardOfId(id);
+        }
+        else
+        {
+            return false;
+        }
+
+        if (_battleField->IsAContainer(destinationCardsSetName))
+        {
+            auto destinationContainer = _battleField->GetCardContainerByName(destinationCardsSetName);
+            destinationContainer->InsertCard(id, index);
+        }
+        else if (_battleField->IsABattleLine(destinationCardsSetName))
+        {
+            auto destinationBattleLine = _battleField->GetBattleLineByName(destinationCardsSetName);
+            destinationBattleLine->InsertUnit(id, index);
+        }
+        else
+        {
+            return false;
+        }
+
+        return true;
+    }
+    catch (...)
+    {
+        return false;
+    }
+
+    return false;
+}
+
+
+bool GameController::MoveCardFromCardsSetToCardsSet(int id, const QString& destinationCardsSetName, int index)
+{
+    auto battleLine = _battleField->GetBattleLineContainingCard(id);
+    if (battleLine != "")
+    {
+        return MoveCardFromCardsSetToCardsSet(id, battleLine, destinationCardsSetName, index);
+    }
+
+    auto container = _battleField->getCardContainerContainingCard(id);
+    if (container != "")
+    {
+        return MoveCardFromCardsSetToCardsSet(id, container, destinationCardsSetName, index);
+    }
+
+    return false;
+}
+
+
+// todo merge validation into cards
+void GameController::DeployTheCardOfId(int id)
+{
+    auto card = _cardManager->GetCardById(id);
+
+    if (Unit::IsCardUnit(card))
+    {
+        QString deployLine;
+        int     deployIndex;
+        Interacting->GetSelectedUnitDeployLocation(deployLine, deployIndex);
+
+        auto isValid = false;
+
+        do
+        {
+            QString prefix = (dynamic_cast<UnitMeta *>(card->GetCardMetaInfo())->IsLoyal()) ? "Allied" : "Enemy";
+
+            switch (dynamic_cast<UnitMeta *>(card->GetCardMetaInfo())->GetDeployLocation())
+            {
+            case UnitMeta::DeployLocationEnum::Melee:
+                if (deployLine != prefix + "Melee")
+                {
+                    continue;
+                }
+            case UnitMeta::DeployLocationEnum::Ranged:
+                if (deployLine != prefix + "Ranged")
+                {
+                    continue;
+                }
+            case UnitMeta::DeployLocationEnum::Siege:
+                if (deployLine != prefix + "Siege")
+                {
+                    continue;
+                }
+            case UnitMeta::DeployLocationEnum::Any:
+            {
+                MoveCardFromCardsSetToCardsSet(id, deployLine, deployIndex);
+                dynamic_cast<Unit *>(card)->SetSelectedLine(deployLine);
+                dynamic_cast<Unit *>(card)->SetSelectedIndex(deployIndex);
+                card->OnDeploy();
+                isValid = true;
+                break;
+            }
+            }
+        }
+        while (!isValid);
+    }
+    else if (Effect::IsCardEffect(card))
+    {
+        switch (dynamic_cast<EffectsMeta *>(card->GetCardMetaInfo())->GetDeployType())
+        {
+        case EffectsMeta::DeployTypeEnum::GlobalSelection:
+        {
+            Interacting->GetGlobalSelection();
+            break;
+        }
+        case EffectsMeta::DeployTypeEnum::TargetSelection:
+        {
+            auto targetId = Interacting->GetSelectedCardFromBattleField();
+            dynamic_cast<Effect *>(card)->SetSelectedUnit(targetId);
+            card->OnDeploy();
+            break;
+        }
+        case EffectsMeta::DeployTypeEnum::LineSelect:
+        {
+            auto battleLine = Interacting->GetSelectedEffectDeployBattleLine();
+            dynamic_cast<Effect *>(card)->SetSelectedLine(battleLine);
+            card->OnDeploy();
+            break;
+        }
+        }
+    }
+}
+
+

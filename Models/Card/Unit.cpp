@@ -113,3 +113,33 @@ void Unit::Destroy()
     Power     = 0;
     OnDestroy();
 }
+
+
+bool Unit::IsCardUnit(Card *card)
+{
+    return (dynamic_cast<Unit *>(card) != nullptr);
+}
+
+
+const QString& Unit::GetSelectedLine() const
+{
+    return SelectedLine;
+}
+
+
+void Unit::SetSelectedLine(const QString& SelectedLine)
+{
+    Unit::SelectedLine = SelectedLine;
+}
+
+
+int Unit::GetSelectedIndex() const
+{
+    return SelectedIndex;
+}
+
+
+void Unit::SetSelectedIndex(int SelectedIndex)
+{
+    Unit::SelectedIndex = SelectedIndex;
+}

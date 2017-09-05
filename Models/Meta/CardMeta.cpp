@@ -58,7 +58,7 @@ void CardMeta::SetPictureResourcePath(const QString& pictureResourcePath)
 CardMeta *CardMeta::GetMetaByCardName(const QString& name)
 {
     //<editor-fold desc="these cards are basic">
-    if (name == "FirstLight") // todo there is something wrong with this
+    if (name == "FirstLight")
     {
         auto cardMeta = new EffectsMeta();
         cardMeta->SetName("FirstLight");
@@ -490,7 +490,7 @@ CardMeta *CardMeta::GetMetaByCardName(const QString& name)
     }
     //</editor-fold>
 
-    //<editor-fold desc="these units are spanned">
+    //<editor-fold desc="these units are spawned">
     if (name == "HarpyEgg")
     {
         auto cardMeta = new UnitMeta();
@@ -576,5 +576,40 @@ CardMeta *CardMeta::GetMetaByCardName(const QString& name)
 
     //</editor-fold>
 
+    //<editor-fold desc="these effects are spawned">
+    if (name == "ClearSkies")
+    {
+        auto cardMeta = new EffectsMeta();
+        cardMeta->SetName("ClearSkies");
+        cardMeta->SetCardType(CardTypeEnum::Bronze);
+        cardMeta->SetDescription(
+            "Doomed. Clear all Weather from your side."
+        );
+        cardMeta->SetPictureResourcePath(""); // todo fill this
+        cardMeta->SetDeployType(EffectsMeta::DeployTypeEnum::GlobalSelection);
+
+        return cardMeta;
+    }
+
+    if (name == "Rally")
+    {
+        auto cardMeta = new EffectsMeta();
+        cardMeta->SetName("Rally");
+        cardMeta->SetCardType(CardTypeEnum::Bronze);
+        cardMeta->SetDescription(
+            "Doomed. Play a random Bronze Unit from your Deck."
+        );
+        cardMeta->SetPictureResourcePath(""); // todo fill this
+        cardMeta->SetDeployType(EffectsMeta::DeployTypeEnum::GlobalSelection);
+
+        return cardMeta;
+    }
+    //</editor-fold>
+
     throw 263784;
+}
+
+
+CardMeta::~CardMeta()
+{
 }

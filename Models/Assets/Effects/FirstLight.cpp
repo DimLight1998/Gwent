@@ -7,7 +7,21 @@
 
 void FirstLight::OnDeploy()
 {
-    // todo
+    QVector<CardMeta *> cardMeta = QVector<CardMeta *>(
+        {
+            CardMeta::GetMetaByCardName("ClearSkies"),
+            CardMeta::GetMetaByCardName("Rally")
+        });
+
+    auto selectedCardMeta = GlobalGameController->GetInteracting()->GetSelectedCardFromSpanningCards(cardMeta);
+
+    for (auto i:cardMeta)
+    {
+        delete i;
+    }
+
+    auto id = GlobalGameController->SpanCard(selectedCardMeta.GetName(), "AlliedDiscard", 0);
+    GlobalGameController->GetCardManager()->GetCardById(id)->OnDeploy();
 }
 
 

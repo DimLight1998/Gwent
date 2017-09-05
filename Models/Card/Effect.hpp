@@ -21,6 +21,12 @@ public:
     void SetSelectedUnit(int SelectedUnit);
     const QString& GetSelectedLine() const;
     void SetSelectedLine(const QString& SelectedLine);
+
+    /// \brief test if the card is a effect
+    /// \param card pointer to the card to be tested
+    /// \return true if yes else no
+    static bool IsCardEffect(Card *card);
+
 };
 
 
