@@ -49,3 +49,18 @@ Card *Card::SpanCardByName(const QString& name)
         return new HarpyHatchling();
     }
 }
+
+
+void Card::OnDeploy()
+{
+}
+
+
+void Card::OnDestroy()
+{
+}
+
+
+void Card::OnDeathWish()
+{
+}

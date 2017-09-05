@@ -17,9 +17,9 @@ void BekkersTwistedMirror::OnDeploy()
     bool hasAtLeastOneUnitOnField = false;
     int  initialId                = 0;
 
-    for (const auto& prefix:QVector({QString("Enemy"), QString("Allied")}))
+    for (const auto& prefix:QVector<QString>({QString("Enemy"), QString("Allied")}))
     {
-        for (const auto& postfix:QVector({QString("Siege"), QString("Ranged"), QString("Melee")}))
+        for (const auto& postfix:QVector<QString>({QString("Siege"), QString("Ranged"), QString("Melee")}))
         {
             if (!GlobalGameController->GetBattleField()->GetBattleLineByName(prefix + postfix)->GetUnits().empty())
             {
@@ -39,9 +39,9 @@ void BekkersTwistedMirror::OnDeploy()
     int highestUnitId = initialId;
     int LowestUnitId  = initialId;
 
-    for (const auto& prefix:QVector({QString("Enemy"), QString("Allied")}))
+    for (const auto& prefix:QVector<QString>({QString("Enemy"), QString("Allied")}))
     {
-        for (const auto& postfix:QVector({QString("Siege"), QString("Ranged"), QString("Melee")}))
+        for (const auto& postfix:QVector<QString>({QString("Siege"), QString("Ranged"), QString("Melee")}))
         {
             auto units = GlobalGameController->GetBattleField()->GetBattleLineByName(prefix + postfix)->GetUnits();
             for (auto& unit :units)
