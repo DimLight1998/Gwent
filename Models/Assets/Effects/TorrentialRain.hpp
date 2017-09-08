@@ -12,7 +12,7 @@ class TorrentialRain : public Effect
 {
 public:
     void OnDeploy() override;
-    TorrentialRain();
+    TorrentialRain(GameController *gameController);
 };
 
 

@@ -7,7 +7,8 @@
 #include "../../Meta/UnitMeta.hpp"
 
 
-GeEls::GeEls()
+GeEls::GeEls(GameController *gameController)
+    : Unit(gameController)
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("GeEls");
     Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();

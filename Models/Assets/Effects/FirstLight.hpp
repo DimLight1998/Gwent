@@ -11,7 +11,7 @@
 class FirstLight : public Effect
 {
 public:
-    FirstLight();
+    FirstLight(GameController *gameController);
 
     void OnDeploy() override;
 };

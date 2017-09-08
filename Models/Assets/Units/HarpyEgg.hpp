@@ -11,7 +11,7 @@
 class HarpyEgg : public Unit
 {
 public:
-    HarpyEgg();
+    HarpyEgg(GameController *gameController);
     void OnDeathWish() override;
 };
 

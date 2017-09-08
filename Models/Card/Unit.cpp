@@ -143,3 +143,20 @@ void Unit::SetSelectedIndex(int SelectedIndex)
 {
     Unit::SelectedIndex = SelectedIndex;
 }
+
+
+QString Unit::ToString()
+{
+    return QString("[%1] %2 (Power %3) (Armor %4) (CD %5) (Shield %6)")
+        .arg(CardId)
+        .arg(CardMetaInfo->GetName())
+        .arg(GetPower())
+        .arg(GetArmor())
+        .arg(GetTimeCount())
+        .arg(IsHasShield() ? "On" : "Off");
+}
+
+
+Unit::Unit(GameController *gameController)
+    : Card(gameController)
+{ }

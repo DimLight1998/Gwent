@@ -11,7 +11,7 @@
 class Foglet : public Unit
 {
 public:
-    Foglet();
+    Foglet(GameController *gameController);
 };
 
 

@@ -11,7 +11,7 @@
 class ArachasBehemoth : public Unit
 {
 public:
-    ArachasBehemoth();
+    ArachasBehemoth(GameController *gameController);
     void OnDeploy() override;
 };
 

@@ -4,14 +4,19 @@
 
 #include "InteractingController.hpp"
 #include "GameController.hpp"
-#include <QDebug>
 #include <iostream>
+#include "../Models/Containers/CardContainer.hpp"
 
 
 GameController *InteractingController::GetController() const
 {
     return Controller;
 }
+
+
+InteractingController::InteractingController(GameController *Controller)
+    : Controller(Controller)
+{ }
 
 
 void InteractingController::SetController(GameController *Controller)
@@ -39,7 +44,22 @@ int InteractingController::GetSelectedCardFromExistingCards(const QVector<int>& 
 
 int InteractingController::GetSelectedCardFromExistingCardsAbdicable(const QVector<int>& existingCardsId)
 {
-    return 0;
+    std::cout << "Choose a card from the following cards\nYou can input -1 to abdicate\n";
+    for (const auto item:existingCardsId)
+    {
+        std::cout << Controller->GetCardManager()->GetCardById(item)->ToString().toStdString() << std::endl;
+    }
+
+    int index;
+    std::cin >> index;
+    if (index == -1)
+    {
+        return -1;
+    }
+    else
+    {
+        return index;
+    }
 }
 
 
@@ -67,38 +87,116 @@ void InteractingController::GetRoundInput(bool& abdicate, int& selectedCardId)
 
 CardMeta InteractingController::GetSelectedCardFromSpanningCards(const QVector<CardMeta *>& spawningCardsMeta)
 {
-    return CardMeta();
+    std::cout << "Choose a card from the following cards\n";
+    for (int i = 0; i < spawningCardsMeta.size(); i++)
+    {
+        std::cout << i << " " << spawningCardsMeta[i]->GetName().toStdString() << std::endl;
+    }
+
+    int index;
+    std::cin >> index;
+    return *(spawningCardsMeta[index]);
 }
 
 
 int InteractingController::GetSelectedCardFromBattleField()
 {
-    return 0;
+    std::cout << "Select a card from the battle field\n";
+
+    auto displayContainer = [this](QString name)
+    {
+      auto cards = Controller->GetBattleField()->GetCardContainerByName(name)->GetCards();
+      std::cout << "Line " << name.toStdString() << std::endl;
+      for (const auto item:cards)
+      {
+          std::cout << Controller->GetCardManager()->GetCardById(item)->ToString().toStdString() << std::endl;
+      }
+    };
 }
 
 
 int InteractingController::GetSelectedCardFromBattleField(const QVector<int>& filter)
 {
-    return 0;
+    throw 0;
 }
 
 
 void InteractingController::GetSelectedUnitDeployLocation(QString& deployBattleLine, int& deployIndex)
 {
+    std::cout << "You are now deploying the card to the battlefield, please input two integers" << std::endl;
+    std::cout << "the first int represent the battle line, as following:" << std::endl;
+    std::cout << "1 - AlliedMelee\n2 - AlliedRanged\n3 - AlliedSiege\n";
+    std::cout << "4 - EnemyMelee\n5 - EnemyRanged\n6 - EnemySiege\n";
+    std::cout << "the second int represent the index of the insertion\n";
+
+    int first;
+    int second;
+
+    std::cin >> first >> second;
+    switch (first)
+    {
+    case 1:
+    {
+        deployBattleLine = "AlliedMelee";
+        break;
+    }
+    case 2:
+    {
+        deployBattleLine = "AlliedRanged";
+        break;
+    }
+    case 3:
+    {
+        deployBattleLine = "AlliedSiege";
+        break;
+    }
+    case 4:
+    {
+        deployBattleLine = "EnemyMelee";
+        break;
+    }
+    case 5:
+    {
+        deployBattleLine = "EnemyRanged";
+        break;
+    }
+    case 6:
+    {
+        deployBattleLine = "EnemySiege";
+        break;
+    }
+    default:break;
+    }
+
+    deployIndex = second;
 }
 
 
 QString InteractingController::GetSelectedEffectDeployBattleLine()
 {
-    return QString();
+    std::cout << "You are now deploying the effect to a battle line, please input a integer" << std::endl;
+    std::cout << "the int represent the battle line, as following:" << std::endl;
+    std::cout << " 1 - AlliedMelee\n2 - AlliedRanged\n3 - AlliedSiege\n";
+    std::cout << " 4 - EnemyMelee\n5 - EnemyRanged\n6 - EnemySiege\n";
+
+    int input;
+    std::cin >> input;
+    switch (input)
+    {
+    case 1:return "AlliedMelee";
+    case 2:return "AlliedRanged";
+    case 3:return "AlliedSiege";
+    case 4:return "EnemyMelee";
+    case 5:return "EnemyRanged";
+    case 6:return "EnemySiege";
+    }
 }
 
 
 void InteractingController::GetGlobalSelection()
 {
+    std::cout << "Only to confirm, input a integer\n";
+    int i;
+    std::cin >> i;
 }
 
-
-InteractingController::InteractingController(GameController *Controller)
-    : Controller(Controller)
-{ }

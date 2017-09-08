@@ -11,7 +11,7 @@
 class WoodlandSpirit : public Unit
 {
 public:
-    WoodlandSpirit();
+    WoodlandSpirit(GameController *gameController);
     void OnDeploy() override;
 };
 

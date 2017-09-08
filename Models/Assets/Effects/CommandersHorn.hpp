@@ -11,7 +11,7 @@
 class CommandersHorn : public Effect
 {
 public:
-    CommandersHorn();
+    CommandersHorn(GameController *gameController);
 
     void OnDeploy() override;
 };

@@ -11,7 +11,7 @@
 class ImpenetrableFog : public Effect
 {
 public:
-    ImpenetrableFog();
+    ImpenetrableFog(GameController *gameController);
 
     void OnDeploy() override;
 };

@@ -6,7 +6,8 @@
 #include "../../Meta/UnitMeta.hpp"
 
 
-CelaenoHarpy::CelaenoHarpy()
+CelaenoHarpy::CelaenoHarpy(GameController *gameController)
+    : Unit(gameController)
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("CelaenoHarpy");
     Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();

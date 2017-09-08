@@ -7,7 +7,8 @@
 #include "../../Meta/UnitMeta.hpp"
 
 
-Archgriffin::Archgriffin()
+Archgriffin::Archgriffin(GameController *gameController)
+    : Unit(gameController)
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("Archgriffin");
     Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();

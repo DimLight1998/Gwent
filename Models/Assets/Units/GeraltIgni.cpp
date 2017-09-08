@@ -6,7 +6,8 @@
 #include "../../Meta/UnitMeta.hpp"
 
 
-GeraltIgni::GeraltIgni()
+GeraltIgni::GeraltIgni(GameController *gameController)
+    : Unit(gameController)
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("GeraltIgni");
     Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();

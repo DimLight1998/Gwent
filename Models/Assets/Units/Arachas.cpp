@@ -6,7 +6,8 @@
 #include "../../Meta/UnitMeta.hpp"
 
 
-Arachas::Arachas()
+Arachas::Arachas(GameController *gameController)
+    : Unit(gameController)
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("Arachas");
     Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();

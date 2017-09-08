@@ -6,7 +6,8 @@
 #include "../../Meta/UnitMeta.hpp"
 
 
-Foglet::Foglet()
+Foglet::Foglet(GameController *gameController)
+    : Unit(gameController)
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("Foglet");
     Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();

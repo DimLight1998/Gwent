@@ -5,7 +5,8 @@
 #include "CommandersHorn.hpp"
 
 
-CommandersHorn::CommandersHorn()
+CommandersHorn::CommandersHorn(GameController *gameController)
+    : Effect(gameController)
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("CommandersHorn");
 }

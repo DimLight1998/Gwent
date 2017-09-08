@@ -12,7 +12,7 @@
 class RabidWolf : public Unit
 {
 public:
-    RabidWolf();
+    RabidWolf(GameController *gameController);
 };
 
 

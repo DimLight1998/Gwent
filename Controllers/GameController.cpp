@@ -171,7 +171,7 @@ bool GameController::DeployCardFromContainerToBattleLine
 
 int GameController::SpawnCard(const QString& cardName, const QString& containerOrBattleLineName, int index)
 {
-    auto card = Card::SpanCardByName(cardName);
+    auto card = Card::SpanCardByName(cardName, this);
     card->SetCardId(GetNextId());
     _cardManager->RegisterCard(card);
 
@@ -446,7 +446,7 @@ void GameController::ResetGameData()
     // todo should be based on whether it is the first to start
     for (const auto& i:AllyCardGroup.GetCardMetaGroup())
     {
-        auto card = Card::SpanCardByName(i.GetName());
+        auto card = Card::SpanCardByName(i.GetName(), this);
         card->SetCardId(GetNextId());
         auto id = card->GetCardId();
         _cardManager->RegisterCard(card);
@@ -524,12 +524,12 @@ void GameController::InitializeAllyCardData()
     std::cout << "[ Cheat ] Here is all your cards in your hand:\n";
     for (const auto i:_battleField->GetCardContainerByName("AlliedHand")->GetCards())
     {
-        std::cout << _cardManager->GetCardById(i)->GetCardMetaInfo()->GetName().toStdString() << std::endl;
+        std::cout << _cardManager->GetCardById(i)->ToString().toStdString() << std::endl;
     }
     std::cout << "[ Cheat ] Here is all your cards in your deck:\n";
     for (const auto i:_battleField->GetCardContainerByName("AlliedDeck")->GetCards())
     {
-        std::cout << _cardManager->GetCardById(i)->GetCardMetaInfo()->GetName().toStdString() << std::endl;
+        std::cout << _cardManager->GetCardById(i)->ToString().toStdString() << std::endl;
     }
 }
 

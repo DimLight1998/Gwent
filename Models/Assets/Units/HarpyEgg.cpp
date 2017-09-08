@@ -7,7 +7,8 @@
 #include "../../Meta/UnitMeta.hpp"
 
 
-HarpyEgg::HarpyEgg()
+HarpyEgg::HarpyEgg(GameController *gameController)
+    : Unit(gameController)
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("HarpyEgg");
     Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();

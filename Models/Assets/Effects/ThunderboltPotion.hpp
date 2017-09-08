@@ -11,7 +11,7 @@
 class ThunderboltPotion : public Effect
 {
 public:
-    ThunderboltPotion();
+    ThunderboltPotion(GameController *gameController);
     void OnDeploy() override;
 };
 

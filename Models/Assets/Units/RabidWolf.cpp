@@ -6,7 +6,8 @@
 #include "../../Meta/UnitMeta.hpp"
 
 
-RabidWolf::RabidWolf()
+RabidWolf::RabidWolf(GameController *gameController)
+    : Unit(gameController)
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("RabidWolf");
     Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();

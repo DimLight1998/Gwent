@@ -6,7 +6,8 @@
 #include "../../Meta/UnitMeta.hpp"
 
 
-VranWarrior::VranWarrior()
+VranWarrior::VranWarrior(GameController *gameController)
+    : Unit(gameController)
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("VranWarrior");
     CountDown    = 2;

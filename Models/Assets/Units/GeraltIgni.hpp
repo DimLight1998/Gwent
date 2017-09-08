@@ -11,7 +11,7 @@
 class GeraltIgni : public Unit
 {
 public:
-    GeraltIgni();
+    GeraltIgni(GameController *gameController);
     void OnDeploy() override;
 };
 

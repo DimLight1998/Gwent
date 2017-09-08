@@ -11,7 +11,7 @@
 class Dagon : public Unit
 {
 public:
-    Dagon();
+    Dagon(GameController *gameController);
     void OnDeploy() override;
 };
 

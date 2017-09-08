@@ -73,7 +73,7 @@ QString BattleField::getCardContainerContainingCard(int id)
 {
     for (auto& prefix:QVector<QString>({QString("Allied"), QString("Enemy")}))
     {
-        for (auto& postfix:QVector<QString>({QString("Siege"), QString("Ranged"), QString("Melee")}))
+        for (auto& postfix:QVector<QString>({QString("Hand"), QString("Grave"), QString("Deck"), QString("Discard")}))
         {
             if (GetCardContainerByName(prefix + postfix)->IsCardContainerContainingCard(id))
             {

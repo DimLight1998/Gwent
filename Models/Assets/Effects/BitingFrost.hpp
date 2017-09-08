@@ -11,7 +11,7 @@
 class BitingFrost : public Effect
 {
 public:
-    BitingFrost();
+    BitingFrost(GameController *gameController);
 
     void OnDeploy() override;
 };

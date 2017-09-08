@@ -6,7 +6,8 @@
 #include "../../Meta/UnitMeta.hpp"
 
 
-Roach::Roach()
+Roach::Roach(GameController *gameController)
+    : Unit(gameController)
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("Roach");
     Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();

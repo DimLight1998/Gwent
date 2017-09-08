@@ -24,7 +24,7 @@ void BattleLine::InsertUnit(int unitId, int index)
         throw 0;
     }
 
-    Units.insert(unitId, index);
+    Units.insert(index, unitId);
 }
 
 

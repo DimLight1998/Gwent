@@ -5,7 +5,8 @@
 #include "ImpenetrableFog.hpp"
 
 
-ImpenetrableFog::ImpenetrableFog()
+ImpenetrableFog::ImpenetrableFog(GameController *gameController)
+    : Effect(gameController)
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("ImpenetrableFog");
 }

@@ -11,7 +11,7 @@
 class LesserEarthElemental : public Unit
 {
 public:
-    LesserEarthElemental();
+    LesserEarthElemental(GameController *gameController);
 };
 
 

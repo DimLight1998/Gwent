@@ -8,7 +8,8 @@
 #include "../../Meta/UnitMeta.hpp"
 
 
-Rally::Rally()
+Rally::Rally(GameController *gameController)
+    : Effect(gameController)
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("Rally");
 }

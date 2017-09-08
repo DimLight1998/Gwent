@@ -5,7 +5,8 @@
 #include "TorrentialRain.hpp"
 
 
-TorrentialRain::TorrentialRain()
+TorrentialRain::TorrentialRain(GameController *gameController)
+    : Effect(gameController)
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("TorrentialRain");
 }

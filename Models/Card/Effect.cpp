@@ -33,3 +33,14 @@ bool Effect::IsCardEffect(Card *card)
 {
     return (dynamic_cast<Effect *>(card) != nullptr);
 }
+
+
+QString Effect::ToString()
+{
+    return QString("[%1] %2").arg(CardId).arg(CardMetaInfo->GetName());
+}
+
+
+Effect::Effect(GameController *gameController)
+    : Card(gameController)
+{ }

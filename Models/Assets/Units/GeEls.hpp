@@ -11,7 +11,7 @@
 class GeEls : public Unit
 {
 public:
-    GeEls();
+    GeEls(GameController *gameController);
     void OnDeploy() override;
 };
 

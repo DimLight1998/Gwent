@@ -11,6 +11,7 @@
 class Unit : public Card
 {
 public:
+    Unit(GameController *gameController);
     /// \brief damage the unit, OnDestory will be called if the unit is dead
     /// \param damage the damage
     void Damage(int damage);
@@ -55,6 +56,7 @@ public:
     void SetSelectedLine(const QString& SelectedLine);
     int GetSelectedIndex() const;
     void SetSelectedIndex(int SelectedIndex);
+    QString ToString() override;
 protected:
 
     QString SelectedLine;

@@ -7,7 +7,8 @@
 #include "../../Meta/UnitMeta.hpp"
 
 
-Dagon::Dagon()
+Dagon::Dagon(GameController *gameController)
+    : Unit(gameController)
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("Dagon");
     Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();
@@ -19,7 +20,7 @@ void Dagon::OnDeploy()
     QVector<CardMeta *> cardMeta = QVector<CardMeta *>(
         {
             CardMeta::GetMetaByCardName("BitingFrost"),
-            CardMeta::GetMetaByCardName("FirstLight"),
+            CardMeta::GetMetaByCardName("TorrentialRain"),
             CardMeta::GetMetaByCardName("ImpenetrableFog")
         });
 

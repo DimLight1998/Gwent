@@ -6,7 +6,8 @@
 #include "../../Meta/UnitMeta.hpp"
 
 
-WoodlandSpirit::WoodlandSpirit()
+WoodlandSpirit::WoodlandSpirit(GameController *gameController)
+    : Unit(gameController)
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("WoodlandSpirit");
     Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();

@@ -25,7 +25,8 @@ void FirstLight::OnDeploy()
 }
 
 
-FirstLight::FirstLight()
+FirstLight::FirstLight(GameController *gameController)
+    : Effect(gameController)
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("FirstLight");
 }

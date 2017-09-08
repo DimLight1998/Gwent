@@ -6,7 +6,8 @@
 #include "../../Meta/UnitMeta.hpp"
 
 
-CroneBrewess::CroneBrewess()
+CroneBrewess::CroneBrewess(GameController *gameController)
+    : Unit(gameController)
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("CroneBrewess");
     Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();

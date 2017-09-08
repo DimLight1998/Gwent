@@ -38,7 +38,7 @@ public:
 
     /// \brief get selected card from existing cards, and you can abdicate the operation
     /// \param existingCardsId the vector of cards chosen from
-    /// \return id of the chosen card
+    /// \return id of the chosen card, if the operation is abdicated, return -1
     int GetSelectedCardFromExistingCardsAbdicable(const QVector<int>& existingCardsId);
 
     /// \brief everyround, get the input of the player

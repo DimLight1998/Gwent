@@ -6,7 +6,8 @@
 #include "../../Meta/UnitMeta.hpp"
 
 
-WildHuntRider::WildHuntRider()
+WildHuntRider::WildHuntRider(GameController *gameController)
+    : Unit(gameController)
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("WildHuntRider");
     Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();

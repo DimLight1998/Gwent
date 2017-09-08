@@ -11,7 +11,7 @@
 class VranWarrior : public Unit
 {
 public:
-    VranWarrior();
+    VranWarrior(GameController *gameController);
     void OnDeploy() override;
     void RoundUpdate() override;
 protected:

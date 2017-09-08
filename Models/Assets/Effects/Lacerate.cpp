@@ -5,7 +5,8 @@
 #include "Lacerate.hpp"
 
 
-Lacerate::Lacerate()
+Lacerate::Lacerate(GameController *gameController)
+    : Effect(gameController)
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("Lacerate");
 }

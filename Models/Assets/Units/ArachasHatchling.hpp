@@ -11,7 +11,7 @@
 class ArachasHatchling : public Unit
 {
 public:
-    ArachasHatchling();
+    ArachasHatchling(GameController *gameController);
     void OnDeploy() override;
 };
 

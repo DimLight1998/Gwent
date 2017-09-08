@@ -11,7 +11,7 @@
 class WildHuntRider : public Unit
 {
 public:
-    WildHuntRider();
+    WildHuntRider(GameController *gameController);
 };
 
 

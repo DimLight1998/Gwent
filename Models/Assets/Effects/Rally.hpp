@@ -11,7 +11,7 @@
 class Rally : public Effect
 {
 public:
-    Rally();
+    Rally(GameController *gameController);
     void OnDeploy() override;
 };
 

@@ -11,7 +11,7 @@
 class Arachas : public Unit
 {
 public:
-    Arachas();
+    Arachas(GameController *gameController);
     void OnDeploy() override;
 };
 

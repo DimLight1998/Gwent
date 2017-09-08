@@ -17,6 +17,7 @@ protected:
     QString SelectedLine = ""; ///< used for effects line select
 
 public:
+    Effect(GameController *gameController);
     int GetSelectedUnit() const;
     void SetSelectedUnit(int SelectedUnit);
     const QString& GetSelectedLine() const;
@@ -26,7 +27,7 @@ public:
     /// \param card pointer to the card to be tested
     /// \return true if yes else no
     static bool IsCardEffect(Card *card);
-
+    QString ToString() override;
 };
 
 

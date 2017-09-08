@@ -11,7 +11,7 @@
 class Frightener : public Unit
 {
 public:
-    Frightener();
+    Frightener(GameController *gameController);
     void OnDeploy() override;
 };
 

@@ -5,7 +5,8 @@
 #include "ClearSkies.hpp"
 
 
-ClearSkies::ClearSkies()
+ClearSkies::ClearSkies(GameController *gameController)
+    : Effect(gameController)
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("ClearSkies");
 }

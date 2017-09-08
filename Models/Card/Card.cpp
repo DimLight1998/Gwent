@@ -70,76 +70,76 @@ Card::~Card()
 }
 
 
-Card *Card::SpanCardByName(const QString& name)
+Card *Card::SpanCardByName(const QString& name, GameController *gameController)
 {
     if (name == "FirstLight")
-    { return new FirstLight(); }
+    { return new FirstLight(gameController); }
     if (name == "BitingFrost")
-    { return new BitingFrost(); }
+    { return new BitingFrost(gameController); }
     if (name == "ImpenetrableFog")
-    { return new ImpenetrableFog(); }
+    { return new ImpenetrableFog(gameController); }
     if (name == "Foglet")
-    { return new Foglet(); }
+    { return new Foglet(gameController); }
     if (name == "TorrentialRain")
-    { return new TorrentialRain(); }
+    { return new TorrentialRain(gameController); }
     if (name == "Lacerate")
-    { return new Lacerate(); }
+    { return new Lacerate(gameController); }
     if (name == "CommandersHorn")
-    { return new CommandersHorn(); }
+    { return new CommandersHorn(gameController); }
     if (name == "BekkersTwistedMirror")
-    { return new BekkersTwistedMirror(); }
+    { return new BekkersTwistedMirror(gameController); }
     if (name == "GeraltIgni")
-    { return new GeraltIgni(); }
+    { return new GeraltIgni(gameController); }
     if (name == "Dagon")
-    { return new Dagon(); }
+    { return new Dagon(gameController); }
     if (name == "GeEls")
-    { return new GeEls(); }
+    { return new GeEls(gameController); }
     if (name == "CelaenoHarpy")
-    { return new CelaenoHarpy(); }
+    { return new CelaenoHarpy(gameController); }
     if (name == "WoodlandSpirit")
-    { return new WoodlandSpirit(); }
+    { return new WoodlandSpirit(gameController); }
     if (name == "EarthElemental")
-    { return new EarthElemental(); }
+    { return new EarthElemental(gameController); }
     if (name == "CroneWeavess")
-    { return new CroneWeavess(); }
+    { return new CroneWeavess(gameController); }
     if (name == "CroneWhispess")
-    { return new CroneWhispess(); }
+    { return new CroneWhispess(gameController); }
     if (name == "CroneBrewess")
-    { return new CroneBrewess(); }
+    { return new CroneBrewess(gameController); }
     if (name == "Archgriffin")
-    { return new Archgriffin(); }
+    { return new Archgriffin(gameController); }
     if (name == "Caranthir")
-    { return new Caranthir(); }
+    { return new Caranthir(gameController); }
     if (name == "Frightener")
-    { return new Frightener(); }
+    { return new Frightener(gameController); }
     if (name == "UnseenElder")
-    { return new UnseenElder(); }
+    { return new UnseenElder(gameController); }
     if (name == "Arachas")
-    { return new Arachas(); }
+    { return new Arachas(gameController); }
     if (name == "ArachasBehemoth")
-    { return new ArachasBehemoth(); }
+    { return new ArachasBehemoth(gameController); }
     if (name == "VranWarrior")
-    { return new VranWarrior(); }
+    { return new VranWarrior(gameController); }
     if (name == "ThunderboltPotion")
-    { return new ThunderboltPotion(); }
+    { return new ThunderboltPotion(gameController); }
     if (name == "Roach")
-    { return new Roach(); }
+    { return new Roach(gameController); }
     if (name == "WildHuntRider")
-    { return new WildHuntRider(); }
+    { return new WildHuntRider(gameController); }
     if (name == "HarpyEgg")
-    { return new HarpyEgg(); }
+    { return new HarpyEgg(gameController); }
     if (name == "HarpyHatchling")
-    { return new HarpyHatchling(); }
+    { return new HarpyHatchling(gameController); }
     if (name == "RabidWolf")
-    { return new RabidWolf(); }
+    { return new RabidWolf(gameController); }
     if (name == "LesserEarthElemental")
-    { return new LesserEarthElemental(); }
+    { return new LesserEarthElemental(gameController); }
     if (name == "ArachasHatchling")
-    { return new ArachasHatchling(); }
+    { return new ArachasHatchling(gameController); }
     if (name == "ClearSkies")
-    { return new ClearSkies(); }
+    { return new ClearSkies(gameController); }
     if (name == "Rally")
-    { return new Rally(); }
+    { return new Rally(gameController); }
 }
 
 
@@ -159,5 +159,17 @@ void Card::OnDeathWish()
 
 
 void Card::RoundUpdate()
+{
+}
+
+
+QString Card::ToString()
+{
+    return "";
+}
+
+
+Card::Card(GameController *gameController)
+    : GlobalGameController(gameController)
 {
 }

@@ -11,7 +11,7 @@
 class Roach : public Unit
 {
 public:
-    Roach();
+    Roach(GameController *gameController);
 };
 
 

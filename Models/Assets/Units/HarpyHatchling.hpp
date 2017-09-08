@@ -11,7 +11,7 @@
 class HarpyHatchling : public Unit
 {
 public:
-    HarpyHatchling();
+    HarpyHatchling(GameController *gameController);
 };
 
 

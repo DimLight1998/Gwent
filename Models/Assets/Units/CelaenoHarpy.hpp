@@ -11,7 +11,7 @@
 class CelaenoHarpy : public Unit
 {
 public:
-    CelaenoHarpy();
+    CelaenoHarpy(GameController *gameController);
     void OnDeploy() override;
 };
 

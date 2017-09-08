@@ -11,7 +11,7 @@
 class EarthElemental : public Unit
 {
 public:
-    EarthElemental();
+    EarthElemental(GameController *gameController);
     void OnDeploy() override;
     void OnDeathWish() override;
 };

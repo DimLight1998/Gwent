@@ -10,7 +10,9 @@ void BitingFrost::OnDeploy()
     GlobalGameController->SetWeatherToBattleLine(SelectedLine, BattleLine::WeatherEnum::Frost);
 }
 
-BitingFrost::BitingFrost()
+
+BitingFrost::BitingFrost(GameController *gameController)
+    : Effect(gameController)
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("BitingFrost");
 }

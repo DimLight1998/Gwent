@@ -6,7 +6,8 @@
 #include "../../Meta/UnitMeta.hpp"
 
 
-Caranthir::Caranthir()
+Caranthir::Caranthir(GameController *gameController)
+    : Unit(gameController)
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("Caranthir");
     Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();

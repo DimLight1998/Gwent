@@ -6,7 +6,8 @@
 #include "../../Meta/UnitMeta.hpp"
 
 
-HarpyHatchling::HarpyHatchling()
+HarpyHatchling::HarpyHatchling(GameController *gameController)
+    : Unit(gameController)
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("HarpyHatchling");
     Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();

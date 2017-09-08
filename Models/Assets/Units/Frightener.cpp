@@ -7,7 +7,8 @@
 #include "../../Meta/UnitMeta.hpp"
 
 
-Frightener::Frightener()
+Frightener::Frightener(GameController *gameController)
+    : Unit(gameController)
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("Frightener");
     Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();

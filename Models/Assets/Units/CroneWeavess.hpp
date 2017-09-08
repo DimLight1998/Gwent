@@ -11,7 +11,7 @@
 class CroneWeavess : public Unit
 {
 public:
-    CroneWeavess();
+    CroneWeavess(GameController *gameController);
     void OnDeploy() override;
 };
 

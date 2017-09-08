@@ -6,7 +6,8 @@
 #include "../../Meta/UnitMeta.hpp"
 
 
-UnseenElder::UnseenElder()
+UnseenElder::UnseenElder(GameController *gameController)
+    : Unit(gameController)
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("UnseenElder");
     Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();

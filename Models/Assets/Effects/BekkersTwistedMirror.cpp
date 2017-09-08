@@ -5,7 +5,8 @@
 #include "BekkersTwistedMirror.hpp"
 
 
-BekkersTwistedMirror::BekkersTwistedMirror()
+BekkersTwistedMirror::BekkersTwistedMirror(GameController *gameController)
+    : Effect(gameController)
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("BekkersTwistedMirror");
 }

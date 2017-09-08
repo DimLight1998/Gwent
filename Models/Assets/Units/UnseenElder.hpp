@@ -11,7 +11,7 @@
 class UnseenElder : public Unit
 {
 public:
-    UnseenElder();
+    UnseenElder(GameController *gameController);
     void OnDeploy() override;
 };
 

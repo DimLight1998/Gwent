@@ -11,7 +11,7 @@
 class Lacerate : public Effect
 {
 public:
-    Lacerate();
+    Lacerate(GameController *gameController);
     void OnDeploy() override;
 };
 

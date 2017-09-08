@@ -17,6 +17,8 @@ class Card : public QObject
 {
 Q_OBJECT
 public:
+    Card(GameController *gameController);
+
     /// \brief triggered when the card is deployed
     virtual void OnDeploy();
 
@@ -36,7 +38,7 @@ public:
     /// \return pointer to the card
     /// \note you only have a instance of the card and you should add it to the card system,
     /// maybe you want to use GameController::SpanCard
-    static Card *SpanCardByName(const QString& name);
+    static Card *SpanCardByName(const QString& name, GameController *gameController);
 
     virtual void RoundUpdate();
 protected:
@@ -50,6 +52,8 @@ public:
     void SetCardMetaInfo(CardMeta *CardMetaInfo);
     int GetCardId() const;
     void SetCardId(int CardId);
+
+    virtual QString ToString();
 };
 
 

@@ -5,7 +5,8 @@
 #include "ThunderboltPotion.hpp"
 
 
-ThunderboltPotion::ThunderboltPotion()
+ThunderboltPotion::ThunderboltPotion(GameController *gameController)
+    : Effect(gameController)
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("ThunderboltPotion");
 }

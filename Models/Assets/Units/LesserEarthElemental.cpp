@@ -6,7 +6,8 @@
 #include "../../Meta/UnitMeta.hpp"
 
 
-LesserEarthElemental::LesserEarthElemental()
+LesserEarthElemental::LesserEarthElemental(GameController *gameController)
+    : Unit(gameController)
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("LesserEarthElemental");
     Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();
