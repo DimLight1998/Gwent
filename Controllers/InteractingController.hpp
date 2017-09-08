@@ -33,6 +33,18 @@ public:
     /// \endcode
     /// now we have what the player choose
     int GetSelectedCardFromExistingCards(const QVector<int>& existingCardsId);
+    InteractingController(GameController *Controller);
+
+
+    /// \brief get selected card from existing cards, and you can abdicate the operation
+    /// \param existingCardsId the vector of cards chosen from
+    /// \return id of the chosen card
+    int GetSelectedCardFromExistingCardsAbdicable(const QVector<int>& existingCardsId);
+
+    /// \brief everyround, get the input of the player
+    /// \param [out] abdicate true if the player abdicate the round, otherwise false
+    /// \param [out] selectedCardId id of the card player choose to deploy, if abdicate, return -1
+    void GetRoundInput(bool& abdicate, int& selectedCardId);
 
     /// \brief get selected card from non-existing cards, like select one from three weather (Dagon)
     /// \param spawningCardsMeta the vector of cards chosen from

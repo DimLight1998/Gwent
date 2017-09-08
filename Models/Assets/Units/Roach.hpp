@@ -8,7 +8,7 @@
 #include "../../Card/Unit.hpp"
 
 
-class Roach : Unit
+class Roach : public Unit
 {
 public:
     Roach();

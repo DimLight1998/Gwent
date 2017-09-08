@@ -37,6 +37,34 @@ int InteractingController::GetSelectedCardFromExistingCards(const QVector<int>& 
 }
 // todo functions bellow
 
+int InteractingController::GetSelectedCardFromExistingCardsAbdicable(const QVector<int>& existingCardsId)
+{
+    return 0;
+}
+
+
+void InteractingController::GetRoundInput(bool& abdicate, int& selectedCardId)
+{
+    std::cout
+        << "[ Intercating ] Input a integer,"
+            " -1 represents abdicate the round, others represent the card id you want to deploy";
+
+    int input;
+    std::cin >> input;
+
+    if (input == -1)
+    {
+        abdicate       = true;
+        selectedCardId = -1;
+    }
+    else
+    {
+        abdicate       = false;
+        selectedCardId = input;
+    }
+}
+
+
 CardMeta InteractingController::GetSelectedCardFromSpanningCards(const QVector<CardMeta *>& spawningCardsMeta)
 {
     return CardMeta();
@@ -69,3 +97,8 @@ QString InteractingController::GetSelectedEffectDeployBattleLine()
 void InteractingController::GetGlobalSelection()
 {
 }
+
+
+InteractingController::InteractingController(GameController *Controller)
+    : Controller(Controller)
+{ }

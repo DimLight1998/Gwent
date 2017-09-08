@@ -9,6 +9,8 @@
 #include "../Models/Containers/BattleLine.hpp"
 #include "../Models/Containers/CardManager.hpp"
 #include "InteractingController.hpp"
+#include "../Models/Containers/CardGroup.hpp"
+#include "Network/Client.hpp"
 
 
 class CardManager;
@@ -17,11 +19,11 @@ class CardManager;
 class BattleField;
 
 
-class GameController
+class GameController : public Client
 {
 private:
-    BattleField *_battleField;
-    CardManager *_cardManager;
+    BattleField *_battleField = nullptr;
+    CardManager *_cardManager = nullptr;
 
 public:
     /// \brief this function can deploy a unit to a specific battle line,
@@ -46,6 +48,9 @@ public:
     /// \throw 4593453 if name incorrect
     bool DeployCardFromContainerToBattleLine
         (const QString& cardName, const QString& containerName, const QString& battleLineName, int index);
+protected:
+    void HandleMessage(const QString& message) override;
+public:
 
     /// \brief move a card from a specific battle line to another specific battle line
     /// \param id id of the card to be moved
@@ -122,6 +127,8 @@ public:
     /// \param id id of the card
     void DeployTheCardOfId(int id);
 
+    void StartGame();
+
     BattleField *GetBattleField() const;
     CardManager *GetCardManager() const;
 
@@ -135,7 +142,34 @@ public:
     InteractingController *GetInteracting() const;
     void SetInteracting(InteractingController *Interacting);
 protected:
+    InteractingController *Interacting = nullptr;
+protected:
+    //<editor-fold desc="data used for a game">
+    bool IsAllyAbdicated;
+    bool IsEnemyAbdicated;
+    int  AllyScore;
+    int  EnemyScore;
 
-    InteractingController *Interacting;
+    CardGroup AllyCardGroup;
+    CardGroup EnemyCardGroup;
+
+    /// \brief reset the data used for a game
+    void ResetGameData();
+
+    /// \brief called per round to initialize data for game
+    void InitializeRoundGameData();
+
+    /// \brief initialize allied cards' data
+    /// \note before you call the function, you should have a valid card group storing in AllyCardGroup
+    /// \note after the call, the battle side of allied side should be ready
+    void InitializeAllyCardData();
+
+    //</editor-fold>
+
+private:
+    /// \brief hacking code goes here
+    void HackBeforeStart();
 };
+
+
 #endif //GWENT_GAMECONTROLLER_HPP

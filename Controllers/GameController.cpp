@@ -3,6 +3,7 @@
 //
 
 #include <QtCore/QDateTime>
+#include <c++/iostream>
 #include "GameController.hpp"
 
 #include "../Models/Containers/CardContainer.hpp"
@@ -12,10 +13,35 @@
 #include "../Models/Meta/EffectsMeta.hpp"
 
 
-void GameController::DeployUnitToBattleLine(int cardId, const QString& battleLineName, int index)
+BattleField *GameController::GetBattleField() const
 {
-    _battleField->GetBattleLineByName(battleLineName)->InsertUnit(cardId, index);
-    _cardManager->GetCardById(cardId)->OnDeploy();
+    return _battleField;
+}
+
+
+CardManager *GameController::GetCardManager() const
+{
+    return _cardManager;
+}
+
+
+InteractingController *GameController::GetInteracting() const
+{
+    return Interacting;
+}
+
+
+void GameController::SetInteracting(InteractingController *Interacting)
+{
+    GameController::Interacting = Interacting;
+}
+
+
+int GameController::GetNextId()
+{
+    static int currentId = 0;
+    currentId++;
+    return currentId;
 }
 
 
@@ -28,43 +54,6 @@ bool GameController::IsThisUnitEnemy(int id)
 bool GameController::IsThisUnitAllied(int id)
 {
     return _battleField->GetBattleLineContainingCard(id).startsWith("Allied");
-}
-
-
-void GameController::SetWeatherToBattleLine(const QString& battleLineName, BattleLine::WeatherEnum weather)
-{
-    _battleField->GetBattleLineByName(battleLineName)->SetWeather(weather);
-}
-
-
-bool GameController::DeployCardFromContainerToBattleLine
-    (const QString& cardName, const QString& containerName, const QString& battleLineName, int index)
-{
-    auto container = _battleField->GetCardContainerByName(containerName);
-
-    for (auto& j:container->GetCards())
-    {
-        if (_cardManager->GetCardById(j)->GetCardMetaInfo()->GetName() == cardName)
-        {
-            container->RemoveCardOfId(j);
-            DeployUnitToBattleLine(j, battleLineName, index);
-            return true;
-        }
-    }
-
-    return false;
-}
-
-
-BattleField *GameController::GetBattleField() const
-{
-    return _battleField;
-}
-
-
-CardManager *GameController::GetCardManager() const
-{
-    return _cardManager;
 }
 
 
@@ -146,11 +135,37 @@ void GameController::HandleUnitSwallowed()
 //</editor-fold>
 
 
-int GameController::GetNextId()
+//<editor-fold desc="Cards manipulation">
+
+void GameController::DeployUnitToBattleLine(int cardId, const QString& battleLineName, int index)
 {
-    static int currentId = 0;
-    currentId++;
-    return currentId;
+    _battleField->GetBattleLineByName(battleLineName)->InsertUnit(cardId, index);
+    _cardManager->GetCardById(cardId)->OnDeploy();
+}
+
+
+void GameController::SetWeatherToBattleLine(const QString& battleLineName, BattleLine::WeatherEnum weather)
+{
+    _battleField->GetBattleLineByName(battleLineName)->SetWeather(weather);
+}
+
+
+bool GameController::DeployCardFromContainerToBattleLine
+    (const QString& cardName, const QString& containerName, const QString& battleLineName, int index)
+{
+    auto container = _battleField->GetCardContainerByName(containerName);
+
+    for (auto& j:container->GetCards())
+    {
+        if (_cardManager->GetCardById(j)->GetCardMetaInfo()->GetName() == cardName)
+        {
+            container->RemoveCardOfId(j);
+            DeployUnitToBattleLine(j, battleLineName, index);
+            return true;
+        }
+    }
+
+    return false;
 }
 
 
@@ -202,18 +217,6 @@ bool GameController::MoveCardFromBattleLineToBattleLine
     {
         return false;
     }
-}
-
-
-InteractingController *GameController::GetInteracting() const
-{
-    return Interacting;
-}
-
-
-void GameController::SetInteracting(InteractingController *Interacting)
-{
-    GameController::Interacting = Interacting;
 }
 
 
@@ -354,5 +357,200 @@ void GameController::DeployTheCardOfId(int id)
         }
     }
 }
+//</editor-fold>
 
 
+void GameController::StartGame()
+{
+    // todo remove hack
+    HackBeforeStart();
+
+    std::cout << "A game is starting...\n";
+    ResetGameData();
+
+    for (int i = 0; i < 3; i++)
+    {
+        std::cout << "A round is starting...\n";
+        InitializeRoundGameData();
+        while (true)
+        {
+            std::cout << "Gaming loop entered...\n";
+
+            if (!IsAllyAbdicated)
+            {
+                bool abdicate;
+                int  cardId;
+
+                std::cout << "Ally input <>\n";
+                Interacting->GetRoundInput(abdicate, cardId);
+
+                if (abdicate)
+                {
+                    IsAllyAbdicated = true;
+                    std::cout << "Ally abdicate the round\n";
+                }
+                else
+                {
+                    if (!_battleField->GetCardContainerByName("AlliedHand")->IsCardContainerContainingCard(cardId))
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        std::cout << "Ally deploying card #" << cardId << std::endl;
+                        DeployTheCardOfId(cardId);
+                    }
+                }
+            }
+
+            if (IsAllyAbdicated && IsEnemyAbdicated)
+            {
+                break;
+            }
+        }
+
+        if (AllyScore == 2 || EnemyScore == 2)
+        {
+            break;
+        }
+    }
+}
+
+
+void GameController::ResetGameData()
+{
+    std::cout << "Resetting game data...\n";
+
+    IsAllyAbdicated  = false;
+    IsEnemyAbdicated = false;
+    AllyScore        = 0;
+    EnemyScore       = 0;
+
+    // the card group data should be ready already
+    delete _battleField;
+    delete _cardManager;
+    delete Interacting;
+
+    std::cout << "Initializing battle field, card manager and interacting system...\n";
+
+    _battleField = new BattleField();
+    std::cout << "Battle field initialized...\n";
+
+    _cardManager = new CardManager();
+    std::cout << "Card manager initialized...\n";
+
+    Interacting = new InteractingController(this);
+    std::cout << "Interacting controller initialized...\n";
+
+    // index the cards
+    // todo should be based on whether it is the first to start
+    for (const auto& i:AllyCardGroup.GetCardMetaGroup())
+    {
+        auto card = Card::SpanCardByName(i.GetName());
+        card->SetCardId(GetNextId());
+        auto id = card->GetCardId();
+        _cardManager->RegisterCard(card);
+
+        _battleField->GetCardContainerByName("AlliedDeck")->InsertCard(id, 0);
+    }
+
+    InitializeAllyCardData();
+}
+
+
+void GameController::InitializeRoundGameData()
+{
+    std::cout << "Reset round data...\n";
+    IsAllyAbdicated  = false;
+    IsEnemyAbdicated = false;
+}
+
+
+void GameController::HandleMessage(const QString& message)
+{
+    qDebug() << message;
+}
+
+
+void GameController::InitializeAllyCardData()
+{
+    std::cout << "Initializing card data\n";
+    // shuffle the deck
+    auto deck = _battleField->GetCardContainerByName("AlliedDeck")->GetCards();
+    _battleField->GetCardContainerByName("AlliedDeck")->ClearCardContainer();
+
+    std::mt19937 g(static_cast<unsigned int>(QDateTime::currentMSecsSinceEpoch()));
+    std::shuffle(deck.begin(), deck.end(), g);
+
+    // todo cheat code below
+    std::cout << "[ Cheat ] Here is all your cards\n";
+    for (int i : deck)
+    {
+        std::cout << _cardManager->GetCardById(i)->GetCardMetaInfo()->GetName().toStdString() << std::endl;
+    }
+
+    // get the leader card
+    for (int i = 0; i < deck.size(); i++)
+    {
+        if (_cardManager->GetCardById(deck[i])->GetCardMetaInfo()->GetCardType() == CardMeta::CardTypeEnum::Leader)
+        {
+            auto leaderId = deck[i];
+            deck.remove(i);
+
+            // insert the leader card into hand
+            _battleField->GetCardContainerByName("AlliedHand")->InsertCard(leaderId, 0);
+
+            break;
+        }
+    }
+
+    // get top-10 random cards
+    for (int i = 0; i < 10; i++)
+    {
+        _battleField->GetCardContainerByName("AlliedHand")->InsertCard(deck[i], 1);
+    }
+    for (int i = 0; i < 10; i++)
+    {
+        deck.remove(0);
+    }
+
+    // rebuild the deck
+    for (auto i:deck)
+    {
+        _battleField->GetCardContainerByName("AlliedDeck")->InsertCard(i, 0);
+    }
+
+    // todo cheat code below
+    std::cout << "[ Cheat ] Here is all your cards in your hand:\n";
+    for (const auto i:_battleField->GetCardContainerByName("AlliedHand")->GetCards())
+    {
+        std::cout << _cardManager->GetCardById(i)->GetCardMetaInfo()->GetName().toStdString() << std::endl;
+    }
+    std::cout << "[ Cheat ] Here is all your cards in your deck:\n";
+    for (const auto i:_battleField->GetCardContainerByName("AlliedDeck")->GetCards())
+    {
+        std::cout << _cardManager->GetCardById(i)->GetCardMetaInfo()->GetName().toStdString() << std::endl;
+    }
+}
+
+
+//<editor-fold desc="Hacking codes">
+void GameController::HackBeforeStart()
+{
+    for (auto& i:QVector<QString>(
+        {
+            "Dagon",
+            "WoodlandSpirit", "Caranthir", "GeraltIgni", "GeEls",
+            "CroneWeavess", "CroneWhispess", "CroneBrewess", "Frightener", "Roach", "BekkersTwistedMirror",
+            "FirstLight", "BitingFrost", "ImpenetrableFog", "Foglet", "Foglet", "Foglet", "TorrentialRain", "Lacerate",
+            "CelaenoHarpy", "Arachas", "Arachas", "Arachas", "EarthElemental", "EarthElemental", "EarthElemental",
+            "Archgriffin", "VranWarrior", "VranWarrior", "CelaenoHarpy", "CelaenoHarpy"
+        }
+    ))
+    {
+        auto card = CardMeta::GetMetaByCardName(i);
+        AllyCardGroup.InsertIntoCardGroup(*card);
+        delete card;
+    }
+}
+//</editor-fold>

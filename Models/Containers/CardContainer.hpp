@@ -15,6 +15,7 @@ protected:
     QVector<int> Cards; ///< stores id of the cards
 public:
     const QVector<int>& GetCards() const;
+    CardContainer();
 
     /// \brief remove the card of id
     /// \param id id of the card
@@ -31,6 +32,9 @@ public:
     /// \param index the index of the inserting position, ranged from 0 to Cards.size()
     /// \throw 233333 if index not correct
     void InsertCard(int cardId, int index);
+
+    /// \brief clear the card container, this is harmless because it just stores numbers
+    void ClearCardContainer();
 };
 
 

@@ -125,3 +125,17 @@ bool BattleField::IsABattleLine(const QString& name)
     return false;
 }
 
+
+BattleField::BattleField()
+{
+    AlliedBattleSide = new BattleSide();
+    EnemyBattleSide  = new BattleSide();
+}
+
+
+BattleField::~BattleField()
+{
+    delete AlliedBattleSide;
+    delete EnemyBattleSide;
+}
+

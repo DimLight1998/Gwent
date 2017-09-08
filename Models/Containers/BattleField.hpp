@@ -6,6 +6,7 @@
 #define GWENT_BATTLEFIELD_HPP
 
 #include "BattleLine.hpp"
+#include "CardGroup.hpp"
 
 
 class BattleSide;
@@ -22,6 +23,8 @@ protected:
     BattleSide *AlliedBattleSide;
 
 public:
+    BattleField();
+
     /// \brief get the battle line by name
     /// \param name name of the battle line, options: (Enemy|Allied)(Melee|Ranged|Siege)
     /// \return pointer to the battle field
@@ -56,6 +59,8 @@ public:
     /// (Enemy|Allied)(Hand|Grave|Deck|Discard|Melee|Ranged|Siege)
     /// \return true if its a battle line otherwise false
     static bool IsABattleLine(const QString& name);
+
+    virtual ~BattleField();
 };
 
 

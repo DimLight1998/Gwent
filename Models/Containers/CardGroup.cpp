@@ -69,3 +69,15 @@ bool CardGroup::Validate()
 
     return true;
 }
+
+
+const QVector<CardMeta>& CardGroup::GetCardMetaGroup() const
+{
+    return _cardMetaGroup;
+}
+
+
+void CardGroup::InsertIntoCardGroup(CardMeta cardMeta)
+{
+    _cardMetaGroup.insert(0, cardMeta);
+}

@@ -3,7 +3,6 @@ project(Gwent)
 
 set(CMAKE_CXX_STANDARD 11)
 
-
 # set local Qt location
 set(CMAKE_PREFIX_PATH "F:\\Dev\\Qt\\5.9\\mingw53_32")
 
@@ -14,7 +13,9 @@ set(CMAKE_AUTORCC on)
 
 # set modules
 find_package(Qt5Widgets REQUIRED)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/bin")
+find_package(Qt5Network REQUIRED)
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/bin/Debug")
 
 
 # qrc file put here
@@ -117,8 +118,16 @@ set(
         Models/Assets/Units/ArachasBehemoth.hpp
         Models/Assets/Units/UnseenElder.cpp
         Models/Assets/Units/UnseenElder.hpp
+        Controllers/Network/Client.cpp
+        Controllers/Network/Server.cpp
+        Controllers/Network/Server.hpp
+        Controllers/Network/Client.hpp
 )
 
 add_executable(Gwent ${SOURCE_FILES})
+add_executable(ClientTest Controllers/Network/Client.cpp Controllers/Network/Client.hpp Tests/ClientMain.cpp)
+add_executable(ServerTest Controllers/Network/Server.cpp Controllers/Network/Server.hpp Tests/ServerMain.cpp)
 
-target_link_libraries(Gwent Qt5::Widgets Qt5::Core)
+target_link_libraries(Gwent Qt5::Widgets Qt5::Core Qt5::Network)
+target_link_libraries(ClientTest Qt5::Widgets Qt5::Core Qt5::Network)
+target_link_libraries(ServerTest Qt5::Core Qt5::Network)

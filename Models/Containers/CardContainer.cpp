@@ -54,3 +54,15 @@ void CardContainer::InsertCard(int cardId, int index)
 
     Cards.insert(index, cardId);
 }
+
+
+CardContainer::CardContainer()
+{
+    Cards = QVector<int>();
+}
+
+
+void CardContainer::ClearCardContainer()
+{
+    Cards.clear();
+}

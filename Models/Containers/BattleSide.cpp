@@ -3,6 +3,7 @@
 //
 
 #include "BattleSide.hpp"
+#include <QDateTime>
 
 
 BattleLine *BattleSide::GetBattleLineByName(const QString& name) const
@@ -47,3 +48,28 @@ CardContainer *BattleSide::GetCardContainerByName(const QString& name) const
 
     throw 23423425;
 }
+
+
+BattleSide::BattleSide()
+{
+    MeleeLine    = new BattleLine();
+    RangedLine   = new BattleLine();
+    SiegeLine    = new BattleLine();
+    HandCards    = new CardContainer();
+    GraveCards   = new CardContainer();
+    DeckCards    = new CardContainer();
+    DiscardCards = new CardContainer();
+}
+
+
+BattleSide::~BattleSide()
+{
+    delete MeleeLine;
+    delete RangedLine;
+    delete SiegeLine;
+    delete HandCards;
+    delete GraveCards;
+    delete DeckCards;
+    delete DiscardCards;
+}
+

@@ -19,6 +19,7 @@ protected:
     QVector<int> Units; ///< stores id of the units
     WeatherEnum  Weather;
 public:
+    BattleLine();
     WeatherEnum GetWeather() const;
     void SetWeather(WeatherEnum weather);
 

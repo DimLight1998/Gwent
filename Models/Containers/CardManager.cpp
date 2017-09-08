@@ -23,3 +23,9 @@ void CardManager::RegisterCard(Card *card)
 {
     CardsOnBoard.insert(0, card);
 }
+
+
+CardManager::CardManager()
+{
+    CardsOnBoard = QVector<Card *>();
+}

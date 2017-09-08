@@ -66,3 +66,10 @@ void BattleLine::RemoveCardOfId(int id)
         throw 23975462;
     }
 }
+
+
+BattleLine::BattleLine()
+{
+    Units   = QVector<int>();
+    Weather = WeatherEnum::None;
+}

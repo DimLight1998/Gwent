@@ -26,6 +26,8 @@ protected:
     CardContainer *DiscardCards; ///< cards removed from game stores here
 
 public:
+    BattleSide();
+
     /// \brief get the battle line by name
     /// \param name name of the battle line, options: (Melee|Ranged|Siege)
     /// \return pointer to the battle field
@@ -38,6 +40,8 @@ public:
     /// \return pointer to the container
     /// \throw 23423425 if name incorrect
     CardContainer *GetCardContainerByName(const QString& name) const;
+
+    virtual ~BattleSide();
 };
 
 
