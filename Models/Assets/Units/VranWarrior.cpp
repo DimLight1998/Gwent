@@ -3,12 +3,14 @@
 //
 
 #include "VranWarrior.hpp"
+#include "../../Meta/UnitMeta.hpp"
 
 
 VranWarrior::VranWarrior()
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("VranWarrior");
     CountDown    = 2;
+    Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();
 }
 
 

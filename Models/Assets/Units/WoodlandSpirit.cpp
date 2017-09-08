@@ -3,11 +3,13 @@
 //
 
 #include "WoodlandSpirit.hpp"
+#include "../../Meta/UnitMeta.hpp"
 
 
 WoodlandSpirit::WoodlandSpirit()
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("WoodlandSpirit");
+    Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();
 }
 
 

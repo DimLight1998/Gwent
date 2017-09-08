@@ -3,11 +3,13 @@
 //
 
 #include "EarthElemental.hpp"
+#include "../../Meta/UnitMeta.hpp"
 
 
 EarthElemental::EarthElemental()
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("EarthElemental");
+    Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();
 }
 
 

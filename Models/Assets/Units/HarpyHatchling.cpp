@@ -3,9 +3,11 @@
 //
 
 #include "HarpyHatchling.hpp"
+#include "../../Meta/UnitMeta.hpp"
 
 
 HarpyHatchling::HarpyHatchling()
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("HarpyHatchling");
+    Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();
 }

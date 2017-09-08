@@ -4,11 +4,13 @@
 
 #include "GeEls.hpp"
 #include "../../Containers/CardContainer.hpp"
+#include "../../Meta/UnitMeta.hpp"
 
 
 GeEls::GeEls()
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("GeEls");
+    Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();
 }
 
 

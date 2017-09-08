@@ -3,11 +3,13 @@
 //
 
 #include "ArachasBehemoth.hpp"
+#include "../../Meta/UnitMeta.hpp"
 
 
 ArachasBehemoth::ArachasBehemoth()
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("ArachasBehemoth");
+    Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();
 }
 
 

@@ -4,11 +4,13 @@
 
 #include <QtCore/QDateTime>
 #include "HarpyEgg.hpp"
+#include "../../Meta/UnitMeta.hpp"
 
 
 HarpyEgg::HarpyEgg()
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("HarpyEgg");
+    Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();
 }
 
 

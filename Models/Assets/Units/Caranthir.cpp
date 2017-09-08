@@ -3,11 +3,13 @@
 //
 
 #include "Caranthir.hpp"
+#include "../../Meta/UnitMeta.hpp"
 
 
 Caranthir::Caranthir()
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("Caranthir");
+    Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();
 }
 
 

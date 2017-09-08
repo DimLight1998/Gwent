@@ -3,11 +3,13 @@
 //
 
 #include "UnseenElder.hpp"
+#include "../../Meta/UnitMeta.hpp"
 
 
 UnseenElder::UnseenElder()
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("UnseenElder");
+    Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();
 }
 
 

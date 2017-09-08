@@ -3,11 +3,13 @@
 //
 
 #include "GeraltIgni.hpp"
+#include "../../Meta/UnitMeta.hpp"
 
 
 GeraltIgni::GeraltIgni()
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("GeraltIgni");
+    Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();
 }
 
 

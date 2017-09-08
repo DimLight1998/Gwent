@@ -4,11 +4,13 @@
 
 #include "Archgriffin.hpp"
 #include "../../Containers/CardContainer.hpp"
+#include "../../Meta/UnitMeta.hpp"
 
 
 Archgriffin::Archgriffin()
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("Archgriffin");
+    Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();
 }
 
 

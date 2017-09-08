@@ -4,11 +4,13 @@
 
 #include "Dagon.hpp"
 #include "../../Card/Effect.hpp"
+#include "../../Meta/UnitMeta.hpp"
 
 
 Dagon::Dagon()
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("Dagon");
+    Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();
 }
 
 

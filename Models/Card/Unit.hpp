@@ -38,10 +38,10 @@ public:
 
 
 protected:
-    int  Power;
-    int  Armor;
-    int  TimeCount;
-    bool HasShield;
+    int  Power     = 0;
+    int  Armor     = 0;
+    int  TimeCount = 0;
+    bool HasShield = false;
 public:
     int GetPower() const;
     void SetPower(int Power);

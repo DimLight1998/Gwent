@@ -3,11 +3,13 @@
 //
 
 #include "CroneWhispess.hpp"
+#include "../../Meta/UnitMeta.hpp"
 
 
 CroneWhispess::CroneWhispess()
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("CroneWhispess");
+    Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();
 }
 
 

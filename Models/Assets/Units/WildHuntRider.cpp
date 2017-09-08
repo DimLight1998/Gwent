@@ -3,11 +3,13 @@
 //
 
 #include "WildHuntRider.hpp"
+#include "../../Meta/UnitMeta.hpp"
 
 
 WildHuntRider::WildHuntRider()
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("WildHuntRider");
+    Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();
 }
 
 

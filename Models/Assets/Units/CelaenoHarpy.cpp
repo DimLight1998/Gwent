@@ -3,11 +3,13 @@
 //
 
 #include "CelaenoHarpy.hpp"
+#include "../../Meta/UnitMeta.hpp"
 
 
 CelaenoHarpy::CelaenoHarpy()
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("CelaenoHarpy");
+    Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();
 }
 
 

@@ -3,9 +3,11 @@
 //
 
 #include "RabidWolf.hpp"
+#include "../../Meta/UnitMeta.hpp"
 
 
 RabidWolf::RabidWolf()
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("RabidWolf");
+    Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();
 }

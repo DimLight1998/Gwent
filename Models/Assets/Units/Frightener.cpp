@@ -4,11 +4,13 @@
 
 #include "Frightener.hpp"
 #include "../../Containers/CardContainer.hpp"
+#include "../../Meta/UnitMeta.hpp"
 
 
 Frightener::Frightener()
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("Frightener");
+    Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();
 }
 
 

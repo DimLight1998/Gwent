@@ -13,8 +13,8 @@
 class Effect : public Card
 {
 protected:
-    int     SelectedUnit; ///< used for effects unit select
-    QString SelectedLine; ///< used for effects line select
+    int     SelectedUnit = 0; ///< used for effects unit select
+    QString SelectedLine = ""; ///< used for effects line select
 
 public:
     int GetSelectedUnit() const;

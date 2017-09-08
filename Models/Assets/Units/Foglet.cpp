@@ -3,9 +3,11 @@
 //
 
 #include "Foglet.hpp"
+#include "../../Meta/UnitMeta.hpp"
 
 
 Foglet::Foglet()
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("Foglet");
+    Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();
 }

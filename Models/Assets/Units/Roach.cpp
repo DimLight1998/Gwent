@@ -3,9 +3,11 @@
 //
 
 #include "Roach.hpp"
+#include "../../Meta/UnitMeta.hpp"
 
 
 Roach::Roach()
 {
     CardMetaInfo = CardMeta::GetMetaByCardName("Roach");
+    Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();
 }
