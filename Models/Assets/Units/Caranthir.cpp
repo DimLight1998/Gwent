@@ -18,6 +18,14 @@ void Caranthir::OnDeploy()
 {
     GlobalGameController->HandleGoldCardDeploying();
 
+    auto enemyLine = SelectedLine;
+    if (SelectedLine.startsWith("Allied"))
+    {
+        enemyLine.replace(0, 6, "Enemy");
+    }
+
+    GlobalGameController->SetWeatherToBattleLine(enemyLine, BattleLine::WeatherEnum::Frost);
+
     auto count = 0;
     count += GlobalGameController->GetBattleField()->GetBattleLineByName("EnemySiege")->GetUnits().size();
     count += GlobalGameController->GetBattleField()->GetBattleLineByName("EnemyRanged")->GetUnits().size();
@@ -26,12 +34,6 @@ void Caranthir::OnDeploy()
     if (count <= 0)
     {
         return;
-    }
-
-    auto enemyLine = SelectedLine;
-    if (SelectedLine.startsWith("Allied"))
-    {
-        enemyLine.replace(0, 6, "Enemy");
     }
 
     auto isValid = false;
@@ -62,7 +64,6 @@ void Caranthir::OnDeploy()
         if (isValid)
         {
             GlobalGameController->MoveCardFromBattleLineToBattleLine(cardId, sourceLine, deployLine, deployIndex);
-            GlobalGameController->SetWeatherToBattleLine(deployLine, BattleLine::WeatherEnum::Frost);
         }
     }
     while (!isValid);

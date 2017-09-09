@@ -171,6 +171,8 @@ void GameController::DeployUnitToBattleLine(int cardId, const QString& battleLin
 {
     auto containerName = _battleField->getCardContainerContainingCard(cardId);
     MoveCardFromCardsSetToCardsSet(cardId, containerName, battleLineName, index);
+    dynamic_cast<Unit *>(_cardManager->GetCardById(cardId))->SetSelectedLine(battleLineName);
+    dynamic_cast<Unit *>(_cardManager->GetCardById(cardId))->SetSelectedIndex(index);
     _cardManager->GetCardById(cardId)->OnDeploy();
 }
 
@@ -194,6 +196,9 @@ bool GameController::DeployUnitFromContainerToBattleLine
         {
             container->RemoveCardOfId(id);
             _battleField->GetBattleLineByName(battleLineName)->InsertUnit(id, index);
+            dynamic_cast<Unit *>(_cardManager->GetCardById(id))->SetSelectedLine(battleLineName);
+            dynamic_cast<Unit *>(_cardManager->GetCardById(id))->SetSelectedIndex(index);
+
             _cardManager->GetCardById(id)->OnDeploy();
 
             return true;
@@ -220,6 +225,8 @@ int GameController::SpawnCard(const QString& cardName, const QString& containerO
         }
 
         _battleField->GetBattleLineByName(containerOrBattleLineName)->InsertUnit(card->GetCardId(), index);
+        dynamic_cast<Unit *>(_cardManager->GetCardById(card->GetCardId()))->SetSelectedLine(containerOrBattleLineName);
+        dynamic_cast<Unit *>(_cardManager->GetCardById(card->GetCardId()))->SetSelectedIndex(index);
     }
     else if (BattleField::IsAContainer(containerOrBattleLineName))
     {

@@ -45,6 +45,11 @@ void Archgriffin::OnDeploy()
         }
     }
 
+    if (grave.size() == 0)
+    {
+        return;
+    }
+
     int id = GlobalGameController->GetInteracting()->GetSelectedCardFromExistingCards(grave);
 
     if (GlobalGameController->GetBattleField()->GetCardContainerByName("EnemyGrave")->IsCardContainerContainingCard(id))
