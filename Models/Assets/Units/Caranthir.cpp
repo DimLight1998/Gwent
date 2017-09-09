@@ -18,6 +18,16 @@ void Caranthir::OnDeploy()
 {
     GlobalGameController->HandleGoldCardDeploying();
 
+    auto count = 0;
+    count += GlobalGameController->GetBattleField()->GetBattleLineByName("EnemySiege")->GetUnits().size();
+    count += GlobalGameController->GetBattleField()->GetBattleLineByName("EnemyRanged")->GetUnits().size();
+    count += GlobalGameController->GetBattleField()->GetBattleLineByName("EnemyMelee")->GetUnits().size();
+
+    if (count <= 0)
+    {
+        return;
+    }
+
     auto enemyLine = SelectedLine;
     if (SelectedLine.startsWith("Allied"))
     {

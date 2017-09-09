@@ -139,7 +139,6 @@ void GameController::HandleUnitSwallowed()
 
 void GameController::DeployUnitToBattleLine(int cardId, const QString& battleLineName, int index)
 {
-    qDebug() << battleLineName;
     _battleField->GetBattleLineByName(battleLineName)->InsertUnit(cardId, index);
     _cardManager->GetCardById(cardId)->OnDeploy();
 }
@@ -159,8 +158,6 @@ bool GameController::DeployCardFromContainerToBattleLine
     for (int i = 0; i < container->GetCards().size(); i++)
     {
         auto id = container->GetCards()[i];
-
-        qDebug() << "***" << _cardManager->GetCardById(id)->ToString();
 
         if (_cardManager->GetCardById(id)->GetCardMetaInfo()->GetName() == cardName)
         {
@@ -293,17 +290,16 @@ bool GameController::MoveCardFromCardsSetToCardsSet(int id, const QString& desti
 void GameController::DeployTheCardOfId(int id)
 {
     auto card = _cardManager->GetCardById(id);
-    qDebug() << "***" << card->ToString();
     if (Unit::IsCardUnit(card))
     {
         QString deployLine;
         int     deployIndex;
-        Interacting->GetSelectedUnitDeployLocation(deployLine, deployIndex);
 
         auto isValid = false;
 
         do
         {
+            Interacting->GetSelectedUnitDeployLocation(deployLine, deployIndex);
             QString prefix = (dynamic_cast<UnitMeta *>(card->GetCardMetaInfo())->IsLoyal()) ? "Allied" : "Enemy";
 
             switch (dynamic_cast<UnitMeta *>(card->GetCardMetaInfo())->GetDeployLocation())
@@ -325,6 +321,11 @@ void GameController::DeployTheCardOfId(int id)
                 }
             case UnitMeta::DeployLocationEnum::Any:
             {
+                if (!deployLine.startsWith(prefix))
+                {
+                    continue;
+                }
+
                 MoveCardFromCardsSetToCardsSet(id, deployLine, deployIndex);
                 dynamic_cast<Unit *>(card)->SetSelectedLine(deployLine);
                 dynamic_cast<Unit *>(card)->SetSelectedIndex(deployIndex);
@@ -361,6 +362,8 @@ void GameController::DeployTheCardOfId(int id)
         }
         }
     }
+
+    Interacting->UpdateBattleFieldView();
 }
 //</editor-fold>
 
@@ -404,7 +407,6 @@ void GameController::StartGame()
                     {
                         std::cout << "Ally deploying card #" << cardId << std::endl;
                         DeployTheCardOfId(cardId);
-                        Interacting->UpdateBattleFieldView();
                     }
                 }
             }
@@ -485,9 +487,7 @@ void GameController::InitializeAllyCardData()
     auto deck = _battleField->GetCardContainerByName("AlliedDeck")->GetCards();
     _battleField->GetCardContainerByName("AlliedDeck")->ClearCardContainer();
 
-    // todo hacked
-    //    std::mt19937 g(static_cast<unsigned int>(QDateTime::currentMSecsSinceEpoch()));
-    std::mt19937 g(0);
+    std::mt19937 g(static_cast<unsigned int>(QDateTime::currentMSecsSinceEpoch()));
 
     std::shuffle(deck.begin(), deck.end(), g);
 
