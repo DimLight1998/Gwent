@@ -13,6 +13,7 @@ class WoodlandSpirit : public Unit
 public:
     WoodlandSpirit(GameController *gameController);
     void OnDeploy() override;
+    void OnDestroy() override;
 };
 
 

@@ -67,3 +67,9 @@ void Caranthir::OnDeploy()
     }
     while (!isValid);
 }
+
+
+void Caranthir::OnDestroy()
+{
+    GlobalGameController->MoveCardFromCardsSetToCardsSet(CardId, GetFactionString() + "Grave", 0);
+}

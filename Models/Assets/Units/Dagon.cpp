@@ -35,3 +35,9 @@ void Dagon::OnDeploy()
 
     GlobalGameController->DeployTheCardOfId(id);
 }
+
+
+void Dagon::OnDestroy()
+{
+    GlobalGameController->MoveCardFromCardsSetToCardsSet(CardId, GetFactionString() + "Discard", 0);
+}

@@ -12,3 +12,9 @@ Foglet::Foglet(GameController *gameController)
     CardMetaInfo = CardMeta::GetMetaByCardName("Foglet");
     Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();
 }
+
+
+void Foglet::OnDestroy()
+{
+    GlobalGameController->MoveCardFromCardsSetToCardsSet(CardId, GetFactionString() + "Grave", 0);
+}

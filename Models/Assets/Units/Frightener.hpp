@@ -13,6 +13,7 @@ class Frightener : public Unit
 public:
     Frightener(GameController *gameController);
     void OnDeploy() override;
+    void OnDestroy() override;
 };
 
 

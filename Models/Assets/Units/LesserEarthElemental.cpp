@@ -12,3 +12,9 @@ LesserEarthElemental::LesserEarthElemental(GameController *gameController)
     CardMetaInfo = CardMeta::GetMetaByCardName("LesserEarthElemental");
     Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();
 }
+
+
+void LesserEarthElemental::OnDestroy()
+{
+    GlobalGameController->MoveCardFromCardsSetToCardsSet(CardId, GetFactionString() + "Discard", 0);
+}

@@ -14,6 +14,7 @@ public:
     ImpenetrableFog(GameController *gameController);
 
     void OnDeploy() override;
+    void OnDestroy() override;
 };
 
 

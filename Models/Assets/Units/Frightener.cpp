@@ -63,3 +63,9 @@ void Frightener::OnDeploy()
     }
     while (!isValid);
 }
+
+
+void Frightener::OnDestroy()
+{
+    GlobalGameController->MoveCardFromCardsSetToCardsSet(CardId, GetFactionString() + "Discard", 0);
+}

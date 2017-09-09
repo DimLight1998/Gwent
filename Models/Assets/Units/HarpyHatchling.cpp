@@ -12,3 +12,9 @@ HarpyHatchling::HarpyHatchling(GameController *gameController)
     CardMetaInfo = CardMeta::GetMetaByCardName("HarpyHatchling");
     Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();
 }
+
+
+void HarpyHatchling::OnDestroy()
+{
+    GlobalGameController->MoveCardFromCardsSetToCardsSet(CardId, GetFactionString() + "Discard", 0);
+}

@@ -13,6 +13,7 @@ class Dagon : public Unit
 public:
     Dagon(GameController *gameController);
     void OnDeploy() override;
+    void OnDestroy() override;
 };
 
 

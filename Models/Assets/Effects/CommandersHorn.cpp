@@ -5,6 +5,10 @@
 #include "CommandersHorn.hpp"
 
 
+void CommandersHorn::OnDestroy()
+{ GlobalGameController->MoveCardFromCardsSetToCardsSet(CardId, GetFactionString() + "Grave", 0); }
+
+
 CommandersHorn::CommandersHorn(GameController *gameController)
     : Effect(gameController)
 {

@@ -14,6 +14,7 @@ public:
     CommandersHorn(GameController *gameController);
 
     void OnDeploy() override;
+    void OnDestroy() override;
 };
 
 

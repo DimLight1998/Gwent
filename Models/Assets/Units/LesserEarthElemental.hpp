@@ -12,6 +12,7 @@ class LesserEarthElemental : public Unit
 {
 public:
     LesserEarthElemental(GameController *gameController);
+    void OnDestroy() override;
 };
 
 

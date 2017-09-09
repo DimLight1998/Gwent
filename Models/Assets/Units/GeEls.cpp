@@ -81,3 +81,9 @@ void GeEls::OnDeploy()
         GlobalGameController->DeployTheCardOfId(choose);
     }
 }
+
+
+void GeEls::OnDestroy()
+{
+    GlobalGameController->MoveCardFromCardsSetToCardsSet(CardId, GetFactionString() + "Grave", 0);
+}

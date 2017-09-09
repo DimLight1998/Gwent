@@ -13,6 +13,7 @@ class ArachasHatchling : public Unit
 public:
     ArachasHatchling(GameController *gameController);
     void OnDeploy() override;
+    void OnDestroy() override;
 };
 
 

@@ -14,6 +14,7 @@ public:
     FirstLight(GameController *gameController);
 
     void OnDeploy() override;
+    void OnDestroy() override;
 };
 
 

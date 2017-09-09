@@ -5,6 +5,10 @@
 #include "Lacerate.hpp"
 
 
+void Lacerate::OnDestroy()
+{ GlobalGameController->MoveCardFromCardsSetToCardsSet(CardId, GetFactionString() + "Grave", 0); }
+
+
 Lacerate::Lacerate(GameController *gameController)
     : Effect(gameController)
 {

@@ -13,6 +13,7 @@ class Arachas : public Unit
 public:
     Arachas(GameController *gameController);
     void OnDeploy() override;
+    void OnDestroy() override;
 };
 
 

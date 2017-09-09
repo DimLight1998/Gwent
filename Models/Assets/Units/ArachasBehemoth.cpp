@@ -18,3 +18,9 @@ void ArachasBehemoth::OnDeploy()
 {
     GainArmor(2);
 }
+
+
+void ArachasBehemoth::OnDestroy()
+{
+    GlobalGameController->MoveCardFromCardsSetToCardsSet(CardId, GetFactionString() + "Grave", 0);
+}

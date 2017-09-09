@@ -5,6 +5,10 @@
 #include "ClearSkies.hpp"
 
 
+void ClearSkies::OnDestroy()
+{ GlobalGameController->MoveCardFromCardsSetToCardsSet(CardId, GetFactionString() + "Grave", 0); }
+
+
 ClearSkies::ClearSkies(GameController *gameController)
     : Effect(gameController)
 {

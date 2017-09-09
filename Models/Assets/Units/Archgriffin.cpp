@@ -57,3 +57,9 @@ void Archgriffin::OnDeploy()
         GlobalGameController->MoveCardFromCardsSetToCardsSet(id, "AlliedGrave", "EnemyGrave", 0);
     }
 }
+
+
+void Archgriffin::OnDestroy()
+{
+    GlobalGameController->MoveCardFromCardsSetToCardsSet(CardId, GetFactionString() + "Grave", 0);
+}

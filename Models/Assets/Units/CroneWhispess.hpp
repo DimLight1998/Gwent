@@ -13,6 +13,7 @@ class CroneWhispess : public Unit
 public:
     CroneWhispess(GameController *gameController);
     void OnDeploy() override;
+    void OnDestroy() override;
 };
 
 

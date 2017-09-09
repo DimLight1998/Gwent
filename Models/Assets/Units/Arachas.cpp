@@ -26,3 +26,9 @@ void Arachas::OnDeploy()
         );
     }
 }
+
+
+void Arachas::OnDestroy()
+{
+    GlobalGameController->MoveCardFromCardsSetToCardsSet(CardId, GetFactionString() + "Grave", 0);
+}

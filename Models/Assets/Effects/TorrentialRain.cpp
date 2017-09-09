@@ -5,6 +5,10 @@
 #include "TorrentialRain.hpp"
 
 
+void TorrentialRain::OnDestroy()
+{ GlobalGameController->MoveCardFromCardsSetToCardsSet(CardId, GetFactionString() + "Grave", 0); }
+
+
 TorrentialRain::TorrentialRain(GameController *gameController)
     : Effect(gameController)
 {

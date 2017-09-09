@@ -36,3 +36,9 @@ void WoodlandSpirit::OnDeploy()
 
     GlobalGameController->SetWeatherToBattleLine(enemyLine, BattleLine::WeatherEnum::Frost);
 }
+
+
+void WoodlandSpirit::OnDestroy()
+{
+    GlobalGameController->MoveCardFromCardsSetToCardsSet(CardId, GetFactionString() + "Grave", 0);
+}

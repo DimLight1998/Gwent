@@ -19,3 +19,9 @@ void CelaenoHarpy::OnDeploy()
     GlobalGameController->SpawnCard("HarpyEgg", SelectedLine, SelectedIndex);
     GlobalGameController->SpawnCard("HarpyEgg", SelectedLine, SelectedIndex);
 }
+
+
+void CelaenoHarpy::OnDestroy()
+{
+    GlobalGameController->MoveCardFromCardsSetToCardsSet(CardId, GetFactionString() + "Grave", 0);
+}

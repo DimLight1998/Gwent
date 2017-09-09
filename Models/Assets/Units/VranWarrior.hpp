@@ -14,6 +14,7 @@ public:
     VranWarrior(GameController *gameController);
     void OnDeploy() override;
     void RoundUpdate() override;
+    void OnDestroy() override;
 protected:
     int CountDown;
 };

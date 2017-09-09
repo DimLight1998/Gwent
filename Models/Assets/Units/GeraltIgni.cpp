@@ -45,3 +45,9 @@ void GeraltIgni::OnDeploy()
         }
     }
 }
+
+
+void GeraltIgni::OnDestroy()
+{
+    GlobalGameController->MoveCardFromCardsSetToCardsSet(CardId, GetFactionString() + "Grave", 0);
+}

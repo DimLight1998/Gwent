@@ -12,3 +12,9 @@ Roach::Roach(GameController *gameController)
     CardMetaInfo = CardMeta::GetMetaByCardName("Roach");
     Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();
 }
+
+
+void Roach::OnDestroy()
+{
+    GlobalGameController->MoveCardFromCardsSetToCardsSet(CardId, GetFactionString() + "Grave", 0);
+}

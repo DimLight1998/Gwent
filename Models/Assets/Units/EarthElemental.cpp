@@ -31,3 +31,10 @@ void EarthElemental::OnDeathWish()
         GlobalGameController->SpawnCard("LesserEarthElemental", SelectedLine, size);
     }
 }
+
+
+void EarthElemental::OnDestroy()
+{
+    OnDeathWish();
+    GlobalGameController->MoveCardFromCardsSetToCardsSet(CardId, GetFactionString() + "Grave", 0);
+}

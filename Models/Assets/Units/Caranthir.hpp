@@ -13,6 +13,7 @@ class Caranthir : public Unit
 public:
     Caranthir(GameController *gameController);
     void OnDeploy() override;
+    void OnDestroy() override;
 };
 
 

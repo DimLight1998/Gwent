@@ -5,6 +5,10 @@
 #include "ThunderboltPotion.hpp"
 
 
+void ThunderboltPotion::OnDestroy()
+{ GlobalGameController->MoveCardFromCardsSetToCardsSet(CardId, GetFactionString() + "Grave", 0); }
+
+
 ThunderboltPotion::ThunderboltPotion(GameController *gameController)
     : Effect(gameController)
 {

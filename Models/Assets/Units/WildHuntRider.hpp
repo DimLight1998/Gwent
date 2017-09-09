@@ -12,6 +12,7 @@ class WildHuntRider : public Unit
 {
 public:
     WildHuntRider(GameController *gameController);
+    void OnDestroy() override;
 };
 
 

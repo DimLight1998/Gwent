@@ -25,6 +25,10 @@ void FirstLight::OnDeploy()
 }
 
 
+void FirstLight::OnDestroy()
+{ GlobalGameController->MoveCardFromCardsSetToCardsSet(CardId, GetFactionString() + "Grave", 0); }
+
+
 FirstLight::FirstLight(GameController *gameController)
     : Effect(gameController)
 {

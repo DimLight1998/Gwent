@@ -5,6 +5,10 @@
 #include "BekkersTwistedMirror.hpp"
 
 
+void BekkersTwistedMirror::OnDestroy()
+{ GlobalGameController->MoveCardFromCardsSetToCardsSet(CardId, GetFactionString() + "Grave", 0); }
+
+
 BekkersTwistedMirror::BekkersTwistedMirror(GameController *gameController)
     : Effect(gameController)
 {

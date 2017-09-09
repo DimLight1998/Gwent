@@ -14,6 +14,7 @@ public:
     EarthElemental(GameController *gameController);
     void OnDeploy() override;
     void OnDeathWish() override;
+    void OnDestroy() override;
 };
 
 

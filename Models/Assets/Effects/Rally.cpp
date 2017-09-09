@@ -8,6 +8,10 @@
 #include "../../Meta/UnitMeta.hpp"
 
 
+void Rally::OnDestroy()
+{ GlobalGameController->MoveCardFromCardsSetToCardsSet(CardId, GetFactionString() + "Grave", 0); }
+
+
 Rally::Rally(GameController *gameController)
     : Effect(gameController)
 {

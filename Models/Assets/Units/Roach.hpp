@@ -12,6 +12,7 @@ class Roach : public Unit
 {
 public:
     Roach(GameController *gameController);
+    void OnDestroy() override;
 };
 
 

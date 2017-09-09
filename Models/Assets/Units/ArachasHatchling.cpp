@@ -27,3 +27,9 @@ void ArachasHatchling::OnDeploy()
         );
     }
 }
+
+
+void ArachasHatchling::OnDestroy()
+{
+    GlobalGameController->MoveCardFromCardsSetToCardsSet(CardId, GetFactionString() + "Discard", 0);
+}

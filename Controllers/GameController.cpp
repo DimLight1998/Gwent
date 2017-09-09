@@ -57,6 +57,36 @@ bool GameController::IsThisUnitAllied(int id)
 }
 
 
+bool GameController::IsThisCardEnemy(int id)
+{
+    if (_battleField->GetBattleLineContainingCard(id) != "")
+    {
+        return IsThisUnitEnemy(id);
+    }
+    else if (_battleField->getCardContainerContainingCard(id) != "")
+    {
+        return _battleField->getCardContainerContainingCard(id).startsWith("Enemy");
+    }
+
+    throw 0;
+}
+
+
+bool GameController::IsThisCardAllied(int id)
+{
+    if (_battleField->GetBattleLineContainingCard(id) != "")
+    {
+        return IsThisUnitAllied(id);
+    }
+    else if (_battleField->getCardContainerContainingCard(id) != "")
+    {
+        return _battleField->getCardContainerContainingCard(id).startsWith("Allied");
+    }
+
+    throw 0;
+}
+
+
 //<editor-fold desc="special rules">
 
 void GameController::HandleImpenetrableFogDeployed(const QString& battleLine)
@@ -350,17 +380,18 @@ void GameController::DeployTheCardOfId(int id)
         {
             auto targetId = Interacting->GetSelectedCardFromBattleField();
             dynamic_cast<Effect *>(card)->SetSelectedUnit(targetId);
-            card->OnDeploy();
             break;
         }
         case EffectsMeta::DeployTypeEnum::LineSelect:
         {
             auto battleLine = Interacting->GetSelectedEffectDeployBattleLine();
             dynamic_cast<Effect *>(card)->SetSelectedLine(battleLine);
-            card->OnDeploy();
             break;
         }
         }
+
+        card->OnDeploy();
+        card->OnDestroy();
     }
 
     Interacting->UpdateBattleFieldView();

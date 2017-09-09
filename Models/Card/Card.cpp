@@ -173,3 +173,16 @@ Card::Card(GameController *gameController)
     : GlobalGameController(gameController)
 {
 }
+
+
+QString Card::GetFactionString()
+{
+    if (GlobalGameController->IsThisUnitAllied(CardId))
+    {
+        return "Allied";
+    }
+    if (GlobalGameController->IsThisUnitEnemy(CardId))
+    {
+        return "Enemy";
+    }
+}

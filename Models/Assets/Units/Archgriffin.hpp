@@ -13,6 +13,7 @@ class Archgriffin : public Unit
 public:
     Archgriffin(GameController *gameController);
     void OnDeploy() override;
+    void OnDestroy() override;
 };
 
 

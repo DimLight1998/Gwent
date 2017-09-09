@@ -13,6 +13,7 @@ class Lacerate : public Effect
 public:
     Lacerate(GameController *gameController);
     void OnDeploy() override;
+    void OnDestroy() override;
 };
 
 

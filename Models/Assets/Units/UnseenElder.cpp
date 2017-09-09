@@ -50,3 +50,9 @@ void UnseenElder::OnDeploy()
         while (!isValid);
     }
 }
+
+
+void UnseenElder::OnDestroy()
+{
+    GlobalGameController->MoveCardFromCardsSetToCardsSet(CardId, GetFactionString() + "Discard", 0);
+}

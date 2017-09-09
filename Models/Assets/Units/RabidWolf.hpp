@@ -13,6 +13,7 @@ class RabidWolf : public Unit
 {
 public:
     RabidWolf(GameController *gameController);
+    void OnDestroy() override;
 };
 
 

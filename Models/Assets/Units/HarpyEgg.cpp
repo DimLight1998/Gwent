@@ -36,3 +36,10 @@ void HarpyEgg::OnDeathWish()
 
     GlobalGameController->SpawnCard("HarpyHatchling", deployLine, -1);
 }
+
+
+void HarpyEgg::OnDestroy()
+{
+    OnDeathWish();
+    GlobalGameController->MoveCardFromCardsSetToCardsSet(CardId, GetFactionString() + "Discard", 0);
+}

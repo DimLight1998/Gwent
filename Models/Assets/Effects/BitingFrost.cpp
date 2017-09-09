@@ -11,6 +11,10 @@ void BitingFrost::OnDeploy()
 }
 
 
+void BitingFrost::OnDestroy()
+{ GlobalGameController->MoveCardFromCardsSetToCardsSet(CardId, GetFactionString() + "Grave", 0); }
+
+
 BitingFrost::BitingFrost(GameController *gameController)
     : Effect(gameController)
 {

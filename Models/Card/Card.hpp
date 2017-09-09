@@ -54,6 +54,8 @@ public:
     void SetCardId(int CardId);
 
     virtual QString ToString();
+
+    QString GetFactionString();
 };
 
 

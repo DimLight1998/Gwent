@@ -12,3 +12,9 @@ RabidWolf::RabidWolf(GameController *gameController)
     CardMetaInfo = CardMeta::GetMetaByCardName("RabidWolf");
     Power        = dynamic_cast<UnitMeta *>(CardMetaInfo)->GetInitialPower();
 }
+
+
+void RabidWolf::OnDestroy()
+{
+    GlobalGameController->MoveCardFromCardsSetToCardsSet(CardId, GetFactionString() + "Discard", 0);
+}

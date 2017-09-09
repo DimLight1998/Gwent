@@ -13,6 +13,7 @@ class CelaenoHarpy : public Unit
 public:
     CelaenoHarpy(GameController *gameController);
     void OnDeploy() override;
+    void OnDestroy() override;
 };
 
 

@@ -14,6 +14,7 @@ public:
     BitingFrost(GameController *gameController);
 
     void OnDeploy() override;
+    void OnDestroy() override;
 };
 
 

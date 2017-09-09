@@ -5,6 +5,10 @@
 #include "ImpenetrableFog.hpp"
 
 
+void ImpenetrableFog::OnDestroy()
+{ GlobalGameController->MoveCardFromCardsSetToCardsSet(CardId, GetFactionString() + "Grave", 0); }
+
+
 ImpenetrableFog::ImpenetrableFog(GameController *gameController)
     : Effect(gameController)
 {

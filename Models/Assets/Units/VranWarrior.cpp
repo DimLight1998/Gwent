@@ -61,4 +61,10 @@ void VranWarrior::RoundUpdate()
         }
     }
 }
+
+
+void VranWarrior::OnDestroy()
+{
+    GlobalGameController->MoveCardFromCardsSetToCardsSet(CardId, GetFactionString() + "Grave", 0);
+}
 // todo update roundly

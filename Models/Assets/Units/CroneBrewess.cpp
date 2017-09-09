@@ -24,3 +24,9 @@ void CroneBrewess::OnDeploy()
         "CroneWhispess", "AlliedDeck", SelectedLine, SelectedIndex + (success ? 2 : 1)
     );
 }
+
+
+void CroneBrewess::OnDestroy()
+{
+    GlobalGameController->MoveCardFromCardsSetToCardsSet(CardId, GetFactionString() + "Grave", 0);
+}

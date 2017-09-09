@@ -98,6 +98,16 @@ public:
     /// \return true if yes else no
     bool IsThisUnitAllied(int id);
 
+    /// \brief test if the card is an enemy card (the unit can be anywhere as long as it's managed)
+    /// \param id id of the card
+    /// \return true if yes else no
+    bool IsThisCardEnemy(int id);
+
+    /// \brief test if the card is an allied card (the unit can be anywhere as long as it's managed)
+    /// \param id id of the card
+    /// \return true if yes else no
+    bool IsThisCardAllied(int id);
+
     /// \brief handle the result of deploying an impenetrable fog
     /// \param battleLine
     void HandleImpenetrableFogDeployed(const QString& battleLine);

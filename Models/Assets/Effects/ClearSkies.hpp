@@ -13,6 +13,7 @@ class ClearSkies : public Effect
 public:
     ClearSkies(GameController *gameController);
     void OnDeploy() override;
+    void OnDestroy() override;
 };
 
 

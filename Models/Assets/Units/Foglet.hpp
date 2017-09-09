@@ -12,6 +12,7 @@ class Foglet : public Unit
 {
 public:
     Foglet(GameController *gameController);
+    void OnDestroy() override;
 };
 
 

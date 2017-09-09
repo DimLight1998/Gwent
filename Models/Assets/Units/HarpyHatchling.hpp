@@ -12,6 +12,7 @@ class HarpyHatchling : public Unit
 {
 public:
     HarpyHatchling(GameController *gameController);
+    void OnDestroy() override;
 };
 
 

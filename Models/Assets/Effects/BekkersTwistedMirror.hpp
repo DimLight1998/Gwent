@@ -13,6 +13,7 @@ class BekkersTwistedMirror : public Effect
 public:
     BekkersTwistedMirror(GameController *gameController);
     void OnDeploy() override;
+    void OnDestroy() override;
 };
 
 

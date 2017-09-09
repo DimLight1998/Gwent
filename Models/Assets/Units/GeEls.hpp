@@ -13,6 +13,7 @@ class GeEls : public Unit
 public:
     GeEls(GameController *gameController);
     void OnDeploy() override;
+    void OnDestroy() override;
 };
 
 
