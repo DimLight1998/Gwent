@@ -84,6 +84,9 @@ public:
     /// \return battle line of deployment, in format (Enemy|Allied)(Melee|Siege|Ranged)
     QString GetSelectedEffectDeployBattleLine();
 
+    /// \brief update the view of the battle field
+    void UpdateBattleFieldView();
+
 protected:
     GameController *Controller;
 };

@@ -73,3 +73,15 @@ BattleLine::BattleLine()
     Units   = QVector<int>();
     Weather = WeatherEnum::None;
 }
+
+
+QString BattleLine::GetWeatherString() const
+{
+    switch (Weather)
+    {
+    case WeatherEnum::Rain:return "Rain";
+    case WeatherEnum::Frost:return "Frost";
+    case WeatherEnum::Fog:return "Fog";
+    case WeatherEnum::None:return "None";
+    }
+}

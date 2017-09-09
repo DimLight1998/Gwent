@@ -33,23 +33,5 @@ void Dagon::OnDeploy()
 
     auto id = GlobalGameController->SpawnCard(selectedCardMeta.GetName(), "AlliedDiscard", 0);
 
-    auto isValid = false;
-    do
-    {
-        auto battleLine = GlobalGameController->GetInteracting()->GetSelectedEffectDeployBattleLine();
-
-        if (battleLine.startsWith("Enemy"))
-        {
-            isValid = true;
-        }
-
-        if (isValid)
-        {
-            dynamic_cast<Effect *>(GlobalGameController->GetCardManager()->GetCardById(id))
-                ->SetSelectedLine(battleLine);
-
-            GlobalGameController->GetCardManager()->GetCardById(id)->OnDeploy();
-        }
-    }
-    while (!isValid);
+    GlobalGameController->DeployTheCardOfId(id);
 }

@@ -139,6 +139,7 @@ void GameController::HandleUnitSwallowed()
 
 void GameController::DeployUnitToBattleLine(int cardId, const QString& battleLineName, int index)
 {
+    qDebug() << battleLineName;
     _battleField->GetBattleLineByName(battleLineName)->InsertUnit(cardId, index);
     _cardManager->GetCardById(cardId)->OnDeploy();
 }
@@ -155,12 +156,16 @@ bool GameController::DeployCardFromContainerToBattleLine
 {
     auto container = _battleField->GetCardContainerByName(containerName);
 
-    for (auto& j:container->GetCards())
+    for (int i = 0; i < container->GetCards().size(); i++)
     {
-        if (_cardManager->GetCardById(j)->GetCardMetaInfo()->GetName() == cardName)
+        auto id = container->GetCards()[i];
+
+        qDebug() << "***" << _cardManager->GetCardById(id)->ToString();
+
+        if (_cardManager->GetCardById(id)->GetCardMetaInfo()->GetName() == cardName)
         {
-            container->RemoveCardOfId(j);
-            DeployUnitToBattleLine(j, battleLineName, index);
+            container->RemoveCardOfId(id);
+            DeployUnitToBattleLine(id, battleLineName, index);
             return true;
         }
     }
@@ -288,7 +293,7 @@ bool GameController::MoveCardFromCardsSetToCardsSet(int id, const QString& desti
 void GameController::DeployTheCardOfId(int id)
 {
     auto card = _cardManager->GetCardById(id);
-
+    qDebug() << "***" << card->ToString();
     if (Unit::IsCardUnit(card))
     {
         QString deployLine;
@@ -399,6 +404,7 @@ void GameController::StartGame()
                     {
                         std::cout << "Ally deploying card #" << cardId << std::endl;
                         DeployTheCardOfId(cardId);
+                        Interacting->UpdateBattleFieldView();
                     }
                 }
             }
@@ -479,7 +485,10 @@ void GameController::InitializeAllyCardData()
     auto deck = _battleField->GetCardContainerByName("AlliedDeck")->GetCards();
     _battleField->GetCardContainerByName("AlliedDeck")->ClearCardContainer();
 
-    std::mt19937 g(static_cast<unsigned int>(QDateTime::currentMSecsSinceEpoch()));
+    // todo hacked
+    //    std::mt19937 g(static_cast<unsigned int>(QDateTime::currentMSecsSinceEpoch()));
+    std::mt19937 g(0);
+
     std::shuffle(deck.begin(), deck.end(), g);
 
     // todo cheat code below

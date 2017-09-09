@@ -176,8 +176,8 @@ QString InteractingController::GetSelectedEffectDeployBattleLine()
 {
     std::cout << "You are now deploying the effect to a battle line, please input a integer" << std::endl;
     std::cout << "the int represent the battle line, as following:" << std::endl;
-    std::cout << " 1 - AlliedMelee\n2 - AlliedRanged\n3 - AlliedSiege\n";
-    std::cout << " 4 - EnemyMelee\n5 - EnemyRanged\n6 - EnemySiege\n";
+    std::cout << "1 - AlliedMelee\n2 - AlliedRanged\n3 - AlliedSiege\n";
+    std::cout << "4 - EnemyMelee\n5 - EnemyRanged\n6 - EnemySiege\n";
 
     int input;
     std::cin >> input;
@@ -198,5 +198,69 @@ void InteractingController::GetGlobalSelection()
     std::cout << "Only to confirm, input a integer\n";
     int i;
     std::cin >> i;
+}
+
+
+void InteractingController::UpdateBattleFieldView()
+{
+    std::cout << "================================\n";
+    std::cout << "Enemy Hand\n";
+    std::cout << "[" << Controller->GetBattleField()->GetCardContainerByName("EnemyHand")->GetCards().size()
+              << " cards remained]\n";
+    std::cout << "================================\n";
+    std::cout << "Enemy Siege\n";
+    for (const auto item:Controller->GetBattleField()->GetBattleLineByName("EnemySiege")->GetUnits())
+    {
+        std::cout << Controller->GetBattleField()->GetBattleLineByName("EnemySiege")->GetWeatherString().toStdString()
+                  << std::endl;
+        std::cout << Controller->GetCardManager()->GetCardById(item)->ToString().toStdString() << std::endl;
+    }
+    std::cout << "================================\n";
+    std::cout << "Enemy Ranged\n";
+    for (const auto item:Controller->GetBattleField()->GetBattleLineByName("EnemyRanged")->GetUnits())
+    {
+        std::cout << Controller->GetBattleField()->GetBattleLineByName("EnemyRanged")->GetWeatherString().toStdString()
+                  << std::endl;
+        std::cout << Controller->GetCardManager()->GetCardById(item)->ToString().toStdString() << std::endl;
+    }
+    std::cout << "================================\n";
+    std::cout << "Enemy Melee\n";
+    for (const auto item:Controller->GetBattleField()->GetBattleLineByName("EnemyMelee")->GetUnits())
+    {
+        std::cout << Controller->GetBattleField()->GetBattleLineByName("EnemyMelee")->GetWeatherString().toStdString()
+                  << std::endl;
+        std::cout << Controller->GetCardManager()->GetCardById(item)->ToString().toStdString() << std::endl;
+    }
+    std::cout << "================================\n";
+    std::cout << "Allied Siege\n";
+    for (const auto item:Controller->GetBattleField()->GetBattleLineByName("AlliedMelee")->GetUnits())
+    {
+        std::cout << Controller->GetBattleField()->GetBattleLineByName("AlliedMelee")->GetWeatherString().toStdString()
+                  << std::endl;
+        std::cout << Controller->GetCardManager()->GetCardById(item)->ToString().toStdString() << std::endl;
+    }
+    std::cout << "================================\n";
+    std::cout << "Allied Ranged\n";
+    for (const auto item:Controller->GetBattleField()->GetBattleLineByName("AlliedRanged")->GetUnits())
+    {
+        std::cout << Controller->GetBattleField()->GetBattleLineByName("AlliedRanged")->GetWeatherString().toStdString()
+                  << std::endl;
+        std::cout << Controller->GetCardManager()->GetCardById(item)->ToString().toStdString() << std::endl;
+    }
+    std::cout << "================================\n";
+    std::cout << "Allied Melee\n";
+    for (const auto item:Controller->GetBattleField()->GetBattleLineByName("AlliedSiege")->GetUnits())
+    {
+        std::cout << Controller->GetBattleField()->GetBattleLineByName("AlliedSiege")->GetWeatherString().toStdString()
+                  << std::endl;
+        std::cout << Controller->GetCardManager()->GetCardById(item)->ToString().toStdString() << std::endl;
+    }
+    std::cout << "================================\n";
+    std::cout << "Allied Hand\n";
+    for (const auto item:Controller->GetBattleField()->GetCardContainerByName("AlliedHand")->GetCards())
+    {
+        std::cout << Controller->GetCardManager()->GetCardById(item)->ToString().toStdString() << std::endl;
+    }
+    std::cout << "================================\n";
 }
 

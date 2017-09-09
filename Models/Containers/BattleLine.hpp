@@ -41,6 +41,8 @@ public:
 
 
     const QVector<int>& GetUnits() const;
+
+    QString GetWeatherString() const;
 };
 
 
