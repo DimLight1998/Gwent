@@ -403,6 +403,7 @@ void GameController::DeployTheCardOfId(int id)
         }
         }
 
+        MoveCardFromCardsSetToCardsSet(card->GetCardId(), "AlliedGrave", 0);
         card->OnDeploy();
         card->OnDestroy();
     }
