@@ -21,6 +21,7 @@ class BattleField;
 
 class GameController : public Client
 {
+Q_OBJECT
 private:
     BattleField *_battleField = nullptr;
     CardManager *_cardManager = nullptr;
@@ -137,6 +138,7 @@ public:
     /// \param id id of the card
     void DeployTheCardOfId(int id);
 
+    /// \brief called to controll the game logic
     void StartGame();
 
     BattleField *GetBattleField() const;
@@ -166,13 +168,17 @@ protected:
     /// \brief reset the data used for a game
     void ResetGameData();
 
-    /// \brief called per round to initialize data for game
+    /// \brief called per round to initialize data for game, called per round
     void InitializeRoundGameData();
 
-    /// \brief initialize allied cards' data
+    /// \brief initialize allied cards' data, called per game
     /// \note before you call the function, you should have a valid card group storing in AllyCardGroup
     /// \note after the call, the battle side of allied side should be ready
     void InitializeAllyCardData();
+
+
+    /// \brief called before the game to set up network
+    void InitializeNetwork();
 
     //</editor-fold>
 

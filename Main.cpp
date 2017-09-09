@@ -9,10 +9,10 @@
 int main(int argc, char **argv)
 {
     std::cout << "Welcome to Gwent in command line!\n";
+    QApplication application(argc, argv);
 
     GameController gameController;
     gameController.StartGame();
 
-    //    QApplication application(argc, argv);
-    //    return application.exec();
+    return application.exec();
 }

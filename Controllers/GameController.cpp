@@ -415,6 +415,8 @@ void GameController::StartGame()
     // todo remove hack
     HackBeforeStart();
 
+    InitializeNetwork();
+
     std::cout << "A game is starting...\n";
     ResetGameData();
 
@@ -604,5 +606,16 @@ void GameController::HackBeforeStart()
         AllyCardGroup.InsertIntoCardGroup(*card);
         delete card;
     }
+}
+
+
+void GameController::InitializeNetwork()
+{
+    qDebug() << "Initializing network";
+    // todo should be modified
+    SetServerAddress("localhost");
+    SetServerPort(6666);
+    RegisterToHost();
+    SendMessage("Hello server");
 }
 //</editor-fold>

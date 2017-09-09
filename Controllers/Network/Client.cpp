@@ -5,6 +5,8 @@
 #include <QtCore/QDataStream>
 #include <QtNetwork/QNetworkInterface>
 #include <QtCore/QTimer>
+#include <QtCore/QEventLoop>
+#include <QTcpSocket>
 #include "Client.hpp"
 
 
@@ -23,6 +25,7 @@ void Client::RegisterToHost()
     auto message = "REGISTER|" + localHost + "|" + QString::number(port);
     qDebug() << "Registering" << message;
     SendMessage(message);
+    qDebug() << "Registering information sent";
 }
 
 
@@ -36,7 +39,22 @@ void Client::SendMessage(const QString& message)
     out.setVersion(QDataStream::Qt_5_9);
     out << message;
 
+    auto length = block.length();
+    auto sent   = 0;
+
     sendingSocket->write(block);
+
+    QEventLoop eventLoop;
+    connect(sendingSocket, &QTcpSocket::bytesWritten, [&eventLoop, &sent, length](qint64 payloadLength)
+    {
+      sent += payloadLength;
+      if (sent >= length)
+      {
+          eventLoop.exit(0);
+      }
+    });
+    eventLoop.exec();
+
     sendingSocket->disconnectFromHost();
     sendingSocket->close();
 
@@ -117,4 +135,9 @@ QString Client::GetLocalAddress()
     }
 
     return QHostAddress(QHostAddress::LocalHost).toString();
+}
+
+
+void Client::HandleMessage(const QString& message)
+{
 }

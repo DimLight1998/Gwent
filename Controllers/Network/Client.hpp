@@ -24,7 +24,7 @@ protected:
 
     QString GetLocalAddress();
 
-    virtual void HandleMessage(const QString& message) = 0;
+    virtual void HandleMessage(const QString& message);
 public:
     const QString& GetServerAddress() const;
     void SetServerAddress(const QString& ServerAddress);
