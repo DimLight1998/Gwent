@@ -100,11 +100,11 @@ void GameController::HandleImpenetrableFogDeployed(const QString& battleLine)
     // todo Maybe the location should be selected by player? Place to rightmost place now.
     int index = GetBattleField()->GetBattleLineByName(fogletDeployLine)->GetUnits().size();
 
-    auto success = DeployCardFromContainerToBattleLine("Foglet", "AlliedDeck", fogletDeployLine, index);
+    auto success = DeployUnitFromContainerToBattleLine("Foglet", "AlliedDeck", fogletDeployLine, index);
 
     if (!success)
     {
-        DeployCardFromContainerToBattleLine("Foglet", "AlliedGrave", fogletDeployLine, index);
+        DeployUnitFromContainerToBattleLine("Foglet", "AlliedGrave", fogletDeployLine, index);
     }
 }
 
@@ -120,7 +120,7 @@ void GameController::HandleGoldCardDeploying()
     auto size  = _battleField->GetBattleLineByName(lineName)->GetUnits().size();
     auto index = qrand() % (size + 1);
 
-    DeployCardFromContainerToBattleLine("Roach", "AlliedDeck", lineName, index);
+    DeployUnitFromContainerToBattleLine("Roach", "AlliedDeck", lineName, index);
 }
 
 
@@ -169,7 +169,8 @@ void GameController::HandleUnitSwallowed()
 
 void GameController::DeployUnitToBattleLine(int cardId, const QString& battleLineName, int index)
 {
-    _battleField->GetBattleLineByName(battleLineName)->InsertUnit(cardId, index);
+    auto containerName = _battleField->getCardContainerContainingCard(cardId);
+    MoveCardFromCardsSetToCardsSet(cardId, containerName, battleLineName, index);
     _cardManager->GetCardById(cardId)->OnDeploy();
 }
 
@@ -180,7 +181,7 @@ void GameController::SetWeatherToBattleLine(const QString& battleLineName, Battl
 }
 
 
-bool GameController::DeployCardFromContainerToBattleLine
+bool GameController::DeployUnitFromContainerToBattleLine
     (const QString& cardName, const QString& containerName, const QString& battleLineName, int index)
 {
     auto container = _battleField->GetCardContainerByName(containerName);
@@ -192,7 +193,9 @@ bool GameController::DeployCardFromContainerToBattleLine
         if (_cardManager->GetCardById(id)->GetCardMetaInfo()->GetName() == cardName)
         {
             container->RemoveCardOfId(id);
-            DeployUnitToBattleLine(id, battleLineName, index);
+            _battleField->GetBattleLineByName(battleLineName)->InsertUnit(id, index);
+            _cardManager->GetCardById(id)->OnDeploy();
+
             return true;
         }
     }
@@ -339,31 +342,32 @@ void GameController::DeployTheCardOfId(int id)
                 {
                     continue;
                 }
+                break;
             case UnitMeta::DeployLocationEnum::Ranged:
                 if (deployLine != prefix + "Ranged")
                 {
                     continue;
                 }
+                break;
             case UnitMeta::DeployLocationEnum::Siege:
                 if (deployLine != prefix + "Siege")
                 {
                     continue;
                 }
+                break;
             case UnitMeta::DeployLocationEnum::Any:
-            {
                 if (!deployLine.startsWith(prefix))
                 {
                     continue;
                 }
-
-                MoveCardFromCardsSetToCardsSet(id, deployLine, deployIndex);
-                dynamic_cast<Unit *>(card)->SetSelectedLine(deployLine);
-                dynamic_cast<Unit *>(card)->SetSelectedIndex(deployIndex);
-                card->OnDeploy();
-                isValid = true;
                 break;
             }
-            }
+
+            MoveCardFromCardsSetToCardsSet(id, deployLine, deployIndex);
+            dynamic_cast<Unit *>(card)->SetSelectedLine(deployLine);
+            dynamic_cast<Unit *>(card)->SetSelectedIndex(deployIndex);
+            card->OnDeploy();
+            isValid = true;
         }
         while (!isValid);
     }
@@ -437,6 +441,7 @@ void GameController::StartGame()
                     else
                     {
                         std::cout << "Ally deploying card #" << cardId << std::endl;
+                        std::cout << _cardManager->GetCardById(cardId)->ToString().toStdString() << std::endl;
                         DeployTheCardOfId(cardId);
                     }
                 }

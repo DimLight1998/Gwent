@@ -177,11 +177,11 @@ Card::Card(GameController *gameController)
 
 QString Card::GetFactionString()
 {
-    if (GlobalGameController->IsThisUnitAllied(CardId))
+    if (GlobalGameController->IsThisCardAllied(CardId))
     {
         return "Allied";
     }
-    if (GlobalGameController->IsThisUnitEnemy(CardId))
+    if (GlobalGameController->IsThisCardEnemy(CardId))
     {
         return "Enemy";
     }

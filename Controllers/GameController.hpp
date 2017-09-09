@@ -46,7 +46,7 @@ public:
     /// \param index index of the insertion
     /// \return true if success, else false
     /// \throw 4593453 if name incorrect
-    bool DeployCardFromContainerToBattleLine
+    bool DeployUnitFromContainerToBattleLine
         (const QString& cardName, const QString& containerName, const QString& battleLineName, int index);
 protected:
     void HandleMessage(const QString& message) override;

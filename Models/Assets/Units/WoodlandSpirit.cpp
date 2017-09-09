@@ -34,7 +34,8 @@ void WoodlandSpirit::OnDeploy()
         GlobalGameController->SpawnCard("RabidWolf", selectedLine, size);
     }
 
-    GlobalGameController->SetWeatherToBattleLine(enemyLine, BattleLine::WeatherEnum::Frost);
+    GlobalGameController->SetWeatherToBattleLine(enemyLine, BattleLine::WeatherEnum::Fog);
+    GlobalGameController->HandleImpenetrableFogDeployed(SelectedLine);
 }
 
 

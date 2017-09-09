@@ -22,7 +22,7 @@ void ArachasHatchling::OnDeploy()
     {
         auto size = GlobalGameController->GetBattleField()->GetBattleLineByName("AlliedRanged")->GetUnits().size();
 
-        success = GlobalGameController->DeployCardFromContainerToBattleLine(
+        success = GlobalGameController->DeployUnitFromContainerToBattleLine(
             "Arachas", "AlliedDeck", "AlliedRanged", size
         );
     }

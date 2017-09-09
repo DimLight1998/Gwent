@@ -16,12 +16,12 @@ CroneWhispess::CroneWhispess(GameController *gameController)
 
 void CroneWhispess::OnDeploy()
 {
-    auto success = GlobalGameController->DeployCardFromContainerToBattleLine(
+    GlobalGameController->DeployUnitFromContainerToBattleLine(
         "CroneBrewess", "AlliedDeck", SelectedLine, SelectedIndex + 1
     );
 
-    GlobalGameController->DeployCardFromContainerToBattleLine(
-        "CroneWeavess", "AlliedDeck", SelectedLine, SelectedIndex + (success ? 2 : 1)
+    GlobalGameController->DeployUnitFromContainerToBattleLine(
+        "CroneWeavess", "AlliedDeck", SelectedLine, SelectedIndex + 1
     );
 }
 

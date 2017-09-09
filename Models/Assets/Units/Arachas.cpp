@@ -21,7 +21,7 @@ void Arachas::OnDeploy()
 
     while (success)
     {
-        success = GlobalGameController->DeployCardFromContainerToBattleLine(
+        success = GlobalGameController->DeployUnitFromContainerToBattleLine(
             "Arachas", "AlliedDeck", SelectedLine, SelectedIndex + 1
         );
     }
