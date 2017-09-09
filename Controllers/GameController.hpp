@@ -5,6 +5,8 @@
 #ifndef GWENT_GAMECONTROLLER_HPP
 #define GWENT_GAMECONTROLLER_HPP
 
+#include <QEventLoop>
+
 #include "../Models/Containers/BattleField.hpp"
 #include "../Models/Containers/BattleLine.hpp"
 #include "../Models/Containers/CardManager.hpp"
@@ -23,8 +25,9 @@ class GameController : public Client
 {
 Q_OBJECT
 private:
-    BattleField *_battleField = nullptr;
-    CardManager *_cardManager = nullptr;
+    BattleField *_battleField        = nullptr;
+    CardManager *_cardManager        = nullptr;
+    QEventLoop  *_enemyOperationLock = nullptr;
 
 public:
     /// \brief this function can deploy a unit to a specific battle line,
@@ -162,8 +165,15 @@ protected:
     int  AllyScore;
     int  EnemyScore;
 
+    int  PlayerNumber;
+    bool IsPlayer0Ready;
+    bool IsPlayer1Ready;
+
+    bool IsAllyTurn;
+
     CardGroup AllyCardGroup;
     CardGroup EnemyCardGroup;
+
 
     /// \brief reset the data used for a game
     void ResetGameData();
@@ -185,6 +195,10 @@ protected:
 private:
     /// \brief hacking code goes here
     void HackBeforeStart();
+
+signals:
+    void EnemyOperationDone();
+    void BothSidesGetReady();
 };
 
 

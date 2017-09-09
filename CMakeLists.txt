@@ -121,12 +121,20 @@ set(
         Controllers/Network/Server.cpp
         Controllers/Network/Server.hpp
         Controllers/Network/Client.hpp
-)
+        Controllers/RemoteController.cpp Controllers/RemoteController.hpp)
 
 add_executable(Gwent ${SOURCE_FILES})
+add_executable(
+        GwentServer Controllers/Network/Server.cpp
+        Controllers/Network/Server.hpp
+        Controllers/RemoteController.cpp
+        Controllers/RemoteController.hpp
+        ServerMain.cpp
+)
 add_executable(ClientTest Controllers/Network/Client.cpp Controllers/Network/Client.hpp Tests/ClientMain.cpp)
 add_executable(ServerTest Controllers/Network/Server.cpp Controllers/Network/Server.hpp Tests/ServerMain.cpp)
 
 target_link_libraries(Gwent Qt5::Widgets Qt5::Core Qt5::Network)
+target_link_libraries(GwentServer Qt5::Core Qt5::Network)
 target_link_libraries(ClientTest Qt5::Widgets Qt5::Core Qt5::Network)
 target_link_libraries(ServerTest Qt5::Core Qt5::Network)

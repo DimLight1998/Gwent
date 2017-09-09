@@ -4,6 +4,8 @@
 
 #include <QtCore/QDateTime>
 #include <c++/iostream>
+#include <QtCore/QEventLoop>
+#include <QtCore/QTimer>
 #include "GameController.hpp"
 
 #include "../Models/Containers/CardContainer.hpp"
@@ -420,32 +422,38 @@ void GameController::StartGame()
     std::cout << "A game is starting...\n";
     ResetGameData();
 
+    // wait until both sides are ready
+    QEventLoop eventLoop;
+    connect(this, &GameController::BothSidesGetReady, &eventLoop, &QEventLoop::quit);
+    eventLoop.exec();
+
+    //<editor-fold desc="Main controlling code">
+
+    // first round, if player id is 0, he starts first
+    // todo, modify to random
+
     for (int i = 0; i < 3; i++)
     {
-        std::cout << "A round is starting...\n";
         InitializeRoundGameData();
-        while (true)
-        {
-            std::cout << "Gaming loop entered...\n";
 
+        bool isRoundOver = false;
+
+        while (!isRoundOver)
+        {
             if (!IsAllyAbdicated)
             {
                 bool abdicate;
                 int  cardId;
 
-                std::cout << "Ally input <>\n";
-                Interacting->GetRoundInput(abdicate, cardId);
+                if (IsAllyTurn)
+                {
+                    std::cout << "Ally input <================>\n";
+                    Interacting->GetRoundInput(abdicate, cardId);
 
-                if (abdicate)
-                {
-                    IsAllyAbdicated = true;
-                    std::cout << "Ally abdicate the round\n";
-                }
-                else
-                {
-                    if (!_battleField->GetCardContainerByName("AlliedHand")->IsCardContainerContainingCard(cardId))
+                    if (abdicate)
                     {
-                        break;
+                        IsAllyAbdicated = true;
+                        std::cout << "Ally abdicate the round\n";
                     }
                     else
                     {
@@ -453,18 +461,26 @@ void GameController::StartGame()
                         std::cout << _cardManager->GetCardById(cardId)->ToString().toStdString() << std::endl;
                         DeployTheCardOfId(cardId);
                     }
+
+                    qDebug() << "Operation done, sending info";
+
+                    // todo use smaller synchronization
+
+                    SendMessage("OperationDone|" + QString::number(PlayerNumber));
+                    qDebug() << "Sending done";
+
+                    IsAllyTurn = false;
                 }
+
+                qDebug() << "Wait for enemy";
+                _enemyOperationLock->exec();
             }
 
+            qDebug() << "Enemy done, checking gameover";
             if (IsAllyAbdicated && IsEnemyAbdicated)
             {
-                break;
+                isRoundOver = true;
             }
-        }
-
-        if (AllyScore == 2 || EnemyScore == 2)
-        {
-            break;
         }
     }
 }
@@ -472,17 +488,34 @@ void GameController::StartGame()
 
 void GameController::ResetGameData()
 {
-    std::cout << "Resetting game data...\n";
+    std::cout << "Getting playing order...\n";
 
     IsAllyAbdicated  = false;
     IsEnemyAbdicated = false;
     AllyScore        = 0;
     EnemyScore       = 0;
+    PlayerNumber     = -1;
+
+    IsPlayer0Ready = false;
+    IsPlayer1Ready = false;
+
+    IsAllyTurn = false;
+
+    auto localAddress = GetLocalAddress();
+    auto localPort    = ClientServer->serverPort();
+    SendMessage("PLAYER|" + localAddress + "|" + QString::number(localPort));
+
+    std::cout << "Resetting game data...\n";
+
 
     // the card group data should be ready already
     delete _battleField;
     delete _cardManager;
     delete Interacting;
+
+    delete _enemyOperationLock;
+    _enemyOperationLock = new QEventLoop(this);
+    connect(this, &GameController::EnemyOperationDone, _enemyOperationLock, &QEventLoop::quit);
 
     std::cout << "Initializing battle field, card manager and interacting system...\n";
 
@@ -521,7 +554,48 @@ void GameController::InitializeRoundGameData()
 
 void GameController::HandleMessage(const QString& message)
 {
-    qDebug() << message;
+    qDebug() << "Received broadcast Message" << message;
+
+    if (message.startsWith("ALLOCATE"))
+    {
+        auto slices      = message.split('|');
+        auto ip          = slices[1];
+        auto port        = slices[2].toInt();
+        auto playerOrder = slices[3].toInt();
+
+        if (ip == GetLocalAddress() && port == ClientServer->serverPort())
+        {
+            PlayerNumber = playerOrder;
+            IsAllyTurn   = (playerOrder == 0);
+        }
+
+        if (playerOrder == 0)
+        {
+            IsPlayer0Ready = true;
+        }
+        if (playerOrder == 1)
+        {
+            IsPlayer0Ready = true;
+            IsPlayer1Ready = true;
+        }
+
+        if (IsPlayer0Ready && IsPlayer1Ready)
+        {
+            emit(BothSidesGetReady());
+        }
+
+        return;
+    }
+
+    if (message.startsWith("OperationDone"))
+    {
+        auto playerNumber = message.split('|')[1].toInt();
+        if (playerNumber != PlayerNumber)
+        {
+            IsAllyTurn = true;
+            emit(EnemyOperationDone());
+        }
+    }
 }
 
 
@@ -596,7 +670,8 @@ void GameController::HackBeforeStart()
             "Dagon",
             "WoodlandSpirit", "Caranthir", "GeraltIgni", "GeEls",
             "CroneWeavess", "CroneWhispess", "CroneBrewess", "Frightener", "Roach", "BekkersTwistedMirror",
-            "FirstLight", "BitingFrost", "ImpenetrableFog", "Foglet", "Foglet", "Foglet", "TorrentialRain", "Lacerate",
+            "FirstLight", "BitingFrost", "ImpenetrableFog", "Foglet", "Foglet", "Foglet", "TorrentialRain",
+            "Lacerate",
             "CelaenoHarpy", "Arachas", "Arachas", "Arachas", "EarthElemental", "EarthElemental", "EarthElemental",
             "Archgriffin", "VranWarrior", "VranWarrior", "CelaenoHarpy", "CelaenoHarpy"
         }
@@ -613,9 +688,8 @@ void GameController::InitializeNetwork()
 {
     qDebug() << "Initializing network";
     // todo should be modified
-    SetServerAddress("localhost");
-    SetServerPort(6666);
+    SetRemoteServerAddress("localhost");
+    SetRemoteServerPort(6666);
     RegisterToHost();
-    SendMessage("Hello server");
 }
 //</editor-fold>

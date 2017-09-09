@@ -27,9 +27,9 @@ protected:
     virtual void HandleMessage(const QString& message);
 public:
     const QString& GetServerAddress() const;
-    void SetServerAddress(const QString& ServerAddress);
+    void SetRemoteServerAddress(const QString& ServerAddress);
     quint16 GetServerPort() const;
-    void SetServerPort(quint16 ServerPort);
+    void SetRemoteServerPort(quint16 ServerPort);
 protected slots:
     void HandleNewConnection();
 };

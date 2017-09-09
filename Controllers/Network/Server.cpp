@@ -68,26 +68,40 @@ void Server::HandleNewConnection()
     else
     {
         // broadcast
-        for (const auto& item:Clients)
-        {
-            auto address = item.first;
-            auto port    = item.second;
+        Broadcast(readMessage);
 
-            qDebug() << "Sending" << readMessage << "to" << address << port;
-
-            auto *sendingSocket = new QTcpSocket(this);
-            sendingSocket->connectToHost(address, port);
-
-            QByteArray  block;
-            QDataStream out(&block, QIODevice::WriteOnly);
-            out.setVersion(QDataStream::Qt_5_9);
-            out << readMessage;
-
-            sendingSocket->write(block);
-            sendingSocket->disconnectFromHost();
-            sendingSocket->close();
-
-            QTimer::singleShot(2000, sendingSocket, &QTcpSocket::deleteLater);
-        }
+        // handle
+        HandleMessage(readMessage);
     }
+}
+
+
+void Server::Broadcast(const QString& readMessage)
+{
+    for (const auto& item:Clients)
+    {
+        auto address = item.first;
+        auto port    = item.second;
+
+        qDebug() << "Sending" << readMessage << "to" << address << port;
+
+        auto *sendingSocket = new QTcpSocket(this);
+        sendingSocket->connectToHost(address, port);
+
+        QByteArray  block;
+        QDataStream out(&block, QIODevice::WriteOnly);
+        out.setVersion(QDataStream::Qt_5_9);
+        out << readMessage;
+
+        sendingSocket->write(block);
+        sendingSocket->disconnectFromHost();
+        sendingSocket->close();
+
+        QTimer::singleShot(2000, sendingSocket, &deleteLater);
+    }
+}
+
+
+void Server::HandleMessage(const QString& message)
+{
 }

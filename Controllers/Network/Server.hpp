@@ -20,12 +20,15 @@ protected:
     quint16 ServerPort;
 
     QVector<QPair<QString, quint16>> Clients;
+
+    virtual void HandleMessage(const QString& message);
 public:
     quint16 GetServerPort() const;
     void SetServerPort(quint16 ServerPort);
 
 protected:
     void HandleNewConnection();
+    void Broadcast(const QString& readMessage);
 };
 
 

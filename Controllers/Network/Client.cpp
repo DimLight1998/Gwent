@@ -68,7 +68,7 @@ const QString& Client::GetServerAddress() const
 }
 
 
-void Client::SetServerAddress(const QString& ServerAddress)
+void Client::SetRemoteServerAddress(const QString& ServerAddress)
 {
     Client::ServerAddress = ServerAddress;
 }
@@ -80,7 +80,7 @@ quint16 Client::GetServerPort() const
 }
 
 
-void Client::SetServerPort(quint16 ServerPort)
+void Client::SetRemoteServerPort(quint16 ServerPort)
 {
     Client::ServerPort = ServerPort;
 }
@@ -88,6 +88,8 @@ void Client::SetServerPort(quint16 ServerPort)
 
 void Client::HandleNewConnection()
 {
+    qDebug() << "Client new connection received";
+
     auto socket = ClientServer->nextPendingConnection();
 
     socket->waitForReadyRead(300);
