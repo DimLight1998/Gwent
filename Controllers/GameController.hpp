@@ -25,9 +25,10 @@ class GameController : public Client
 {
 Q_OBJECT
 private:
-    BattleField *_battleField        = nullptr;
-    CardManager *_cardManager        = nullptr;
-    QEventLoop  *_enemyOperationLock = nullptr;
+    BattleField *_battleField         = nullptr;
+    CardManager *_cardManager         = nullptr;
+    QEventLoop  *_enemyOperationLock  = nullptr;
+    QEventLoop  *_synchronizationLock = nullptr;
 
 public:
     /// \brief this function can deploy a unit to a specific battle line,
@@ -171,6 +172,8 @@ protected:
 
     bool IsAllyTurn;
 
+    bool IsSynchronized;
+
     CardGroup AllyCardGroup;
     CardGroup EnemyCardGroup;
 
@@ -191,6 +194,8 @@ protected:
     void InitializeNetwork();
 
     void SynchronizeRemoteData();
+    void SynchronizeRemoteDataAllySideOnly();
+    void SynchronizeLocalData(const QString& message);
 
     //</editor-fold>
 protected:
@@ -206,6 +211,7 @@ private:
     void HackBeforeStart();
 
 signals:
+    void SynchronizationDone();
     void EnemyOperationDone();
     void BothSidesGetReady();
 };

@@ -3,6 +3,7 @@
 //
 
 #include "BattleLine.hpp"
+#include <QDebug>
 
 
 BattleLine::WeatherEnum BattleLine::GetWeather() const
@@ -89,6 +90,31 @@ QString BattleLine::GetWeatherString() const
 
 QString BattleLine::ToString()
 {
+    auto weather = QString();
+    switch (Weather)
+    {
+    case WeatherEnum::Rain:
+    {
+        weather = "Rain";
+        break;
+    }
+    case WeatherEnum::Frost:
+    {
+        weather = "Frost";
+        break;
+    }
+    case WeatherEnum::Fog:
+    {
+        weather = "Fog";
+        break;
+    }
+    case WeatherEnum::None:
+    {
+        weather = "None";
+        break;
+    }
+    }
+
     auto list = QStringList();
 
     for (const auto item:Units)
@@ -96,16 +122,32 @@ QString BattleLine::ToString()
         list.append(QString::number(item));
     }
 
-    return list.join('%');
+    return weather + (list.empty() ? "" : "%") + list.join('%');
 }
 
 
 void BattleLine::UpdateFromString(const QString& source)
 {
-    auto list = source.split('%');
+    auto list = source.split('%', QString::SkipEmptyParts);
+
+    auto weather = list[0];
+
+    if (weather == "Rain")
+    { Weather = WeatherEnum::Rain; }
+    if (weather == "Frost")
+    { Weather = WeatherEnum::Frost; }
+    if (weather == "Fog")
+    { Weather = WeatherEnum::Fog; }
+    if (weather == "None")
+    { Weather = WeatherEnum::None; }
+
     Units.clear();
-    for (const auto& item:list)
+
+    if (list.size() > 1)
     {
-        Units.append(item.toInt());
+        for (const auto& item:list.mid(1, -1))
+        {
+            Units.append(item.toInt());
+        }
     }
 }

@@ -83,7 +83,7 @@ QString CardContainer::ToString()
 
 void CardContainer::UpdateFromString(const QString& source)
 {
-    auto list = source.split('%');
+    auto list = source.split('%', QString::SkipEmptyParts);
     Cards.clear();
     for (const auto& item:list)
     {

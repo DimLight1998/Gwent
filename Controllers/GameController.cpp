@@ -460,7 +460,15 @@ void GameController::StartGame()
                 if (IsAllyTurn)
                 {
                     // todo injection
+                    qDebug() << "############## Before action ############";
                     SynchronizeRemoteData();
+
+                    // Synchronization
+                    if (!IsSynchronized)
+                    {
+                        _synchronizationLock->exec();
+                    }
+                    IsSynchronized = false;
 
                     Interacting->UpdateBattleFieldView();
 
@@ -480,8 +488,7 @@ void GameController::StartGame()
                         DeployTheCardOfId(cardId);
                     }
 
-                    qDebug() << "Operation done, sending info";
-
+                    qDebug() << "################# After action ################";
                     // todo use smaller synchronization
                     SynchronizeRemoteData();
 
@@ -520,6 +527,8 @@ void GameController::ResetGameData()
 
     IsAllyTurn = false;
 
+    IsSynchronized = false;
+
     auto localAddress = GetLocalAddress();
     auto localPort    = ClientServer->serverPort();
     SendMessage("PLAYER|" + localAddress + "|" + QString::number(localPort));
@@ -533,8 +542,13 @@ void GameController::ResetGameData()
     delete Interacting;
 
     delete _enemyOperationLock;
-    _enemyOperationLock = new QEventLoop(this);
+    delete _synchronizationLock;
+
+    _enemyOperationLock  = new QEventLoop(this);
+    _synchronizationLock = new QEventLoop(this);
+
     connect(this, &GameController::EnemyOperationDone, _enemyOperationLock, &QEventLoop::quit);
+    connect(this, &GameController::SynchronizationDone, _synchronizationLock, &QEventLoop::quit);
 
     std::cout << "Initializing battle field, card manager and interacting system...\n";
 
@@ -568,7 +582,7 @@ void GameController::ResetGameData()
 
     InitializeAllyCardData();
 
-    SynchronizeRemoteData();
+    SynchronizeRemoteDataAllySideOnly();
 }
 
 
@@ -584,7 +598,7 @@ void GameController::HandleMessage(const QString& message)
 {
     if (message.startsWith("ALLOCATE"))
     {
-        auto slices      = message.split('|');
+        auto slices      = message.split('|', QString::SkipEmptyParts);
         auto ip          = slices[1];
         auto port        = slices[2].toInt();
         auto playerOrder = slices[3].toInt();
@@ -615,7 +629,7 @@ void GameController::HandleMessage(const QString& message)
 
     if (message.startsWith("OperationDone"))
     {
-        auto playerNumber = message.split('|')[1].toInt();
+        auto playerNumber = message.split('|', QString::SkipEmptyParts)[1].toInt();
         if (playerNumber != PlayerNumber)
         {
             IsAllyTurn = true;
@@ -626,68 +640,74 @@ void GameController::HandleMessage(const QString& message)
 
     if (message.startsWith("SynchronizeStatus"))
     {
-        auto senderNumber  = message.split('|')[1].toInt();
-        auto statusMessage = message.split('|')[2];
+        SynchronizeLocalData(message);
+    }
+}
 
-        if (senderNumber != PlayerNumber)
+
+void GameController::SynchronizeLocalData(const QString& message)
+{
+    auto senderNumber  = message.split('|', QString::SkipEmptyParts)[1].toInt();
+    auto statusMessage = message.split('|', QString::SkipEmptyParts)[2];
+
+    if (senderNumber != PlayerNumber)
+    {
+        qDebug() << "****sync based on****" << message;
+        qDebug() << "Dealing!===============";
+        // todo last work stops here at 13:08 on 2017/09/10
+
+        auto statusMessageSlices = statusMessage.split("<", QString::SkipEmptyParts);
+        for (const auto& item:statusMessageSlices)
         {
-            qDebug() << "Dealing!";
-            // todo last work stops here at 13:08 on 2017/09/10
-
-            auto statusMessageSlices = statusMessage.split("<", QString::SkipEmptyParts);
-            for (const auto& item:statusMessageSlices)
+            if (item.startsWith("Ally") || item.startsWith("Enemy"))
             {
-                if (item.startsWith("Ally") || item.startsWith("Enemy"))
+                QString prefix;
+                if (item.startsWith("Ally"))
                 {
-                    QString prefix;
-                    if (item.startsWith("Ally"))
-                    {
-                        prefix = "Enemy";
-                    }
-                    else if (item.startsWith("Enemy"))
-                    {
-                        prefix = "Allied";
-                    }
-
-                    auto itemSlices = item.split('$');
-
-                    for (int i = 1; i < itemSlices.size(); i++)
-                    {
-                        auto cardsSetName = itemSlices[i].split(':')[0];
-                        auto cards        = itemSlices[i].split(':')[1];
-                        if (cards == "")
-                        {
-                            continue;
-                        }
-                        else
-                        {
-                            if (cardsSetName.endsWith("Line"))
-                            {
-                                _battleField
-                                    ->GetBattleLineByName(prefix + cardsSetName.left(cardsSetName.length() - 4))
-                                    ->UpdateFromString(cards);
-                                continue;
-                            }
-
-                            if (cardsSetName.endsWith("Cards"))
-                            {
-                                _battleField
-                                    ->GetCardContainerByName(prefix + cardsSetName.left(cardsSetName.length() - 5))
-                                    ->UpdateFromString(cards);
-                                continue;
-                            }
-                        }
-                    }
-
-                    continue;
+                    prefix = "Enemy";
+                }
+                else if (item.startsWith("Enemy"))
+                {
+                    prefix = "Allied";
                 }
 
-                if (item.startsWith("Cards"))
+                auto itemSlices = item.split('$', QString::SkipEmptyParts);
+
+                for (int i = 1; i < itemSlices.size(); i++)
                 {
-                    _cardManager->UpdateFromString(item.split('>')[1], this);
+
+                    auto cardsSetName    = itemSlices[i].split(':', QString::KeepEmptyParts)[0];
+                    auto weatherAndCards = itemSlices[i].split(':', QString::KeepEmptyParts)[1];
+
+                    if (cardsSetName.endsWith("Line"))
+                    {
+                        _battleField
+                            ->GetBattleLineByName(prefix + cardsSetName.left(cardsSetName.length() - 4))
+                            ->UpdateFromString(weatherAndCards);
+                        continue;
+                    }
+
+                    if (cardsSetName.endsWith("Cards"))
+                    {
+                        _battleField
+                            ->GetCardContainerByName(prefix + cardsSetName.left(cardsSetName.length() - 5))
+                            ->UpdateFromString(weatherAndCards);
+
+                        continue;
+                    }
                 }
+
+                continue;
+            }
+
+            if (item.startsWith("Cards"))
+            {
+                _cardManager->UpdateFromString(item.split('>', QString::SkipEmptyParts)[1], this);
             }
         }
+        emit(SynchronizationDone());
+        IsSynchronized = true;
+        qDebug() << "Synchronized";
     }
 }
 
@@ -774,7 +794,21 @@ void GameController::SynchronizeRemoteData()
     auto sendString      = "<Ally>" + allyString + "<Enemy>" + enemyString + "<Cards>" + cardsString;
     auto finalSendString = "SynchronizeStatus|" + QString::number(PlayerNumber) + "|" + sendString;
 
-    qDebug() << "****SYNC****" << finalSendString;
+    qDebug() << "****Sending info to sync remote****" << finalSendString;
+
+    SendMessage(finalSendString);
+}
+
+
+void GameController::SynchronizeRemoteDataAllySideOnly()
+{
+    auto allyString  = _battleField->GetAlliedBattleSide()->ToString();
+    auto cardsString = _cardManager->ToString();
+
+    auto sendString      = "<Ally>" + allyString + "<Cards>" + cardsString;
+    auto finalSendString = "SynchronizeStatus|" + QString::number(PlayerNumber) + "|" + sendString;
+
+    qDebug() << "****Sending info to sync remote (Ally ONLY)****" << finalSendString;
 
     SendMessage(finalSendString);
 }

@@ -49,15 +49,23 @@ void Server::HandleNewConnection()
     }
     in >> readMessage;
 
-    qDebug() << readMessage;
+    //    QEventLoop eventLoop;
+    //    QTimer::singleShot(100, &eventLoop, &QEventLoop::quit);
+    //    eventLoop.exec();
+    //
+    //    //    qDebug() << readMessage;
+    //    if (readMessage == "")
+    //    {
+    //        qDebug() << "***************ERROR Server reading error";
+    //    }
     qDebug() << "Message from" << socket->peerAddress() << socket->peerPort();
 
     socket->close();
 
     if (readMessage.startsWith("REGISTER"))
     {
-        auto address = readMessage.split('|')[1];
-        auto port    = readMessage.split('|')[2].toInt();
+        auto address = readMessage.split('|', QString::SkipEmptyParts)[1];
+        auto port    = readMessage.split('|', QString::SkipEmptyParts)[2].toInt();
         Clients.append(QPair<QString, quint16>(address, static_cast<const quint16&>(port)));
     }
     else

@@ -46,10 +46,10 @@ QString CardManager::ToString()
 
 void CardManager::UpdateFromString(const QString& source, GameController *gameController)
 {
-    auto list = source.split('%');
+    auto list = source.split('%', QString::SkipEmptyParts);
     for (const auto& cardInfo:list)
     {
-        auto infoList = cardInfo.split('_');
+        auto infoList = cardInfo.split('_', QString::SkipEmptyParts);
         auto id       = infoList[0].toInt();
 
         if (IsCardManaged(id))

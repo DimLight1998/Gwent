@@ -176,7 +176,7 @@ Unit::Unit(GameController *gameController)
 
 void Unit::UpdateFromString(const QString& source)
 {
-    auto list = source.split('_');
+    auto list = source.split('_', QString::SkipEmptyParts);
     SetCardId(list[0].toInt());
     SetPower(list[2].toInt());
     SetArmor(list[3].toInt());

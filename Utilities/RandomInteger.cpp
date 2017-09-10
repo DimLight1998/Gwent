@@ -29,7 +29,7 @@ int RandomInteger::GetRandomInteger(int min, int max)
         networkAccessManager, &QNetworkAccessManager::finished,
         [&randomNumber, &eventLoop, networkAccessManager, max, min](QNetworkReply *reply)
         {
-          randomNumber = QString(reply->readAll()).split('\n')[0].toInt();
+          randomNumber = QString(reply->readAll()).split('\n', QString::SkipEmptyParts)[0].toInt();
 
           // if there is error, use local random generator
           if (reply->error() != QNetworkReply::NoError)

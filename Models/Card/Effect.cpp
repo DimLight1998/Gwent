@@ -54,6 +54,6 @@ Effect::Effect(GameController *gameController)
 
 void Effect::UpdateFromString(const QString& source)
 {
-    auto list = source.split('_');
+    auto list = source.split('_', QString::SkipEmptyParts);
     SetCardId(list[0].toInt());
 }

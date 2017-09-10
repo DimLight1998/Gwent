@@ -106,7 +106,16 @@ void Client::HandleNewConnection()
     }
     in >> readMessage;
 
-    qDebug() << "Received broadcast" << readMessage;
+    //    QEventLoop eventLoop;
+    //    QTimer::singleShot(100, &eventLoop, &QEventLoop::quit);
+    //    eventLoop.exec();
+    //
+    //    //    qDebug() << "Received broadcast" << readMessage;
+    //    if (readMessage == "")
+    //    {
+    //        qDebug() << "***************ERROR client reading error";
+    //    }
+
     HandleMessage(readMessage);
 }
 

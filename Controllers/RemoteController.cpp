@@ -9,8 +9,8 @@ void RemoteController::HandleMessage(const QString& message)
 {
     if (message.startsWith("PLAYER"))
     {
-        auto ip   = message.split('|')[1];
-        auto port = message.split('|')[2];
+        auto ip   = message.split('|', QString::SkipEmptyParts)[1];
+        auto port = message.split('|', QString::SkipEmptyParts)[2];
 
         auto response = QString();
         response = QString("ALLOCATE|%1|%2|%3").arg(ip).arg(port).arg(PlayerCounter);
