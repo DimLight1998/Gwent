@@ -5,6 +5,7 @@
 #include "InteractingController.hpp"
 #include "GameController.hpp"
 #include <iostream>
+#include <QtWidgets/QInputDialog>
 #include "../Models/Containers/CardContainer.hpp"
 
 
@@ -36,6 +37,7 @@ int InteractingController::GetSelectedCardFromExistingCards(const QVector<int>& 
                   << card->GetCardId() << std::endl;
     }
     std::cout << "Choose one from the cards above, enter id" << std::endl;
+    //    int input = QInputDialog::getInt(nullptr, "", "");
     int input;
     std::cin >> input;
     return input;
@@ -50,6 +52,7 @@ int InteractingController::GetSelectedCardFromExistingCardsAbdicable(const QVect
         std::cout << Controller->GetCardManager()->GetCardById(item)->ToDisplayableString().toStdString() << std::endl;
     }
 
+    //    int index = QInputDialog::getInt(nullptr, "", "");
     int index;
     std::cin >> index;
     if (index == -1)
@@ -69,9 +72,9 @@ void InteractingController::GetRoundInput(bool& abdicate, int& selectedCardId)
         << "[ Intercating ] Input a integer,"
             " -1 represents abdicate the round, others represent the card id you want to deploy";
 
+    //    int input = QInputDialog::getInt(nullptr, "", "");
     int input;
     std::cin >> input;
-
     if (input == -1)
     {
         abdicate       = true;
@@ -93,8 +96,10 @@ CardMeta InteractingController::GetSelectedCardFromSpanningCards(const QVector<C
         std::cout << i << " " << spawningCardsMeta[i]->GetName().toStdString() << std::endl;
     }
 
+    //    int index = QInputDialog::getInt(nullptr, "", "");
     int index;
     std::cin >> index;
+
     return *(spawningCardsMeta[index]);
 }
 
@@ -121,8 +126,10 @@ int InteractingController::GetSelectedCardFromBattleField()
         }
 
     std::cout << "Input the id of the card";
+    //    int input = QInputDialog::getInt(nullptr, "", "");
     int input;
     std::cin >> input;
+
     return input;
 }
 
@@ -141,10 +148,14 @@ void InteractingController::GetSelectedUnitDeployLocation(QString& deployBattleL
     std::cout << "4 - EnemyMelee\n5 - EnemyRanged\n6 - EnemySiege\n";
     std::cout << "the second int represent the index of the insertion\n";
 
+    //    int first  = QInputDialog::getInt(nullptr, "", "");
+    //    int second = QInputDialog::getInt(nullptr, "", "");
+
     int first;
     int second;
+    std::cin >> first;
+    std::cin >> second;
 
-    std::cin >> first >> second;
     switch (first)
     {
     case 1:
@@ -191,6 +202,7 @@ QString InteractingController::GetSelectedEffectDeployBattleLine()
     std::cout << "1 - AlliedMelee\n2 - AlliedRanged\n3 - AlliedSiege\n";
     std::cout << "4 - EnemyMelee\n5 - EnemyRanged\n6 - EnemySiege\n";
 
+    //    int input = QInputDialog::getInt(nullptr, "", "");
     int input;
     std::cin >> input;
     switch (input)
@@ -208,6 +220,7 @@ QString InteractingController::GetSelectedEffectDeployBattleLine()
 void InteractingController::GetGlobalSelection()
 {
     std::cout << "Only to confirm, input a integer\n";
+    //    int i = QInputDialog::getInt(nullptr, "", "");
     int i;
     std::cin >> i;
 }

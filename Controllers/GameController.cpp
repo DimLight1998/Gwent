@@ -438,9 +438,6 @@ void GameController::StartGame()
     std::cout << "A game is starting...\n";
     ResetGameData();
 
-
-    //<editor-fold desc="Main controlling code">
-
     // first round, if player id is 0, he starts first
     // todo, modify to random
 
@@ -461,7 +458,6 @@ void GameController::StartGame()
                 {
                     // todo injection
                     qDebug() << "############## Before action ############";
-                    SynchronizeRemoteData();
 
                     // Synchronization
                     if (!IsSynchronized)
@@ -488,12 +484,9 @@ void GameController::StartGame()
                         DeployTheCardOfId(cardId);
                     }
 
-                    qDebug() << "################# After action ################";
-                    // todo use smaller synchronization
-                    SynchronizeRemoteData();
-
                     SendMessage("OperationDone|" + QString::number(PlayerNumber));
-                    qDebug() << "Sending done";
+
+                    SynchronizeRemoteData();
 
                     IsAllyTurn = false;
                 }
@@ -634,6 +627,7 @@ void GameController::HandleMessage(const QString& message)
         {
             IsAllyTurn = true;
             emit(EnemyOperationDone());
+            IsSynchronized = false;
         }
         return;
     }
@@ -708,6 +702,7 @@ void GameController::SynchronizeLocalData(const QString& message)
         emit(SynchronizationDone());
         IsSynchronized = true;
         qDebug() << "Synchronized";
+        Interacting->UpdateBattleFieldView();
     }
 }
 

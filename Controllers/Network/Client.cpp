@@ -92,7 +92,9 @@ void Client::HandleNewConnection()
 
     auto socket = ClientServer->nextPendingConnection();
 
-    socket->waitForReadyRead(300);
+    QEventLoop eventLoop;
+    connect(socket, &QTcpSocket::readyRead, &eventLoop, &QEventLoop::quit);
+    eventLoop.exec();
 
     QDataStream in;
     in.setDevice(socket);
@@ -100,21 +102,21 @@ void Client::HandleNewConnection()
 
     QString readMessage;
     in.startTransaction();
+    in >> readMessage;
+
     if (!in.commitTransaction())
     {
         return;
     }
-    in >> readMessage;
 
     //    QEventLoop eventLoop;
     //    QTimer::singleShot(100, &eventLoop, &QEventLoop::quit);
     //    eventLoop.exec();
-    //
-    //    //    qDebug() << "Received broadcast" << readMessage;
-    //    if (readMessage == "")
-    //    {
-    //        qDebug() << "***************ERROR client reading error";
-    //    }
+
+    if (readMessage == "")
+    {
+        qDebug() << "***************ERROR client reading error";
+    }
 
     HandleMessage(readMessage);
 }
