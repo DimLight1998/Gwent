@@ -145,6 +145,9 @@ public:
     /// \brief called to controll the game logic
     void StartGame();
 
+    /// \brief called per round to
+    void HandleRoundUpdate();
+
     BattleField *GetBattleField() const;
     CardManager *GetCardManager() const;
 
