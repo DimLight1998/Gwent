@@ -43,6 +43,14 @@ public:
     const QVector<int>& GetUnits() const;
 
     QString GetWeatherString() const;
+
+    /// \brief convert the battle line to a string to synchronize with separator %
+    /// \return a string which can represent the status of the battle line
+    QString ToString();
+
+    /// \brief build the battle line from a string
+    /// \param source the string defining the battle line
+    void UpdateFromString(const QString& source);
 };
 
 

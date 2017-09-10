@@ -27,7 +27,9 @@ public:
     /// \param card pointer to the card to be tested
     /// \return true if yes else no
     static bool IsCardEffect(Card *card);
+    QString ToDisplayableString() override;
     QString ToString() override;
+    void UpdateFromString(const QString& source) override;
 };
 
 

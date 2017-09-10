@@ -59,6 +59,8 @@ public:
     /// (Enemy|Allied)(Hand|Grave|Deck|Discard|Melee|Ranged|Siege)
     /// \return true if its a battle line otherwise false
     static bool IsABattleLine(const QString& name);
+    BattleSide *GetEnemyBattleSide() const;
+    BattleSide *GetAlliedBattleSide() const;
 
     virtual ~BattleField();
 };

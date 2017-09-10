@@ -13,6 +13,8 @@
 #include "../Models/Card/Effect.hpp"
 #include "../Models/Meta/UnitMeta.hpp"
 #include "../Models/Meta/EffectsMeta.hpp"
+#include "../Models/Containers/BattleSide.hpp"
+#include "../Utilities/RandomInteger.hpp"
 
 
 BattleField *GameController::GetBattleField() const
@@ -41,7 +43,20 @@ void GameController::SetInteracting(InteractingController *Interacting)
 
 int GameController::GetNextId()
 {
-    static int currentId = 0;
+    static int  currentId             = 0;
+    static bool isInitialValueUpdated = false;
+    if (!isInitialValueUpdated)
+    {
+        if (PlayerNumber == 0)
+        {
+            currentId = 0;
+        }
+        else if (PlayerNumber == 1)
+        {
+            currentId = MaxCardPerSideInGame;
+        }
+        isInitialValueUpdated = true;
+    }
     currentId++;
     return currentId;
 }
@@ -213,7 +228,7 @@ bool GameController::DeployUnitFromContainerToBattleLine
 
 int GameController::SpawnCard(const QString& cardName, const QString& containerOrBattleLineName, int index)
 {
-    auto card = Card::SpanCardByName(cardName, this);
+    auto card = Card::SpawnCardByName(cardName, this);
     card->SetCardId(GetNextId());
     _cardManager->RegisterCard(card);
 
@@ -415,18 +430,14 @@ void GameController::DeployTheCardOfId(int id)
 
 void GameController::StartGame()
 {
+    InitializeNetwork();
+
     // todo remove hack
     HackBeforeStart();
-
-    InitializeNetwork();
 
     std::cout << "A game is starting...\n";
     ResetGameData();
 
-    // wait until both sides are ready
-    QEventLoop eventLoop;
-    connect(this, &GameController::BothSidesGetReady, &eventLoop, &QEventLoop::quit);
-    eventLoop.exec();
 
     //<editor-fold desc="Main controlling code">
 
@@ -448,6 +459,11 @@ void GameController::StartGame()
 
                 if (IsAllyTurn)
                 {
+                    // todo injection
+                    SynchronizeRemoteData();
+
+                    Interacting->UpdateBattleFieldView();
+
                     std::cout << "Ally input <================>\n";
                     Interacting->GetRoundInput(abdicate, cardId);
 
@@ -459,13 +475,15 @@ void GameController::StartGame()
                     else
                     {
                         std::cout << "Ally deploying card #" << cardId << std::endl;
-                        std::cout << _cardManager->GetCardById(cardId)->ToString().toStdString() << std::endl;
+                        std::cout << _cardManager->GetCardById(cardId)->ToDisplayableString().toStdString()
+                                  << std::endl;
                         DeployTheCardOfId(cardId);
                     }
 
                     qDebug() << "Operation done, sending info";
 
                     // todo use smaller synchronization
+                    SynchronizeRemoteData();
 
                     SendMessage("OperationDone|" + QString::number(PlayerNumber));
                     qDebug() << "Sending done";
@@ -529,11 +547,18 @@ void GameController::ResetGameData()
     Interacting = new InteractingController(this);
     std::cout << "Interacting controller initialized...\n";
 
+    // before indexing, we need to know whether we are the first to start
+    // we need a lock to lock this
+    // wait until both sides are ready
+    QEventLoop eventLoop;
+    connect(this, &GameController::BothSidesGetReady, &eventLoop, &QEventLoop::quit);
+    eventLoop.exec();
+    // now we kow who is player 0 and who is player 1, and we can allocate id for them
+
     // index the cards
-    // todo should be based on whether it is the first to start
     for (const auto& i:AllyCardGroup.GetCardMetaGroup())
     {
-        auto card = Card::SpanCardByName(i.GetName(), this);
+        auto card = Card::SpawnCardByName(i.GetName(), this);
         card->SetCardId(GetNextId());
         auto id = card->GetCardId();
         _cardManager->RegisterCard(card);
@@ -542,6 +567,8 @@ void GameController::ResetGameData()
     }
 
     InitializeAllyCardData();
+
+    SynchronizeRemoteData();
 }
 
 
@@ -555,8 +582,6 @@ void GameController::InitializeRoundGameData()
 
 void GameController::HandleMessage(const QString& message)
 {
-    qDebug() << "Received broadcast Message" << message;
-
     if (message.startsWith("ALLOCATE"))
     {
         auto slices      = message.split('|');
@@ -596,6 +621,73 @@ void GameController::HandleMessage(const QString& message)
             IsAllyTurn = true;
             emit(EnemyOperationDone());
         }
+        return;
+    }
+
+    if (message.startsWith("SynchronizeStatus"))
+    {
+        auto senderNumber  = message.split('|')[1].toInt();
+        auto statusMessage = message.split('|')[2];
+
+        if (senderNumber != PlayerNumber)
+        {
+            qDebug() << "Dealing!";
+            // todo last work stops here at 13:08 on 2017/09/10
+
+            auto statusMessageSlices = statusMessage.split("<", QString::SkipEmptyParts);
+            for (const auto& item:statusMessageSlices)
+            {
+                if (item.startsWith("Ally") || item.startsWith("Enemy"))
+                {
+                    QString prefix;
+                    if (item.startsWith("Ally"))
+                    {
+                        prefix = "Enemy";
+                    }
+                    else if (item.startsWith("Enemy"))
+                    {
+                        prefix = "Allied";
+                    }
+
+                    auto itemSlices = item.split('$');
+
+                    for (int i = 1; i < itemSlices.size(); i++)
+                    {
+                        auto cardsSetName = itemSlices[i].split(':')[0];
+                        auto cards        = itemSlices[i].split(':')[1];
+                        if (cards == "")
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            if (cardsSetName.endsWith("Line"))
+                            {
+                                _battleField
+                                    ->GetBattleLineByName(prefix + cardsSetName.left(cardsSetName.length() - 4))
+                                    ->UpdateFromString(cards);
+                                continue;
+                            }
+
+                            if (cardsSetName.endsWith("Cards"))
+                            {
+                                _battleField
+                                    ->GetCardContainerByName(prefix + cardsSetName.left(cardsSetName.length() - 5))
+                                    ->UpdateFromString(cards);
+                                continue;
+                            }
+                        }
+                    }
+
+                    continue;
+                }
+
+                if (item.startsWith("Cards"))
+                {
+                    _cardManager->UpdateFromString(item.split('>')[1], this);
+                }
+            }
+        }
     }
 }
 
@@ -607,7 +699,7 @@ void GameController::InitializeAllyCardData()
     auto deck = _battleField->GetCardContainerByName("AlliedDeck")->GetCards();
     _battleField->GetCardContainerByName("AlliedDeck")->ClearCardContainer();
 
-    std::mt19937 g(static_cast<unsigned int>(QDateTime::currentMSecsSinceEpoch()));
+    std::mt19937 g(static_cast<unsigned int>(RandomInteger::GetRandomInteger()));
 
     std::shuffle(deck.begin(), deck.end(), g);
 
@@ -653,13 +745,38 @@ void GameController::InitializeAllyCardData()
     std::cout << "[ Cheat ] Here is all your cards in your hand:\n";
     for (const auto i:_battleField->GetCardContainerByName("AlliedHand")->GetCards())
     {
-        std::cout << _cardManager->GetCardById(i)->ToString().toStdString() << std::endl;
+        std::cout << _cardManager->GetCardById(i)->ToDisplayableString().toStdString() << std::endl;
     }
     std::cout << "[ Cheat ] Here is all your cards in your deck:\n";
     for (const auto i:_battleField->GetCardContainerByName("AlliedDeck")->GetCards())
     {
-        std::cout << _cardManager->GetCardById(i)->ToString().toStdString() << std::endl;
+        std::cout << _cardManager->GetCardById(i)->ToDisplayableString().toStdString() << std::endl;
     }
+}
+
+
+void GameController::InitializeNetwork()
+{
+    qDebug() << "Initializing network";
+    // todo should be modified
+    SetRemoteServerAddress("localhost");
+    SetRemoteServerPort(6666);
+    RegisterToHost();
+}
+
+
+void GameController::SynchronizeRemoteData()
+{
+    auto allyString  = _battleField->GetAlliedBattleSide()->ToString();
+    auto enemyString = _battleField->GetEnemyBattleSide()->ToString();
+    auto cardsString = _cardManager->ToString();
+
+    auto sendString      = "<Ally>" + allyString + "<Enemy>" + enemyString + "<Cards>" + cardsString;
+    auto finalSendString = "SynchronizeStatus|" + QString::number(PlayerNumber) + "|" + sendString;
+
+    qDebug() << "****SYNC****" << finalSendString;
+
+    SendMessage(finalSendString);
 }
 
 
@@ -684,13 +801,4 @@ void GameController::HackBeforeStart()
     }
 }
 
-
-void GameController::InitializeNetwork()
-{
-    qDebug() << "Initializing network";
-    // todo should be modified
-    SetRemoteServerAddress("localhost");
-    SetRemoteServerPort(6666);
-    RegisterToHost();
-}
 //</editor-fold>

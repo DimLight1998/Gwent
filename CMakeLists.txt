@@ -121,7 +121,7 @@ set(
         Controllers/Network/Server.cpp
         Controllers/Network/Server.hpp
         Controllers/Network/Client.hpp
-        Controllers/RemoteController.cpp Controllers/RemoteController.hpp)
+        Controllers/RemoteController.cpp Controllers/RemoteController.hpp Utilities/RandomInteger.cpp Utilities/RandomInteger.hpp)
 
 add_executable(Gwent ${SOURCE_FILES})
 add_executable(
@@ -133,8 +133,10 @@ add_executable(
 )
 add_executable(ClientTest Controllers/Network/Client.cpp Controllers/Network/Client.hpp Tests/ClientMain.cpp)
 add_executable(ServerTest Controllers/Network/Server.cpp Controllers/Network/Server.hpp Tests/ServerMain.cpp)
+add_executable(RandomIntegerTest Utilities/RandomInteger.hpp Utilities/RandomInteger.cpp Tests/RandomIntegerMain.cpp)
 
 target_link_libraries(Gwent Qt5::Widgets Qt5::Core Qt5::Network)
 target_link_libraries(GwentServer Qt5::Core Qt5::Network)
 target_link_libraries(ClientTest Qt5::Widgets Qt5::Core Qt5::Network)
 target_link_libraries(ServerTest Qt5::Core Qt5::Network)
+target_link_libraries(RandomIntegerTest Qt5::Core Qt5::Network)

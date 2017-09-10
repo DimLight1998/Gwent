@@ -3,7 +3,6 @@
 //
 
 #include "BattleSide.hpp"
-#include <QDateTime>
 
 
 BattleLine *BattleSide::GetBattleLineByName(const QString& name) const
@@ -73,3 +72,17 @@ BattleSide::~BattleSide()
     delete DiscardCards;
 }
 
+
+QString BattleSide::ToString()
+{
+    auto returnString = QString();
+    returnString += "$MeleeLine:" + MeleeLine->ToString();
+    returnString += "$RangedLine:" + RangedLine->ToString();
+    returnString += "$SiegeLine:" + SiegeLine->ToString();
+    returnString += "$HandCards:" + HandCards->ToString();
+    returnString += "$GraveCards:" + GraveCards->ToString();
+    returnString += "$DeckCards:" + DeckCards->ToString();
+    returnString += "$DiscardCards:" + DiscardCards->ToString();
+
+    return returnString;
+}

@@ -56,7 +56,9 @@ public:
     void SetSelectedLine(const QString& SelectedLine);
     int GetSelectedIndex() const;
     void SetSelectedIndex(int SelectedIndex);
+    QString ToDisplayableString() override;
     QString ToString() override;
+    void UpdateFromString(const QString& source) override;
 protected:
 
     QString SelectedLine;

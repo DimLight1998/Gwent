@@ -190,8 +190,17 @@ protected:
     /// \brief called before the game to set up network
     void InitializeNetwork();
 
-    //</editor-fold>
+    void SynchronizeRemoteData();
 
+    //</editor-fold>
+protected:
+    const int MaxCardPerSideInGame = 1 << 30; // Obviously you can't deploy 1073741824 cards in a game
+    // the Id system used all integers:
+    // from 1 to 1<<30: used for id for player 0
+    // from 1<<30+1 to 1<<31-1: used for id for player 1
+    // 0: reserved
+    // -1: used for default in some cased
+    // others: reserved
 private:
     /// \brief hacking code goes here
     void HackBeforeStart();

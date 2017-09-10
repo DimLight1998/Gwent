@@ -23,6 +23,12 @@ const QString& Effect::GetSelectedLine() const
 }
 
 
+QString Effect::ToString()
+{
+    return QString("%1_%2").arg(CardId).arg(CardMetaInfo->GetName());
+}
+
+
 void Effect::SetSelectedLine(const QString& SelectedLine)
 {
     Effect::SelectedLine = SelectedLine;
@@ -35,7 +41,7 @@ bool Effect::IsCardEffect(Card *card)
 }
 
 
-QString Effect::ToString()
+QString Effect::ToDisplayableString()
 {
     return QString("[%1] %2").arg(CardId).arg(CardMetaInfo->GetName());
 }
@@ -44,3 +50,10 @@ QString Effect::ToString()
 Effect::Effect(GameController *gameController)
     : Card(gameController)
 { }
+
+
+void Effect::UpdateFromString(const QString& source)
+{
+    auto list = source.split('_');
+    SetCardId(list[0].toInt());
+}

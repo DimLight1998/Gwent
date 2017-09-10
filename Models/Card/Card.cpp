@@ -70,7 +70,7 @@ Card::~Card()
 }
 
 
-Card *Card::SpanCardByName(const QString& name, GameController *gameController)
+Card *Card::SpawnCardByName(const QString& name, GameController *gameController)
 {
     if (name == "FirstLight")
     { return new FirstLight(gameController); }
@@ -163,7 +163,7 @@ void Card::RoundUpdate()
 }
 
 
-QString Card::ToString()
+QString Card::ToDisplayableString()
 {
     return "";
 }
@@ -185,4 +185,10 @@ QString Card::GetFactionString()
     {
         return "Enemy";
     }
+}
+
+
+QString Card::ToString()
+{
+    return "";
 }

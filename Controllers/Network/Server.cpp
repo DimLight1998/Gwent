@@ -5,6 +5,7 @@
 #include <QtCore/QDataStream>
 #include <QTcpSocket>
 #include <QtCore/QTimer>
+#include <QtCore/QEventLoop>
 #include "Server.hpp"
 
 
@@ -58,12 +59,6 @@ void Server::HandleNewConnection()
         auto address = readMessage.split('|')[1];
         auto port    = readMessage.split('|')[2].toInt();
         Clients.append(QPair<QString, quint16>(address, static_cast<const quint16&>(port)));
-
-        qDebug() << "Current clients:";
-        for (auto& i:Clients)
-        {
-            qDebug() << i;
-        }
     }
     else
     {
@@ -83,8 +78,6 @@ void Server::Broadcast(const QString& readMessage)
         auto address = item.first;
         auto port    = item.second;
 
-        qDebug() << "Sending" << readMessage << "to" << address << port;
-
         auto *sendingSocket = new QTcpSocket(this);
         sendingSocket->connectToHost(address, port);
 
@@ -93,7 +86,22 @@ void Server::Broadcast(const QString& readMessage)
         out.setVersion(QDataStream::Qt_5_9);
         out << readMessage;
 
+        auto length = block.length();
+        auto sent   = 0;
+
         sendingSocket->write(block);
+
+        QEventLoop eventLoop;
+        connect(sendingSocket, &QTcpSocket::bytesWritten, [&eventLoop, &sent, length](qint64 payloadLength)
+        {
+          sent += payloadLength;
+          if (sent >= length)
+          {
+              eventLoop.exit(0);
+          }
+        });
+        eventLoop.exec();
+
         sendingSocket->disconnectFromHost();
         sendingSocket->close();
 

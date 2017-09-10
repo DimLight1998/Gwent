@@ -85,3 +85,27 @@ QString BattleLine::GetWeatherString() const
     case WeatherEnum::None:return "None";
     }
 }
+
+
+QString BattleLine::ToString()
+{
+    auto list = QStringList();
+
+    for (const auto item:Units)
+    {
+        list.append(QString::number(item));
+    }
+
+    return list.join('%');
+}
+
+
+void BattleLine::UpdateFromString(const QString& source)
+{
+    auto list = source.split('%');
+    Units.clear();
+    for (const auto& item:list)
+    {
+        Units.append(item.toInt());
+    }
+}

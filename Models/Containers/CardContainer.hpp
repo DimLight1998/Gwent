@@ -35,6 +35,15 @@ public:
 
     /// \brief clear the card container, this is harmless because it just stores numbers
     void ClearCardContainer();
+
+    /// \brief convert the card container to a string to synchronize with separator %
+    /// \return a string which can represent the status of the card container
+    QString ToString();
+
+    /// \brief build the card container from a string
+    /// \param source the string defining the card container,
+    /// in format 1%2%3%4
+    void UpdateFromString(const QString& source);
 };
 
 

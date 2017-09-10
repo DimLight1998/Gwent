@@ -139,3 +139,15 @@ BattleField::~BattleField()
     delete EnemyBattleSide;
 }
 
+
+BattleSide *BattleField::GetEnemyBattleSide() const
+{
+    return EnemyBattleSide;
+}
+
+
+BattleSide *BattleField::GetAlliedBattleSide() const
+{
+    return AlliedBattleSide;
+}
+

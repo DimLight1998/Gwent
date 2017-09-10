@@ -42,6 +42,11 @@ public:
     CardContainer *GetCardContainerByName(const QString& name) const;
 
     virtual ~BattleSide();
+
+    /// \brief convert the battle side to a string to synchronize, with separator $ and :, see definition to know more
+    /// \return a string which can represent the status of the battle side
+    QString ToString();
+
 };
 
 

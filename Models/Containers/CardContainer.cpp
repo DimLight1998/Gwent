@@ -66,3 +66,27 @@ void CardContainer::ClearCardContainer()
 {
     Cards.clear();
 }
+
+
+QString CardContainer::ToString()
+{
+    auto list = QStringList();
+
+    for (const auto item:Cards)
+    {
+        list.append(QString::number(item));
+    }
+
+    return list.join('%');
+}
+
+
+void CardContainer::UpdateFromString(const QString& source)
+{
+    auto list = source.split('%');
+    Cards.clear();
+    for (const auto& item:list)
+    {
+        Cards.append(item.toInt());
+    }
+}

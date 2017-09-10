@@ -38,7 +38,7 @@ public:
     /// \return pointer to the card
     /// \note you only have a instance of the card and you should add it to the card system,
     /// maybe you want to use GameController::SpanCard
-    static Card *SpanCardByName(const QString& name, GameController *gameController);
+    static Card *SpawnCardByName(const QString& name, GameController *gameController);
 
     virtual void RoundUpdate();
 protected:
@@ -53,7 +53,18 @@ public:
     int GetCardId() const;
     void SetCardId(int CardId);
 
+    /// \brief convert the card to a string which can be displayed on the console,
+    /// this should be used for console-gwent
+    /// \return a string representing the card
+    virtual QString ToDisplayableString();
+
+    /// \brief convert the card to a string which can be transfered throw network, with separator |
+    /// \return a string representing the card
     virtual QString ToString();
+
+    /// \brief update the card from a string
+    /// \param source the string describing the card
+    virtual void UpdateFromString(const QString& source) = 0;
 
     QString GetFactionString();
 };

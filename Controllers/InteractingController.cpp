@@ -47,7 +47,7 @@ int InteractingController::GetSelectedCardFromExistingCardsAbdicable(const QVect
     std::cout << "Choose a card from the following cards\nYou can input -1 to abdicate\n";
     for (const auto item:existingCardsId)
     {
-        std::cout << Controller->GetCardManager()->GetCardById(item)->ToString().toStdString() << std::endl;
+        std::cout << Controller->GetCardManager()->GetCardById(item)->ToDisplayableString().toStdString() << std::endl;
     }
 
     int index;
@@ -109,7 +109,8 @@ int InteractingController::GetSelectedCardFromBattleField()
       std::cout << "Line " << name.toStdString() << std::endl;
       for (const auto item:units)
       {
-          std::cout << Controller->GetCardManager()->GetCardById(item)->ToString().toStdString() << std::endl;
+          std::cout << Controller->GetCardManager()->GetCardById(item)->ToDisplayableString().toStdString()
+                    << std::endl;
       }
     };
 
@@ -224,7 +225,7 @@ void InteractingController::UpdateBattleFieldView()
               << std::endl;
     for (const auto item:Controller->GetBattleField()->GetBattleLineByName("EnemySiege")->GetUnits())
     {
-        std::cout << Controller->GetCardManager()->GetCardById(item)->ToString().toStdString() << std::endl;
+        std::cout << Controller->GetCardManager()->GetCardById(item)->ToDisplayableString().toStdString() << std::endl;
     }
     std::cout << "================================\n";
     std::cout << "Enemy Ranged "
@@ -232,7 +233,7 @@ void InteractingController::UpdateBattleFieldView()
               << std::endl;
     for (const auto item:Controller->GetBattleField()->GetBattleLineByName("EnemyRanged")->GetUnits())
     {
-        std::cout << Controller->GetCardManager()->GetCardById(item)->ToString().toStdString() << std::endl;
+        std::cout << Controller->GetCardManager()->GetCardById(item)->ToDisplayableString().toStdString() << std::endl;
     }
     std::cout << "================================\n";
     std::cout << "Enemy Melee "
@@ -240,7 +241,7 @@ void InteractingController::UpdateBattleFieldView()
               << std::endl;
     for (const auto item:Controller->GetBattleField()->GetBattleLineByName("EnemyMelee")->GetUnits())
     {
-        std::cout << Controller->GetCardManager()->GetCardById(item)->ToString().toStdString() << std::endl;
+        std::cout << Controller->GetCardManager()->GetCardById(item)->ToDisplayableString().toStdString() << std::endl;
     }
     std::cout << "================================\n";
     std::cout << "Allied Melee "
@@ -248,7 +249,7 @@ void InteractingController::UpdateBattleFieldView()
               << std::endl;
     for (const auto item:Controller->GetBattleField()->GetBattleLineByName("AlliedMelee")->GetUnits())
     {
-        std::cout << Controller->GetCardManager()->GetCardById(item)->ToString().toStdString() << std::endl;
+        std::cout << Controller->GetCardManager()->GetCardById(item)->ToDisplayableString().toStdString() << std::endl;
     }
     std::cout << "================================\n";
     std::cout << "Allied Ranged "
@@ -256,7 +257,7 @@ void InteractingController::UpdateBattleFieldView()
               << std::endl;
     for (const auto item:Controller->GetBattleField()->GetBattleLineByName("AlliedRanged")->GetUnits())
     {
-        std::cout << Controller->GetCardManager()->GetCardById(item)->ToString().toStdString() << std::endl;
+        std::cout << Controller->GetCardManager()->GetCardById(item)->ToDisplayableString().toStdString() << std::endl;
     }
     std::cout << "================================\n";
     std::cout << "Allied Siege "
@@ -264,13 +265,13 @@ void InteractingController::UpdateBattleFieldView()
               << std::endl;
     for (const auto item:Controller->GetBattleField()->GetBattleLineByName("AlliedSiege")->GetUnits())
     {
-        std::cout << Controller->GetCardManager()->GetCardById(item)->ToString().toStdString() << std::endl;
+        std::cout << Controller->GetCardManager()->GetCardById(item)->ToDisplayableString().toStdString() << std::endl;
     }
     std::cout << "================================\n";
     std::cout << "Allied Hand\n";
     for (const auto item:Controller->GetBattleField()->GetCardContainerByName("AlliedHand")->GetCards())
     {
-        std::cout << Controller->GetCardManager()->GetCardById(item)->ToString().toStdString() << std::endl;
+        std::cout << Controller->GetCardManager()->GetCardById(item)->ToDisplayableString().toStdString() << std::endl;
     }
     std::cout << "================================\n";
 }

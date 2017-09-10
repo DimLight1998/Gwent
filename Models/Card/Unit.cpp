@@ -145,7 +145,7 @@ void Unit::SetSelectedIndex(int SelectedIndex)
 }
 
 
-QString Unit::ToString()
+QString Unit::ToDisplayableString()
 {
     return QString("[%1] %2 (Power %3) (Armor %4) (CD %5) (Shield %6)")
         .arg(CardId)
@@ -157,6 +157,29 @@ QString Unit::ToString()
 }
 
 
+QString Unit::ToString()
+{
+    return QString("%1_%2_%3_%4_%5_%6")
+        .arg(CardId)
+        .arg(CardMetaInfo->GetName())
+        .arg(GetPower())
+        .arg(GetArmor())
+        .arg(GetTimeCount())
+        .arg(IsHasShield() ? "1" : "0");
+}
+
+
 Unit::Unit(GameController *gameController)
     : Card(gameController)
 { }
+
+
+void Unit::UpdateFromString(const QString& source)
+{
+    auto list = source.split('_');
+    SetCardId(list[0].toInt());
+    SetPower(list[2].toInt());
+    SetArmor(list[3].toInt());
+    SetTimeCount(list[4].toInt());
+    SetHasShield(list[5] == "1");
+}
