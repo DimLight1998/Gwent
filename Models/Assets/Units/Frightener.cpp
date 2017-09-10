@@ -24,9 +24,14 @@ void Frightener::OnDeploy()
     GlobalGameController->MoveCardFromCardsSetToCardsSet(topId, "AlliedDeck", "AlliedHand", 0);
 
     auto count = 0;
-    count += GlobalGameController->GetBattleField()->GetBattleLineByName("EnemySiege")->GetUnits().size();
-    count += GlobalGameController->GetBattleField()->GetBattleLineByName("EnemyRanged")->GetUnits().size();
-    count += GlobalGameController->GetBattleField()->GetBattleLineByName("EnemyMelee")->GetUnits().size();
+
+    for (const auto& item:QVector<QString>({"EnemySiege", "EnemyRanged", "EnemyMelee"}))
+    {
+        if (item != enemyLine)
+        {
+            count += GlobalGameController->GetBattleField()->GetBattleLineByName(item)->GetUnits().size();
+        }
+    }
 
     if (count <= 1)
     {
@@ -46,7 +51,6 @@ void Frightener::OnDeploy()
         {
             if (GlobalGameController->GetBattleField()->GetBattleLineContainingCard(cardId) != enemyLine)
             {
-
                 GlobalGameController->GetInteracting()->GetSelectedUnitDeployLocation(deployLine, deployIndex);
 
                 if (deployLine == enemyLine)
