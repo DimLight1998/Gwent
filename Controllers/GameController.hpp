@@ -166,20 +166,22 @@ protected:
     //<editor-fold desc="data used for a game">
     bool IsAllyAbdicated;
     bool IsEnemyAbdicated;
-    int  AllyScore;
-    int  EnemyScore;
+    int  AllyRoundPower;
+    int  EnemyRoundPower;
+
+    int AllyTotalScore;
+    int EnemyTotalScore;
 
     int  PlayerNumber;
-    bool IsPlayer0Ready;
-    bool IsPlayer1Ready;
 
     bool IsAllyTurn;
 
     bool IsSynchronized;
+    bool IsEnemyOperationDone;
+
+    QString FirstMoveInfo;
 
     CardGroup AllyCardGroup;
-    CardGroup EnemyCardGroup;
-
 
     /// \brief reset the data used for a game
     void ResetGameData();
@@ -195,6 +197,8 @@ protected:
 
     /// \brief called before the game to set up network
     void InitializeNetwork();
+
+    void UpdateRoundPower();
 
     void SynchronizeRemoteData();
     void SynchronizeRemoteDataAllySideOnly();

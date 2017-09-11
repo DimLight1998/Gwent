@@ -6,6 +6,7 @@
 #include <c++/iostream>
 #include <QtCore/QEventLoop>
 #include <QtCore/QTimer>
+#include <QtWidgets/QMessageBox>
 #include "GameController.hpp"
 
 #include "../Models/Containers/CardContainer.hpp"
@@ -539,76 +540,131 @@ void GameController::StartGame()
     // todo remove hack
     HackBeforeStart();
 
-    std::cout << "A game is starting...\n";
     ResetGameData();
-
-    // first round, if player id is 0, he starts first
-    // todo, modify to random
 
     for (int i = 0; i < 3; i++)
     {
         InitializeRoundGameData();
-
         bool isRoundOver = false;
 
         while (!isRoundOver)
         {
-            if (!IsAllyAbdicated)
+            // Synchronization
+            if (!IsSynchronized)
+            {
+                qDebug() << "Locking by _synchronizationLock";
+                _synchronizationLock->exec();
+            }
+            IsSynchronized = false;
+
+            if (IsAllyTurn)
             {
                 bool abdicate;
                 int  cardId;
 
-                if (IsAllyTurn)
+                // round update
+                HandleRoundUpdate();
+                Interacting->UpdateBattleFieldView();
+
+                if (!IsAllyAbdicated)
                 {
-                    // round update
-                    HandleRoundUpdate();
-
-                    // todo injection
-                    qDebug() << "############## Before action ############";
-
-                    // Synchronization
-                    if (!IsSynchronized)
-                    {
-                        _synchronizationLock->exec();
-                    }
-                    IsSynchronized = false;
-
-                    Interacting->UpdateBattleFieldView();
-
                     std::cout << "Ally input <================>\n";
                     Interacting->GetRoundInput(abdicate, cardId);
-
-                    if (abdicate)
-                    {
-                        IsAllyAbdicated = true;
-                        std::cout << "Ally abdicate the round\n";
-                    }
-                    else
-                    {
-                        std::cout << "Ally deploying card #" << cardId << std::endl;
-                        std::cout << _cardManager->GetCardById(cardId)->ToDisplayableString().toStdString()
-                                  << std::endl;
-                        DeployTheCardOfId(cardId);
-                    }
-
-                    SendMessage("OperationDone|" + QString::number(PlayerNumber));
-
-                    SynchronizeRemoteData();
-
-                    IsAllyTurn = false;
+                }
+                else
+                {
+                    abdicate = true;
                 }
 
-                qDebug() << "Wait for enemy";
-                _enemyOperationLock->exec();
+                if (abdicate)
+                {
+                    IsAllyAbdicated = true;
+                    SendMessage("Abdicate|" + QString::number(PlayerNumber));
+                }
+                else
+                {
+                    DeployTheCardOfId(cardId);
+                }
+
+                SendMessage("OperationDone|" + QString::number(PlayerNumber));
+                SynchronizeRemoteData();
+                IsAllyTurn = false;
             }
 
-            qDebug() << "Enemy done, checking gameover";
+            qDebug() << "Locking by _enemyOperationLock";
+            if (!IsEnemyOperationDone)
+            {
+                _enemyOperationLock->exec();
+            }
+            IsEnemyOperationDone = false;
+
             if (IsAllyAbdicated && IsEnemyAbdicated)
             {
                 isRoundOver = true;
+                UpdateRoundPower();
+                SendMessage("OperationDone|" + QString::number(PlayerNumber));
             }
         }
+
+        //<editor-fold desc="Statistics">
+        if (AllyRoundPower > EnemyRoundPower)
+        {
+            AllyTotalScore++;
+            IsAllyTurn = true;
+        }
+        else if (EnemyRoundPower > AllyRoundPower)
+        {
+            EnemyTotalScore++;
+            IsAllyTurn = false;
+        }
+        else
+        {
+            AllyTotalScore++;
+            EnemyTotalScore++;
+
+            if (i + 2 < 4)
+            {
+                if (PlayerNumber == 0)
+                {
+                    IsAllyTurn = (FirstMoveInfo.split('|')[i + 2] == "0");
+                    qDebug() << IsAllyTurn;
+                }
+                else if (PlayerNumber == 1)
+                {
+                    IsAllyTurn = (FirstMoveInfo.split('|')[i + 2] == "1");
+                    qDebug() << IsAllyTurn;
+                }
+            }
+        }
+
+        if (AllyTotalScore == 2 && EnemyTotalScore == 2)
+        {
+            std::cout << "Draw!";
+            break;
+        }
+        else if (AllyTotalScore == 2)
+        {
+            std::cout << "You win!";
+            break;
+        }
+        else if (EnemyTotalScore == 2)
+        {
+            std::cout << "You lose!";
+            break;
+        }
+        //</editor-fold>
+
+        // clear all messages
+        QEventLoop eventLoop;
+        QTimer::singleShot(500, &eventLoop, &QEventLoop::quit);
+        eventLoop.exec();
+        // escape first synchronization lock
+        IsSynchronized       = true;
+        // block the player at first enemyOperationLock
+        IsEnemyOperationDone = false;
     }
+
+    QMessageBox::information(nullptr, "End", "End");
 }
 
 
@@ -618,16 +674,15 @@ void GameController::ResetGameData()
 
     IsAllyAbdicated  = false;
     IsEnemyAbdicated = false;
-    AllyScore        = 0;
-    EnemyScore       = 0;
     PlayerNumber     = -1;
 
-    IsPlayer0Ready = false;
-    IsPlayer1Ready = false;
+    AllyTotalScore  = 0;
+    EnemyTotalScore = 0;
 
     IsAllyTurn = false;
 
-    IsSynchronized = false;
+    IsSynchronized       = false;
+    IsEnemyOperationDone = false;
 
     auto localAddress = GetLocalAddress();
     auto localPort    = ClientServer->serverPort();
@@ -691,6 +746,9 @@ void GameController::InitializeRoundGameData()
     std::cout << "Reset round data...\n";
     IsAllyAbdicated  = false;
     IsEnemyAbdicated = false;
+
+    AllyRoundPower  = 0;
+    EnemyRoundPower = 0;
 }
 
 
@@ -706,22 +764,6 @@ void GameController::HandleMessage(const QString& message)
         if (ip == GetLocalAddress() && port == ClientServer->serverPort())
         {
             PlayerNumber = playerOrder;
-            IsAllyTurn   = (playerOrder == 0);
-        }
-
-        if (playerOrder == 0)
-        {
-            IsPlayer0Ready = true;
-        }
-        if (playerOrder == 1)
-        {
-            IsPlayer0Ready = true;
-            IsPlayer1Ready = true;
-        }
-
-        if (IsPlayer0Ready && IsPlayer1Ready)
-        {
-            emit(BothSidesGetReady());
         }
 
         return;
@@ -734,7 +776,8 @@ void GameController::HandleMessage(const QString& message)
         {
             IsAllyTurn = true;
             emit(EnemyOperationDone());
-            IsSynchronized = false;
+            IsSynchronized       = false;
+            IsEnemyOperationDone = true;
         }
         return;
     }
@@ -742,6 +785,35 @@ void GameController::HandleMessage(const QString& message)
     if (message.startsWith("SynchronizeStatus"))
     {
         SynchronizeLocalData(message);
+        return;
+    }
+
+    if (message.startsWith("Abdicate"))
+    {
+        auto playerNumber = message.split('|')[1].toInt();
+        if (playerNumber != PlayerNumber)
+        {
+            IsEnemyAbdicated = true;
+        }
+        return;
+    }
+
+    if (message.startsWith("FIRST"))
+    {
+        if (PlayerNumber == 0)
+        {
+            IsAllyTurn = (message.split('|')[1] == "0");
+        }
+        else if (PlayerNumber == 1)
+        {
+            IsAllyTurn = (message.split('|')[1] == "1");
+        }
+
+        FirstMoveInfo = message;
+
+        emit(BothSidesGetReady());
+
+        return;
     }
 }
 
@@ -934,6 +1006,33 @@ void GameController::HackBeforeStart()
         auto card = CardMeta::GetMetaByCardName(i);
         AllyCardGroup.InsertIntoCardGroup(*card);
         delete card;
+    }
+}
+
+
+void GameController::UpdateRoundPower()
+{
+    AllyRoundPower  = 0;
+    EnemyRoundPower = 0;
+
+    for (const auto& battleLineName :QVector<QString>({"AlliedMelee", "AlliedRanged", "AlliedSiege"}))
+    {
+        auto            battleLine = _battleField->GetBattleLineByName(battleLineName);
+        for (const auto item:battleLine->GetUnits())
+        {
+            auto unit = _cardManager->GetCardById(item);
+            AllyRoundPower += dynamic_cast<Unit *>(unit)->GetPower();
+        }
+    }
+
+    for (const auto& battleLineName :QVector<QString>({"EnemyMelee", "EnemyRanged", "EnemySiege"}))
+    {
+        auto            battleLine = _battleField->GetBattleLineByName(battleLineName);
+        for (const auto item:battleLine->GetUnits())
+        {
+            auto unit = _cardManager->GetCardById(item);
+            EnemyRoundPower += dynamic_cast<Unit *>(unit)->GetPower();
+        }
     }
 }
 

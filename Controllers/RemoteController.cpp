@@ -2,6 +2,7 @@
 // Created on 2017/09/09 at 22:39.
 //
 
+#include <QtCore/QDateTime>
 #include "RemoteController.hpp"
 
 
@@ -19,9 +20,23 @@ void RemoteController::HandleMessage(const QString& message)
 
         PlayerCounter++;
 
-        // in case you forget to call ResetServerData
+        // in case you forget to call ResetServerData and decide who starts first
         if (PlayerCounter == 2)
         {
+            QStringList first;
+            qsrand(static_cast<uint>(QDateTime::currentMSecsSinceEpoch()));
+
+            for (int i = 0; i < 3; i++)
+            {
+                int isFirst = qrand() % 2;
+                first.append(QString::number(isFirst));
+            }
+
+            auto broadcastInfo = "FIRST|" + first.join('|');
+            Broadcast(broadcastInfo);
+
+            qDebug() << "Broadcasted" << broadcastInfo;
+
             PlayerCounter = 0;
         }
     }
