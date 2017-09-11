@@ -16,6 +16,9 @@
 #include "../Models/Meta/EffectsMeta.hpp"
 #include "../Models/Containers/BattleSide.hpp"
 #include "../Utilities/RandomInteger.hpp"
+#include "../Models/Assets/Effects/TorrentialRain.hpp"
+#include "../Models/Assets/Effects/ImpenetrableFog.hpp"
+#include "../Models/Assets/Effects/BitingFrost.hpp"
 
 
 BattleField *GameController::GetBattleField() const
@@ -187,82 +190,21 @@ void GameController::HandleRoundUpdate()
     for (const auto& battleLineName :QVector<QString>({"EnemyMelee", "EnemyRanged", "EnemySiege"}))
     {
         auto battleLine = _battleField->GetBattleLineByName(battleLineName);
-        qsrand(static_cast<uint>(QDateTime::currentMSecsSinceEpoch()));
-        std::mt19937 g(static_cast<unsigned int>(QDateTime::currentMSecsSinceEpoch()));
         switch (battleLine->GetWeather())
         {
         case BattleLine::WeatherEnum::Rain:
         {
-            QVector<int> unitsId;
-            for (auto    item:battleLine->GetUnits())
-            {
-                unitsId.append(item);
-            }
-
-            std::shuffle(unitsId.begin(), unitsId.end(), g);
-
-            auto damageNumber = qMin(unitsId.size(), 2);
-
-            for (int i = 0; i < damageNumber; i++)
-            {
-                dynamic_cast<Unit *>(_cardManager->GetCardById(unitsId[i]))->Damage(1);
-            }
+            TorrentialRain::ExecuteDamage(this, battleLineName);
             break;
         }
         case BattleLine::WeatherEnum::Frost:
         {
-            if (!battleLine->GetUnits().empty())
-            {
-                int lowestPower = INT_MAX;
-
-                for (const auto item:battleLine->GetUnits())
-                {
-                    if (lowestPower > dynamic_cast<Unit *>(_cardManager->GetCardById(item))->GetPower())
-                    {
-                        lowestPower = dynamic_cast<Unit *>(_cardManager->GetCardById(item))->GetPower();
-                    }
-                }
-
-                QVector<int>    lowestPowerUnitsId;
-                for (const auto item:battleLine->GetUnits())
-                {
-                    if (dynamic_cast<Unit *>(_cardManager->GetCardById(item))->GetPower() == lowestPower)
-                    {
-                        lowestPowerUnitsId.append(item);
-                    }
-                }
-
-                auto unitIndex = qrand() % (lowestPowerUnitsId.size());
-                dynamic_cast<Unit *>(_cardManager->GetCardById(lowestPowerUnitsId[unitIndex]))->Damage(2);
-            }
+            BitingFrost::ExecuteDamage(this, battleLineName);
             break;
         }
         case BattleLine::WeatherEnum::Fog:
         {
-            if (!battleLine->GetUnits().empty())
-            {
-                int highestPower = INT_MIN;
-
-                for (const auto item:battleLine->GetUnits())
-                {
-                    if (highestPower < dynamic_cast<Unit *>(_cardManager->GetCardById(item))->GetPower())
-                    {
-                        highestPower = dynamic_cast<Unit *>(_cardManager->GetCardById(item))->GetPower();
-                    }
-                }
-
-                QVector<int>    highestPowerUnitsId;
-                for (const auto item:battleLine->GetUnits())
-                {
-                    if (dynamic_cast<Unit *>(_cardManager->GetCardById(item))->GetPower() == highestPower)
-                    {
-                        highestPowerUnitsId.append(item);
-                    }
-                }
-
-                auto unitIndex = qrand() % (highestPowerUnitsId.size());
-                dynamic_cast<Unit *>(_cardManager->GetCardById(highestPowerUnitsId[unitIndex]))->Damage(2);
-            }
+            ImpenetrableFog::ExecuteDamage(this, battleLineName);
             break;
         }
         case BattleLine::WeatherEnum::None:

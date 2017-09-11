@@ -15,6 +15,8 @@ public:
 
     void OnDeploy() override;
     void OnDestroy() override;
+
+    static void ExecuteDamage(GameController *gameController, const QString& battleLineName);
 };
 
 

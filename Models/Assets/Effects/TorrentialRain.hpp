@@ -14,6 +14,8 @@ public:
     void OnDeploy() override;
     void OnDestroy() override;
     TorrentialRain(GameController *gameController);
+
+    static void ExecuteDamage(GameController *gameController, const QString& battleLineName);
 };
 
 
