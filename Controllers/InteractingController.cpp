@@ -134,12 +134,6 @@ int InteractingController::GetSelectedCardFromBattleField()
 }
 
 
-int InteractingController::GetSelectedCardFromBattleField(const QVector<int>& filter)
-{
-    throw 0;
-}
-
-
 void InteractingController::GetSelectedUnitDeployLocation(QString& deployBattleLine, int& deployIndex)
 {
     std::cout << "You are now deploying the card to the battlefield, please input two integers" << std::endl;

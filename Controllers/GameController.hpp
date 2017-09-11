@@ -111,6 +111,10 @@ public:
     /// \return true if yes else no
     bool IsThisCardAllied(int id);
 
+    /// \brief test if ally has cards in hand
+    /// \return true if yes, else no
+    bool AllyHasCards();
+
     /// \brief handle the result of deploying an impenetrable fog
     /// \param battleLine
     void HandleImpenetrableFogDeployed(const QString& battleLine);
@@ -141,7 +145,7 @@ public:
     void DeployTheCardOfId(int id);
 
     /// \brief called to controll the game logic
-    void StartGame();
+    void StartGameEntry();
 
     /// \brief called per round to
     void HandleRoundUpdate();
@@ -176,7 +180,8 @@ protected:
 
     QString FirstMoveInfo;
 
-    CardGroup AllyCardGroup;
+    CardGroup        AllyCardGroup;
+    QVector<QString> AllyCardBlackList;
 
     /// \brief reset the data used for a game
     void ResetGameData();
@@ -184,11 +189,20 @@ protected:
     /// \brief called per round to initialize data for game, called per round
     void InitializeRoundGameData();
 
-    /// \brief initialize allied cards' data, called per game
+    /// \brief shuffle the deck, then move the leader into your hand
     /// \note before you call the function, you should have a valid card group storing in AllyCardGroup
-    /// \note after the call, the battle side of allied side should be ready
     void InitializeAllyCardData();
 
+    /// \brief draw one card from the the top of the deck, then add it into your hand
+    void DrawOneCard();
+
+    /// \brief put one card back into the deck randomly, add it to black-list, then redraw a card from the deck
+    /// \param originalCardId the card need to be put back
+    void RedrawOneCard(int originalCardId);
+
+    /// \brief handle redraw (interacting)
+    /// \param redrawLimit how much time you can redraw most
+    void HandleRedraw(int redrawLimit);
 
     /// \brief called before the game to set up network
     void InitializeNetwork();
@@ -198,6 +212,7 @@ protected:
     void SynchronizeRemoteData();
     void SynchronizeRemoteDataAllySideOnly();
     void SynchronizeLocalData(const QString& message);
+    void SynchronizeRemoteDataAllyHandOnly();
 
     //</editor-fold>
 protected:

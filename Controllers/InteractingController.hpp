@@ -70,11 +70,6 @@ public:
     /// \return id of the card
     int GetSelectedCardFromBattleField();
 
-    /// \brief get an selected card from the battle field, but only cards with id in filter can be chosen
-    /// \param filter vector of id, only cards having the id in this can be chosen
-    /// \return id of the chosen card
-    int GetSelectedCardFromBattleField(const QVector<int>& filter);
-
     /// \brief wait until player choose a valid location to deploy a unit
     /// \param [out] deployBattleLine battle line of deployment, in format (Enemy|Allied)(Melee|Siege|Ranged)
     /// \param [out] deployIndex index of the deployment

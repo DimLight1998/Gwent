@@ -12,7 +12,7 @@ int main(int argc, char **argv)
     QApplication application(argc, argv);
 
     GameController gameController;
-    gameController.StartGame();
+    gameController.StartGameEntry();
 
     return application.exec();
 }

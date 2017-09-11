@@ -108,6 +108,12 @@ bool GameController::IsThisCardAllied(int id)
 }
 
 
+bool GameController::AllyHasCards()
+{
+    return !_battleField->GetCardContainerByName("AlliedHand")->GetCards().empty();
+}
+
+
 //<editor-fold desc="special rules">
 
 void GameController::HandleImpenetrableFogDeployed(const QString& battleLine)
@@ -475,7 +481,7 @@ void GameController::DeployTheCardOfId(int id)
 //</editor-fold>
 
 
-void GameController::StartGame()
+void GameController::StartGameEntry()
 {
     InitializeNetwork();
 
@@ -489,6 +495,37 @@ void GameController::StartGame()
         InitializeRoundGameData();
         bool isRoundOver = false;
 
+        //<editor-fold desc="Handle drawing cards and redraw">
+        switch (i)
+        {
+        case 0:
+        {
+            for (int j = 0; j < 10; j++)
+            {
+                DrawOneCard();
+            }
+            HandleRedraw(3);
+            break;
+        }
+        case 1:
+        {
+            DrawOneCard();
+            DrawOneCard();
+            HandleRedraw(1);
+            break;
+        }
+        case 2:
+        {
+            DrawOneCard();
+            HandleRedraw(1);
+            break;
+        }
+        default:break;
+        }
+        //</editor-fold>
+
+        SynchronizeRemoteDataAllyHandOnly();
+
         while (!isRoundOver)
         {
             // check information
@@ -496,6 +533,7 @@ void GameController::StartGame()
             QTimer::singleShot(500, &eventLoop, &QEventLoop::quit);
             eventLoop.exec();
 
+            //<editor-fold desc="If is ally's turn">
             if (IsAllyTurn)
             {
                 bool abdicate;
@@ -508,7 +546,14 @@ void GameController::StartGame()
                 if (!IsAllyAbdicated)
                 {
                     std::cout << "Ally input <================>\n";
-                    Interacting->GetRoundInput(abdicate, cardId);
+                    if (AllyHasCards())
+                    {
+                        Interacting->GetRoundInput(abdicate, cardId);
+                    }
+                    else
+                    {
+                        abdicate = true;
+                    }
                 }
                 else
                 {
@@ -529,6 +574,7 @@ void GameController::StartGame()
                 SynchronizeRemoteData();
                 IsAllyTurn = false;
             }
+            //</editor-fold>
 
             if (IsAllyAbdicated && IsEnemyAbdicated)
             {
@@ -559,12 +605,10 @@ void GameController::StartGame()
                 if (PlayerNumber == 0)
                 {
                     IsAllyTurn = (FirstMoveInfo.split('|')[i + 2] == "0");
-                    qDebug() << IsAllyTurn;
                 }
                 else if (PlayerNumber == 1)
                 {
                     IsAllyTurn = (FirstMoveInfo.split('|')[i + 2] == "1");
-                    qDebug() << IsAllyTurn;
                 }
             }
         }
@@ -608,24 +652,14 @@ void GameController::ResetGameData()
     auto localPort    = ClientServer->serverPort();
     SendMessage("PLAYER|" + localAddress + "|" + QString::number(localPort));
 
-    std::cout << "Resetting game data...\n";
-
-
     // the card group data should be ready already
     delete _battleField;
     delete _cardManager;
     delete Interacting;
 
-    std::cout << "Initializing battle field, card manager and interacting system...\n";
-
     _battleField = new BattleField();
-    std::cout << "Battle field initialized...\n";
-
     _cardManager = new CardManager();
-    std::cout << "Card manager initialized...\n";
-
-    Interacting = new InteractingController(this);
-    std::cout << "Interacting controller initialized...\n";
+    Interacting  = new InteractingController(this);
 
     // before indexing, we need to know whether we are the first to start
     // we need a lock to lock this
@@ -654,7 +688,6 @@ void GameController::ResetGameData()
 
 void GameController::InitializeRoundGameData()
 {
-    std::cout << "Reset round data...\n";
     IsAllyAbdicated  = false;
     IsEnemyAbdicated = false;
 
@@ -803,13 +836,6 @@ void GameController::InitializeAllyCardData()
 
     std::shuffle(deck.begin(), deck.end(), g);
 
-    // todo cheat code below
-    std::cout << "[ Cheat ] Here is all your cards\n";
-    for (int i : deck)
-    {
-        std::cout << _cardManager->GetCardById(i)->GetCardMetaInfo()->GetName().toStdString() << std::endl;
-    }
-
     // get the leader card
     for (int i = 0; i < deck.size(); i++)
     {
@@ -825,32 +851,93 @@ void GameController::InitializeAllyCardData()
         }
     }
 
-    // get top-10 random cards
-    for (int i = 0; i < 10; i++)
-    {
-        _battleField->GetCardContainerByName("AlliedHand")->InsertCard(deck[i], 1);
-    }
-    for (int i = 0; i < 10; i++)
-    {
-        deck.remove(0);
-    }
-
     // rebuild the deck
     for (auto i:deck)
     {
         _battleField->GetCardContainerByName("AlliedDeck")->InsertCard(i, 0);
     }
+}
 
-    // todo cheat code below
-    std::cout << "[ Cheat ] Here is all your cards in your hand:\n";
-    for (const auto i:_battleField->GetCardContainerByName("AlliedHand")->GetCards())
+
+void GameController::DrawOneCard()
+{
+    auto cardId = _battleField->GetCardContainerByName("AlliedDeck")->GetCards()[0];
+    _battleField->GetCardContainerByName("AlliedDeck")->RemoveCardOfId(cardId);
+
+    _battleField->GetCardContainerByName("AlliedHand")->InsertCard(cardId, 0);
+}
+
+
+void GameController::RedrawOneCard(int originalCardId)
+{
+    AllyCardBlackList.append(_cardManager->GetCardById(originalCardId)->GetCardMetaInfo()->GetName());
+
+    bool valid    = false;
+    bool hasValid = false;
+
+    for (auto item:_battleField->GetCardContainerByName("AlliedDeck")->GetCards())
     {
-        std::cout << _cardManager->GetCardById(i)->ToDisplayableString().toStdString() << std::endl;
+        if (!AllyCardBlackList.contains(_cardManager->GetCardById(item)->GetCardMetaInfo()->GetName()))
+        {
+            hasValid = true;
+        }
     }
-    std::cout << "[ Cheat ] Here is all your cards in your deck:\n";
-    for (const auto i:_battleField->GetCardContainerByName("AlliedDeck")->GetCards())
+
+    int cardId = -1;
+
+    if (hasValid)
     {
-        std::cout << _cardManager->GetCardById(i)->ToDisplayableString().toStdString() << std::endl;
+        while (!valid)
+        {
+            cardId = _battleField->GetCardContainerByName("AlliedDeck")->GetCards()[0];
+            _battleField->GetCardContainerByName("AlliedDeck")->RemoveCardOfId(cardId);
+
+            if (!AllyCardBlackList.contains(_cardManager->GetCardById(cardId)->GetCardMetaInfo()->GetName()))
+            {
+                valid = true;
+            }
+            else
+            {
+                auto size = _battleField->GetCardContainerByName("AlliedDeck")->GetCards().size();
+                _battleField->GetCardContainerByName("AlliedDeck")->InsertCard(cardId, size);
+            }
+        }
+    }
+    else
+    {
+        cardId = _battleField->GetCardContainerByName("AlliedDeck")->GetCards()[0];
+        _battleField->GetCardContainerByName("AlliedDeck")->RemoveCardOfId(cardId);
+    }
+
+    _battleField->GetCardContainerByName("AlliedHand")->InsertCard(cardId, 0);
+}
+
+
+void GameController::HandleRedraw(int redrawLimit)
+{
+    for (int j = 0; j < redrawLimit; j++)
+    {
+        auto hand = _battleField->GetCardContainerByName("AlliedHand")->GetCards();
+
+        for (int k = hand.size() - 1; k >= 0; k--)
+        {
+            if (_cardManager->GetCardById(hand[k])->GetCardMetaInfo()->GetCardType()
+                == CardMeta::CardTypeEnum::Leader)
+            {
+                hand.remove(k);
+                break;
+            }
+        }
+
+        auto originalCardId = Interacting->GetSelectedCardFromExistingCardsAbdicable(hand);
+        if (originalCardId == -1)
+        {
+            break;
+        }
+        else
+        {
+            RedrawOneCard(originalCardId);
+        }
     }
 }
 
@@ -889,6 +976,18 @@ void GameController::SynchronizeRemoteDataAllySideOnly()
     auto finalSendString = "SynchronizeStatus|" + QString::number(PlayerNumber) + "|" + sendString;
 
     qDebug() << "****Sending info to sync remote (Ally ONLY)****" << finalSendString;
+
+    SendMessage(finalSendString);
+}
+
+
+void GameController::SynchronizeRemoteDataAllyHandOnly()
+{
+    auto allyString  = "$HandCards:" + _battleField->GetCardContainerByName("AlliedHand")->ToString();
+    auto cardsString = _cardManager->ToString();
+
+    auto sendString      = "<Ally>" + allyString + "<Cards>" + cardsString;
+    auto finalSendString = "SynchronizeStatus|" + QString::number(PlayerNumber) + "|" + sendString;
 
     SendMessage(finalSendString);
 }

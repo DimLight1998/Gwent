@@ -5,7 +5,7 @@
 #include "CardContainer.hpp"
 
 
-const QVector<int>& CardContainer::GetCards() const
+const QVector<int>& CardContainer::GetCards()
 {
     return Cards;
 }

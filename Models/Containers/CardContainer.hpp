@@ -14,7 +14,7 @@ class CardContainer
 protected:
     QVector<int> Cards; ///< stores id of the cards
 public:
-    const QVector<int>& GetCards() const;
+    const QVector<int>& GetCards();
     CardContainer();
 
     /// \brief remove the card of id
