@@ -17,12 +17,15 @@ private:
 public:
     /// \brief check if this is a valid card group
     /// \return true if it's a valid card group, else false
-    bool Validate();
+    bool IsValid();
     const QVector<CardMeta>& GetCardMetaGroup() const;
 
     /// \brief insert a card meta into the card meta group
     /// \param cardMeta meta-info of the card
     void InsertIntoCardGroup(CardMeta cardMeta);
+
+    QString ToString() const;
+    void UpdateFromString(const QString& source);
 };
 
 

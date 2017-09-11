@@ -1,0 +1,911 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+    <class>CardGroupEditState</class>
+    <widget class="QWidget" name="CardGroupEditState">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>1057</width>
+                <height>893</height>
+            </rect>
+        </property>
+        <property name="windowTitle">
+            <string>Form</string>
+        </property>
+        <property name="styleSheet">
+            <string notr="true">font: 9pt &quot;微软雅黑&quot;;</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout">
+            <item row="0" column="0">
+                <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,5">
+                    <item>
+                        <layout class="QVBoxLayout" name="verticalLayout">
+                            <item>
+                                <widget class="QLabel" name="label_69">
+                                    <property name="styleSheet">
+                                        <string notr="true">font: 75 16pt &quot;微软雅黑&quot;;</string>
+                                    </property>
+                                    <property name="text">
+                                        <string>Card Group Edit</string>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item>
+                                <spacer name="verticalSpacer">
+                                    <property name="orientation">
+                                        <enum>Qt::Vertical</enum>
+                                    </property>
+                                    <property name="sizeHint" stdset="0">
+                                        <size>
+                                            <width>20</width>
+                                            <height>40</height>
+                                        </size>
+                                    </property>
+                                </spacer>
+                            </item>
+                            <item>
+                                <widget class="QGroupBox" name="groupBox">
+                                    <property name="sizePolicy">
+                                        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                                            <horstretch>0</horstretch>
+                                            <verstretch>0</verstretch>
+                                        </sizepolicy>
+                                    </property>
+                                    <property name="title">
+                                        <string>Naming and saving</string>
+                                    </property>
+                                    <layout class="QGridLayout" name="gridLayout_5">
+                                        <item row="3" column="0">
+                                            <widget class="QPushButton" name="pushButton">
+                                                <property name="text">
+                                                    <string>Save</string>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                        <item row="0" column="0">
+                                            <widget class="QLabel" name="label_70">
+                                                <property name="sizePolicy">
+                                                    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                                                        <horstretch>0</horstretch>
+                                                        <verstretch>0</verstretch>
+                                                    </sizepolicy>
+                                                </property>
+                                                <property name="text">
+                                                    <string>Card Group Name:</string>
+                                                </property>
+                                                <property name="alignment">
+                                                    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                        <item row="1" column="0">
+                                            <widget class="QLineEdit" name="lineEdit"/>
+                                        </item>
+                                    </layout>
+                                </widget>
+                            </item>
+                            <item>
+                                <spacer name="verticalSpacer_3">
+                                    <property name="orientation">
+                                        <enum>Qt::Vertical</enum>
+                                    </property>
+                                    <property name="sizeHint" stdset="0">
+                                        <size>
+                                            <width>20</width>
+                                            <height>40</height>
+                                        </size>
+                                    </property>
+                                </spacer>
+                            </item>
+                            <item>
+                                <widget class="QGroupBox" name="groupBox_2">
+                                    <property name="sizePolicy">
+                                        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                                            <horstretch>0</horstretch>
+                                            <verstretch>0</verstretch>
+                                        </sizepolicy>
+                                    </property>
+                                    <property name="title">
+                                        <string>Import And Export</string>
+                                    </property>
+                                    <layout class="QGridLayout" name="gridLayout_6">
+                                        <item row="0" column="0">
+                                            <widget class="QPushButton" name="pushButton_2">
+                                                <property name="text">
+                                                    <string>Export</string>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                        <item row="2" column="0">
+                                            <widget class="QTextEdit" name="textEdit"/>
+                                        </item>
+                                        <item row="1" column="0">
+                                            <widget class="QPushButton" name="pushButton_3">
+                                                <property name="text">
+                                                    <string>Import</string>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                    </layout>
+                                </widget>
+                            </item>
+                            <item>
+                                <spacer name="verticalSpacer_2">
+                                    <property name="orientation">
+                                        <enum>Qt::Vertical</enum>
+                                    </property>
+                                    <property name="sizeHint" stdset="0">
+                                        <size>
+                                            <width>20</width>
+                                            <height>40</height>
+                                        </size>
+                                    </property>
+                                </spacer>
+                            </item>
+                            <item>
+                                <widget class="QPushButton" name="pushButton_4">
+                                    <property name="text">
+                                        <string>Exit</string>
+                                    </property>
+                                </widget>
+                            </item>
+                        </layout>
+                    </item>
+                    <item>
+                        <layout class="QGridLayout" name="gridLayout_2">
+                            <item row="2" column="1">
+                                <widget class="QLabel" name="Label21">
+                                    <property name="styleSheet">
+                                        <string notr="true">image: url(:/Resources/SmallCards/CroneWhispess.png);
+                                        </string>
+                                    </property>
+                                    <property name="text">
+                                        <string/>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="1" column="7">
+                                <widget class="QSpinBox" name="SpinBox17">
+                                    <property name="enabled">
+                                        <bool>false</bool>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="1" column="5">
+                                <widget class="QSpinBox" name="SpinBox15">
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                    <property name="maximum">
+                                        <number>1</number>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="2" column="0">
+                                <widget class="QLabel" name="Label20">
+                                    <property name="styleSheet">
+                                        <string notr="true">image:
+                                            url(:/Resources/SmallCards/BekkersTwistedMirror.png);
+                                        </string>
+                                    </property>
+                                    <property name="text">
+                                        <string/>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="1" column="6">
+                                <widget class="QSpinBox" name="SpinBox16">
+                                    <property name="enabled">
+                                        <bool>false</bool>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="1" column="4">
+                                <widget class="QSpinBox" name="SpinBox14">
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                    <property name="maximum">
+                                        <number>1</number>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="4" column="0">
+                                <widget class="QLabel" name="Label40">
+                                    <property name="styleSheet">
+                                        <string notr="true">image: url(:/Resources/SmallCards/Arachas.png);</string>
+                                    </property>
+                                    <property name="text">
+                                        <string/>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="6" column="0">
+                                <widget class="QLabel" name="Label60">
+                                    <property name="styleSheet">
+                                        <string notr="true">image: url(:/Resources/SmallCards/ImpenetrableFog.png);
+                                        </string>
+                                    </property>
+                                    <property name="text">
+                                        <string/>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="0" column="2">
+                                <widget class="QLabel" name="Label02">
+                                    <property name="styleSheet">
+                                        <string notr="true">image: url(:/Resources/SmallCards/GeEls.png);</string>
+                                    </property>
+                                    <property name="text">
+                                        <string/>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="0" column="4">
+                                <widget class="QLabel" name="Label04">
+                                    <property name="styleSheet">
+                                        <string notr="true">image: url(:/Resources/SmallCards/UnseenElder.png);</string>
+                                    </property>
+                                    <property name="text">
+                                        <string/>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="0" column="6">
+                                <widget class="QLabel" name="Label06">
+                                    <property name="text">
+                                        <string/>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="0" column="1">
+                                <widget class="QLabel" name="Label01">
+                                    <property name="styleSheet">
+                                        <string notr="true">image: url(:/Resources/SmallCards/Caranthir.png);</string>
+                                    </property>
+                                    <property name="text">
+                                        <string/>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="0" column="3">
+                                <widget class="QLabel" name="Label03">
+                                    <property name="styleSheet">
+                                        <string notr="true">image: url(:/Resources/SmallCards/GeraltIgni.png);</string>
+                                    </property>
+                                    <property name="text">
+                                        <string/>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="1" column="2">
+                                <widget class="QSpinBox" name="SpinBox12">
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                    <property name="maximum">
+                                        <number>1</number>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="5" column="0">
+                                <widget class="QSpinBox" name="SpinBox50">
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                    <property name="maximum">
+                                        <number>3</number>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="1" column="3">
+                                <widget class="QSpinBox" name="SpinBox13">
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                    <property name="maximum">
+                                        <number>1</number>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="3" column="0">
+                                <widget class="QSpinBox" name="SpinBox30">
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                    <property name="maximum">
+                                        <number>1</number>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="1" column="1">
+                                <widget class="QSpinBox" name="SpinBox11">
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                    <property name="maximum">
+                                        <number>1</number>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="1" column="0">
+                                <widget class="QSpinBox" name="SpinBox10">
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                    <property name="readOnly">
+                                        <bool>false</bool>
+                                    </property>
+                                    <property name="buttonSymbols">
+                                        <enum>QAbstractSpinBox::UpDownArrows</enum>
+                                    </property>
+                                    <property name="maximum">
+                                        <number>1</number>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="7" column="0">
+                                <widget class="QSpinBox" name="SpinBox70">
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                    <property name="maximum">
+                                        <number>3</number>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="0" column="5">
+                                <widget class="QLabel" name="Label05">
+                                    <property name="styleSheet">
+                                        <string notr="true">image: url(:/Resources/SmallCards/WoodlandSpirit.png);
+                                        </string>
+                                    </property>
+                                    <property name="text">
+                                        <string/>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="0" column="7">
+                                <widget class="QLabel" name="Label07">
+                                    <property name="text">
+                                        <string/>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="0" column="0">
+                                <widget class="QLabel" name="Label00">
+                                    <property name="styleSheet">
+                                        <string notr="true">image: url(:/Resources/SmallCards/Dagon.png);</string>
+                                    </property>
+                                    <property name="text">
+                                        <string/>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="2" column="5">
+                                <widget class="QLabel" name="Label25">
+                                    <property name="styleSheet">
+                                        <string notr="true">image: url(:/Resources/SmallCards/Roach.png);</string>
+                                    </property>
+                                    <property name="text">
+                                        <string/>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="2" column="3">
+                                <widget class="QLabel" name="Label23">
+                                    <property name="styleSheet">
+                                        <string notr="true">image: url(:/Resources/SmallCards/CroneWeavess.png);
+                                        </string>
+                                    </property>
+                                    <property name="text">
+                                        <string/>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="4" column="1">
+                                <widget class="QLabel" name="Label41">
+                                    <property name="styleSheet">
+                                        <string notr="true">image: url(:/Resources/SmallCards/ArachasBehemoth.png);
+                                        </string>
+                                    </property>
+                                    <property name="text">
+                                        <string/>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="4" column="7">
+                                <widget class="QLabel" name="Label47">
+                                    <property name="styleSheet">
+                                        <string notr="true">image: url(:/Resources/SmallCards/Foglet.png);</string>
+                                    </property>
+                                    <property name="text">
+                                        <string/>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="4" column="6">
+                                <widget class="QLabel" name="Label46">
+                                    <property name="styleSheet">
+                                        <string notr="true">image: url(:/Resources/SmallCards/FirstLight.png);</string>
+                                    </property>
+                                    <property name="text">
+                                        <string/>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="2" column="7">
+                                <widget class="QLabel" name="Label27">
+                                    <property name="text">
+                                        <string/>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="2" column="4">
+                                <widget class="QLabel" name="Label24">
+                                    <property name="styleSheet">
+                                        <string notr="true">image: url(:/Resources/SmallCards/Frightener.png);</string>
+                                    </property>
+                                    <property name="text">
+                                        <string/>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="4" column="2">
+                                <widget class="QLabel" name="Label42">
+                                    <property name="styleSheet">
+                                        <string notr="true">image: url(:/Resources/SmallCards/Archgriffin.png);</string>
+                                    </property>
+                                    <property name="text">
+                                        <string/>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="2" column="6">
+                                <widget class="QLabel" name="Label26">
+                                    <property name="styleSheet">
+                                        <string notr="true">image: url(:/Resources/SmallCards/CommandersHorn.png);
+                                        </string>
+                                    </property>
+                                    <property name="text">
+                                        <string/>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="2" column="2">
+                                <widget class="QLabel" name="Label22">
+                                    <property name="styleSheet">
+                                        <string notr="true">image: url(:/Resources/SmallCards/CroneBrewess.png);
+                                        </string>
+                                    </property>
+                                    <property name="text">
+                                        <string/>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="6" column="2">
+                                <widget class="QLabel" name="Label62">
+                                    <property name="styleSheet">
+                                        <string notr="true">image: url(:/Resources/SmallCards/ThunderboltPotion.png);
+                                        </string>
+                                    </property>
+                                    <property name="text">
+                                        <string/>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="4" column="5">
+                                <widget class="QLabel" name="Label45">
+                                    <property name="styleSheet">
+                                        <string notr="true">image: url(:/Resources/SmallCards/EarthElemental.png);
+                                        </string>
+                                    </property>
+                                    <property name="text">
+                                        <string/>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="6" column="1">
+                                <widget class="QLabel" name="Label61">
+                                    <property name="styleSheet">
+                                        <string notr="true">image: url(:/Resources/SmallCards/Lacerate.png);</string>
+                                    </property>
+                                    <property name="text">
+                                        <string/>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="4" column="4">
+                                <widget class="QLabel" name="Label44">
+                                    <property name="styleSheet">
+                                        <string notr="true">image: url(:/Resources/SmallCards/CelaenoHarpy.png);
+                                        </string>
+                                    </property>
+                                    <property name="text">
+                                        <string/>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="4" column="3">
+                                <widget class="QLabel" name="Label43">
+                                    <property name="styleSheet">
+                                        <string notr="true">image: url(:/Resources/SmallCards/BitingFrost.png);</string>
+                                    </property>
+                                    <property name="text">
+                                        <string/>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="6" column="3">
+                                <widget class="QLabel" name="Label63">
+                                    <property name="styleSheet">
+                                        <string notr="true">image: url(:/Resources/SmallCards/TorrentialRain.png);
+                                        </string>
+                                    </property>
+                                    <property name="text">
+                                        <string/>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="6" column="5">
+                                <widget class="QLabel" name="Label65">
+                                    <property name="styleSheet">
+                                        <string notr="true">image: url(:/Resources/SmallCards/WildHuntRider.png);
+                                        </string>
+                                    </property>
+                                    <property name="text">
+                                        <string/>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="6" column="4">
+                                <widget class="QLabel" name="Label64">
+                                    <property name="styleSheet">
+                                        <string notr="true">image: url(:/Resources/SmallCards/VranWarrior.png);</string>
+                                    </property>
+                                    <property name="text">
+                                        <string/>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="6" column="7">
+                                <widget class="QLabel" name="Label67">
+                                    <property name="text">
+                                        <string/>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="6" column="6">
+                                <widget class="QLabel" name="Label66">
+                                    <property name="text">
+                                        <string/>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="3" column="1">
+                                <widget class="QSpinBox" name="SpinBox31">
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                    <property name="maximum">
+                                        <number>1</number>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="3" column="2">
+                                <widget class="QSpinBox" name="SpinBox32">
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                    <property name="maximum">
+                                        <number>1</number>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="3" column="3">
+                                <widget class="QSpinBox" name="SpinBox33">
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                    <property name="maximum">
+                                        <number>1</number>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="3" column="4">
+                                <widget class="QSpinBox" name="SpinBox34">
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                    <property name="maximum">
+                                        <number>1</number>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="3" column="5">
+                                <widget class="QSpinBox" name="SpinBox35">
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                    <property name="maximum">
+                                        <number>1</number>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="3" column="6">
+                                <widget class="QSpinBox" name="SpinBox36">
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                    <property name="maximum">
+                                        <number>1</number>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="3" column="7">
+                                <widget class="QSpinBox" name="SpinBox37">
+                                    <property name="enabled">
+                                        <bool>false</bool>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="5" column="1">
+                                <widget class="QSpinBox" name="SpinBox51">
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                    <property name="maximum">
+                                        <number>3</number>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="5" column="2">
+                                <widget class="QSpinBox" name="SpinBox52">
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                    <property name="maximum">
+                                        <number>3</number>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="5" column="3">
+                                <widget class="QSpinBox" name="SpinBox53">
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                    <property name="maximum">
+                                        <number>3</number>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="5" column="4">
+                                <widget class="QSpinBox" name="SpinBox54">
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                    <property name="maximum">
+                                        <number>3</number>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="5" column="5">
+                                <widget class="QSpinBox" name="SpinBox55">
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                    <property name="maximum">
+                                        <number>3</number>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="5" column="6">
+                                <widget class="QSpinBox" name="SpinBox56">
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                    <property name="maximum">
+                                        <number>3</number>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="5" column="7">
+                                <widget class="QSpinBox" name="SpinBox57">
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                    <property name="maximum">
+                                        <number>3</number>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="7" column="1">
+                                <widget class="QSpinBox" name="SpinBox71">
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                    <property name="maximum">
+                                        <number>3</number>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="7" column="2">
+                                <widget class="QSpinBox" name="SpinBox72">
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                    <property name="maximum">
+                                        <number>3</number>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="7" column="3">
+                                <widget class="QSpinBox" name="SpinBox73">
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                    <property name="maximum">
+                                        <number>3</number>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="7" column="4">
+                                <widget class="QSpinBox" name="SpinBox74">
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                    <property name="maximum">
+                                        <number>3</number>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="7" column="5">
+                                <widget class="QSpinBox" name="SpinBox75">
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                    <property name="maximum">
+                                        <number>3</number>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="7" column="6">
+                                <widget class="QSpinBox" name="SpinBox76">
+                                    <property name="enabled">
+                                        <bool>false</bool>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="7" column="7">
+                                <widget class="QSpinBox" name="SpinBox77">
+                                    <property name="enabled">
+                                        <bool>false</bool>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
+                        </layout>
+                    </item>
+                </layout>
+            </item>
+        </layout>
+    </widget>
+    <resources>
+        <include location="../Resources/CardsResource.qrc"/>
+    </resources>
+    <connections/>
+</ui>

@@ -19,8 +19,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/bin/Debug")
 
 # qrc file put here
 set(
-        SOURCE_FILES
-        Main.cpp
+        CORE_FILES
         Models/Meta/CardMeta.cpp
         Models/Meta/CardMeta.hpp
         Models/Meta/UnitMeta.cpp
@@ -121,9 +120,29 @@ set(
         Controllers/Network/Server.cpp
         Controllers/Network/Server.hpp
         Controllers/Network/Client.hpp
-        Controllers/RemoteController.cpp Controllers/RemoteController.hpp Utilities/RandomInteger.cpp Utilities/RandomInteger.hpp)
+        Controllers/RemoteController.cpp
+        Controllers/RemoteController.hpp
+        Utilities/RandomInteger.cpp
+        Utilities/RandomInteger.hpp
+        Views/BaseWindow.cpp
+        Views/BaseWindow.hpp
+)
 
-add_executable(Gwent ${SOURCE_FILES})
+set(
+        UI_FILES
+        Views/BaseWindow.hpp
+        Views/BaseWindow.cpp
+        Views/States/MainMenuState.cpp
+        Views/States/MainMenuState.hpp
+        Views/States/CardGroupEditState.cpp
+        Views/States/CardGroupEditState.hpp
+        Views/States/IState.hpp
+        Views/States/StartGameSettingsState.cpp
+        Views/States/StartGameSettingsState.hpp
+        Views/Resources/CardsResource.qrc
+)
+
+add_executable(Gwent ${CORE_FILES} Main.cpp)
 add_executable(
         GwentServer Controllers/Network/Server.cpp
         Controllers/Network/Server.hpp
@@ -131,12 +150,14 @@ add_executable(
         Controllers/RemoteController.hpp
         ServerMain.cpp
 )
-add_executable(ClientTest Controllers/Network/Client.cpp Controllers/Network/Client.hpp Tests/ClientMain.cpp)
-add_executable(ServerTest Controllers/Network/Server.cpp Controllers/Network/Server.hpp Tests/ServerMain.cpp)
-add_executable(RandomIntegerTest Utilities/RandomInteger.hpp Utilities/RandomInteger.cpp Tests/RandomIntegerMain.cpp)
+add_executable(GuiMain ${UI_FILES} ${CORE_FILES} GuiMain.cpp)
+#add_executable(ClientTest Controllers/Network/Client.cpp Controllers/Network/Client.hpp Tests/ClientMain.cpp)
+#add_executable(ServerTest Controllers/Network/Server.cpp Controllers/Network/Server.hpp Tests/ServerMain.cpp)
+#add_executable(RandomIntegerTest Utilities/RandomInteger.hpp Utilities/RandomInteger.cpp Tests/RandomIntegerMain.cpp)
 
 target_link_libraries(Gwent Qt5::Widgets Qt5::Core Qt5::Network)
 target_link_libraries(GwentServer Qt5::Core Qt5::Network)
-target_link_libraries(ClientTest Qt5::Widgets Qt5::Core Qt5::Network)
-target_link_libraries(ServerTest Qt5::Core Qt5::Network)
-target_link_libraries(RandomIntegerTest Qt5::Core Qt5::Network)
+target_link_libraries(GuiMain Qt5::Core Qt5::Widgets Qt5::Network)
+#target_link_libraries(ClientTest Qt5::Widgets Qt5::Core Qt5::Network)
+#target_link_libraries(ServerTest Qt5::Core Qt5::Network)
+#target_link_libraries(RandomIntegerTest Qt5::Core Qt5::Network)

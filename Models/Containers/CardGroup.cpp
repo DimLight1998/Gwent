@@ -5,7 +5,7 @@
 #include "CardGroup.hpp"
 
 
-bool CardGroup::Validate()
+bool CardGroup::IsValid()
 {
     if (_cardMetaGroup.size() > 40 || _cardMetaGroup.size() < 25)
     {
@@ -80,4 +80,29 @@ const QVector<CardMeta>& CardGroup::GetCardMetaGroup() const
 void CardGroup::InsertIntoCardGroup(CardMeta cardMeta)
 {
     _cardMetaGroup.insert(0, cardMeta);
+}
+
+
+QString CardGroup::ToString() const
+{
+    QStringList stringList;
+    for (const auto& item:_cardMetaGroup)
+    {
+        stringList.append(item.GetName());
+    }
+
+    return stringList.join('|');
+}
+
+
+void CardGroup::UpdateFromString(const QString& source)
+{
+    _cardMetaGroup.clear();
+    auto stringList = source.split('|');
+    for (const auto& item:stringList)
+    {
+        auto meta = CardMeta::GetMetaByCardName(item);
+        _cardMetaGroup.append(*meta);
+        delete meta;
+    }
 }
