@@ -549,13 +549,10 @@ void GameController::StartGame()
 
         while (!isRoundOver)
         {
-            // Synchronization
-            if (!IsSynchronized)
-            {
-                qDebug() << "Locking by _synchronizationLock";
-                _synchronizationLock->exec();
-            }
-            IsSynchronized = false;
+            // check information
+            QEventLoop eventLoop;
+            QTimer::singleShot(500, &eventLoop, &QEventLoop::quit);
+            eventLoop.exec();
 
             if (IsAllyTurn)
             {
@@ -590,13 +587,6 @@ void GameController::StartGame()
                 SynchronizeRemoteData();
                 IsAllyTurn = false;
             }
-
-            qDebug() << "Locking by _enemyOperationLock";
-            if (!IsEnemyOperationDone)
-            {
-                _enemyOperationLock->exec();
-            }
-            IsEnemyOperationDone = false;
 
             if (IsAllyAbdicated && IsEnemyAbdicated)
             {
@@ -653,15 +643,6 @@ void GameController::StartGame()
             break;
         }
         //</editor-fold>
-
-        // clear all messages
-        QEventLoop eventLoop;
-        QTimer::singleShot(500, &eventLoop, &QEventLoop::quit);
-        eventLoop.exec();
-        // escape first synchronization lock
-        IsSynchronized       = true;
-        // block the player at first enemyOperationLock
-        IsEnemyOperationDone = false;
     }
 
     QMessageBox::information(nullptr, "End", "End");
@@ -681,9 +662,6 @@ void GameController::ResetGameData()
 
     IsAllyTurn = false;
 
-    IsSynchronized       = false;
-    IsEnemyOperationDone = false;
-
     auto localAddress = GetLocalAddress();
     auto localPort    = ClientServer->serverPort();
     SendMessage("PLAYER|" + localAddress + "|" + QString::number(localPort));
@@ -695,15 +673,6 @@ void GameController::ResetGameData()
     delete _battleField;
     delete _cardManager;
     delete Interacting;
-
-    delete _enemyOperationLock;
-    delete _synchronizationLock;
-
-    _enemyOperationLock  = new QEventLoop(this);
-    _synchronizationLock = new QEventLoop(this);
-
-    connect(this, &GameController::EnemyOperationDone, _enemyOperationLock, &QEventLoop::quit);
-    connect(this, &GameController::SynchronizationDone, _synchronizationLock, &QEventLoop::quit);
 
     std::cout << "Initializing battle field, card manager and interacting system...\n";
 
@@ -775,9 +744,6 @@ void GameController::HandleMessage(const QString& message)
         if (playerNumber != PlayerNumber)
         {
             IsAllyTurn = true;
-            emit(EnemyOperationDone());
-            IsSynchronized       = false;
-            IsEnemyOperationDone = true;
         }
         return;
     }
@@ -878,8 +844,6 @@ void GameController::SynchronizeLocalData(const QString& message)
                 _cardManager->UpdateFromString(item.split('>', QString::SkipEmptyParts)[1], this);
             }
         }
-        emit(SynchronizationDone());
-        IsSynchronized = true;
         qDebug() << "Synchronized";
         Interacting->UpdateBattleFieldView();
     }

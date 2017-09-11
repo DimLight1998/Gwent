@@ -27,8 +27,6 @@ Q_OBJECT
 private:
     BattleField *_battleField         = nullptr;
     CardManager *_cardManager         = nullptr;
-    QEventLoop  *_enemyOperationLock  = nullptr;
-    QEventLoop  *_synchronizationLock = nullptr;
 
 public:
     /// \brief this function can deploy a unit to a specific battle line,
@@ -172,12 +170,9 @@ protected:
     int AllyTotalScore;
     int EnemyTotalScore;
 
-    int  PlayerNumber;
+    int PlayerNumber;
 
     bool IsAllyTurn;
-
-    bool IsSynchronized;
-    bool IsEnemyOperationDone;
 
     QString FirstMoveInfo;
 
@@ -218,8 +213,6 @@ private:
     void HackBeforeStart();
 
 signals:
-    void SynchronizationDone();
-    void EnemyOperationDone();
     void BothSidesGetReady();
 };
 
