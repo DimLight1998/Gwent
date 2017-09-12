@@ -909,6 +909,9 @@ void GameController::RedrawOneCard(int originalCardId)
     }
 
     _battleField->GetCardContainerByName("AlliedHand")->InsertCard(cardId, 0);
+
+    auto size = _battleField->GetCardContainerByName("AlliedDeck")->GetCards().size();
+    MoveCardFromCardsSetToCardsSet(originalCardId, "AlliedHand", "AlliedDeck", size);
 }
 
 
