@@ -27,6 +27,25 @@ void BitingFrost::ExecuteDamage(GameController *gameController, const QString& b
 {
     auto battleLine = gameController->GetBattleField()->GetBattleLineByName(battleLineName);
 
+    QString alliedBattleLineName;
+    if (battleLineName.startsWith("Enemy"))
+    {
+        alliedBattleLineName = battleLineName;
+        alliedBattleLineName.replace(0, 5, "Allied");
+    }
+
+    auto alliedBattleLine = gameController->GetBattleField()->GetBattleLineByName(alliedBattleLineName);
+
+    int damage = 2;
+
+    for (const auto unit:alliedBattleLine->GetUnits())
+    {
+        if (gameController->GetCardManager()->GetCardById(unit)->GetCardMetaInfo()->GetName() == "WildHuntRider")
+        {
+            damage++;
+        }
+    }
+
     if (!battleLine->GetUnits().empty())
     {
         int lowestPower = INT_MAX;
@@ -49,6 +68,7 @@ void BitingFrost::ExecuteDamage(GameController *gameController, const QString& b
         }
 
         auto unitIndex = qrand() % (lowestPowerUnitsId.size());
-        dynamic_cast<Unit *>(gameController->GetCardManager()->GetCardById(lowestPowerUnitsId[unitIndex]))->Damage(2);
+        dynamic_cast<Unit *>(gameController->GetCardManager()->GetCardById(lowestPowerUnitsId[unitIndex]))
+            ->Damage(damage);
     }
 }
