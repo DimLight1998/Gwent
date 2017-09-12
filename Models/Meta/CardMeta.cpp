@@ -66,7 +66,7 @@ CardMeta *CardMeta::GetMetaByCardName(const QString& name)
         cardMeta->SetDescription(
             "Spawn Clear Skies or Rally."
         );
-        cardMeta->SetPictureResourcePath(""); // todo fill this
+        cardMeta->SetPictureResourcePath(":Resources/SmallCards/FirstLight.png");
         cardMeta->SetDeployType(EffectsMeta::DeployTypeEnum::GlobalSelection);
 
         return cardMeta;
@@ -81,7 +81,7 @@ CardMeta *CardMeta::GetMetaByCardName(const QString& name)
             "Apply Frost to a row on your opponent's side.\n"
                 "Frost: Every turn, at the start of your turn, Damage the Lowest Unit on the row by 2."
         );
-        cardMeta->SetPictureResourcePath("");// todo fill this
+        cardMeta->SetPictureResourcePath(":Resources/SmallCards/BitingFrost.png");
         cardMeta->SetDeployType(EffectsMeta::DeployTypeEnum::LineSelect);
 
         return cardMeta;
@@ -96,7 +96,7 @@ CardMeta *CardMeta::GetMetaByCardName(const QString& name)
             "Apply Fog to a row on your opponent's side.\n"
                 "Fog: Every turn, at the start of your turn, Damage the Highest Unit on the row by 2."
         );
-        cardMeta->SetPictureResourcePath(""); // todo fill this
+        cardMeta->SetPictureResourcePath(":Resources/SmallCards/ImpenetrableFog.png");
         cardMeta->SetDeployType(EffectsMeta::DeployTypeEnum::LineSelect);
 
         return cardMeta;
@@ -112,7 +112,7 @@ CardMeta *CardMeta::GetMetaByCardName(const QString& name)
                 " If there are no Foglets in your Deck, Resurrect a Foglet on that row on your side.\n"
                 "When all Fog has been cleared from the Board, Destroy all Foglets."
         );
-        cardMeta->SetPictureResourcePath(""); //todo fill this
+        cardMeta->SetPictureResourcePath(":Resources/SmallCards/Foglet.png");
         cardMeta->SetIsLoyal(true);
         cardMeta->SetInitialPower(4);
         cardMeta->SetDeployLocation(UnitMeta::DeployLocationEnum::Any);
@@ -129,7 +129,7 @@ CardMeta *CardMeta::GetMetaByCardName(const QString& name)
             "Apply Rain to a row on your opponent's side.\n"
                 "Rain: Every turn, at the start of your turn, Damage up to 2 random Units on the row by 1."
         );
-        cardMeta->SetPictureResourcePath("");// todo fill this
+        cardMeta->SetPictureResourcePath(":Resources/SmallCards/TorrentialRain.png");
         cardMeta->SetDeployType(EffectsMeta::DeployTypeEnum::LineSelect);
 
         return cardMeta;
@@ -143,7 +143,7 @@ CardMeta *CardMeta::GetMetaByCardName(const QString& name)
         cardMeta->SetDescription(
             "Damage all Units on a row by 3."
         );
-        cardMeta->SetPictureResourcePath("");// todo fill this
+        cardMeta->SetPictureResourcePath(":Resources/SmallCards/Lacerate.png");
         cardMeta->SetDeployType(EffectsMeta::DeployTypeEnum::LineSelect);
 
         return cardMeta;
@@ -157,7 +157,7 @@ CardMeta *CardMeta::GetMetaByCardName(const QString& name)
         cardMeta->SetDescription(
             "Boost 5 adjacent Units by 4."
         );
-        cardMeta->SetPictureResourcePath("");// todo fill this
+        cardMeta->SetPictureResourcePath(":Resources/SmallCards/CommandersHorn.png");
         cardMeta->SetDeployType(EffectsMeta::DeployTypeEnum::TargetSelection);
 
         return cardMeta;
@@ -172,7 +172,7 @@ CardMeta *CardMeta::GetMetaByCardName(const QString& name)
             "Damage the Highest Unit by an amount equal to its Power,"
                 " but no more than 10 (ignoring Armor) and Boost the Lowest other Unit by the same amount."
         );
-        cardMeta->SetPictureResourcePath("");// todo fill this
+        cardMeta->SetPictureResourcePath(":Resources/SmallCards/BekkersTwistedMirror.png");
         cardMeta->SetDeployType(EffectsMeta::DeployTypeEnum::GlobalSelection);
 
         return cardMeta;
@@ -186,7 +186,7 @@ CardMeta *CardMeta::GetMetaByCardName(const QString& name)
         cardMeta->SetDescription(
             "Deploy: Destroy all the Highest Units on the opposite row if that row totals 25 or more Power."
         );
-        cardMeta->SetPictureResourcePath(""); //todo fill this
+        cardMeta->SetPictureResourcePath(":Resources/SmallCards/GeraltIgni.png");
         cardMeta->SetIsLoyal(true);
         cardMeta->SetInitialPower(5);
         cardMeta->SetDeployLocation(UnitMeta::DeployLocationEnum::Any);
@@ -203,7 +203,7 @@ CardMeta *CardMeta::GetMetaByCardName(const QString& name)
             "Doomed, Stubborn.\n"
                 "Deploy: Spawn Biting Frost, Impenetrable Fog or Torrential Rain."
         );
-        cardMeta->SetPictureResourcePath(""); //todo fill this
+        cardMeta->SetPictureResourcePath(":Resources/SmallCards/Dagon.png");
         cardMeta->SetIsLoyal(true);
         cardMeta->SetInitialPower(6);
         cardMeta->SetDeployLocation(UnitMeta::DeployLocationEnum::Any);
@@ -220,7 +220,7 @@ CardMeta *CardMeta::GetMetaByCardName(const QString& name)
             "Deploy: Draw the top Gold card and top Silver card from your Deck."
                 " Play one and return the other to the top of your Deck."
         );
-        cardMeta->SetPictureResourcePath(""); //todo fill this
+        cardMeta->SetPictureResourcePath(":Resources/SmallCards/GeEls.png");
         cardMeta->SetIsLoyal(true);
         cardMeta->SetInitialPower(1);
         cardMeta->SetDeployLocation(UnitMeta::DeployLocationEnum::Any);
@@ -236,7 +236,7 @@ CardMeta *CardMeta::GetMetaByCardName(const QString& name)
         cardMeta->SetDescription(
             "Deploy: Spawn 2 Harpy Eggs to the left of this Unit."
         );
-        cardMeta->SetPictureResourcePath(""); //todo fill this
+        cardMeta->SetPictureResourcePath(":Resources/SmallCards/CelaenoHarpy.png");
         cardMeta->SetIsLoyal(true);
         cardMeta->SetInitialPower(5);
         cardMeta->SetDeployLocation(UnitMeta::DeployLocationEnum::Any);
@@ -252,7 +252,7 @@ CardMeta *CardMeta::GetMetaByCardName(const QString& name)
         cardMeta->SetDescription(
             "Deploy: Spawn 3 Rabid Wolves and apply Fog to the opposite row."
         );
-        cardMeta->SetPictureResourcePath(""); //todo fill this
+        cardMeta->SetPictureResourcePath(":Resources/SmallCards/WoodlandSpirit.png");
         cardMeta->SetIsLoyal(true);
         cardMeta->SetInitialPower(5);
         cardMeta->SetDeployLocation(UnitMeta::DeployLocationEnum::Any);
@@ -269,7 +269,7 @@ CardMeta *CardMeta::GetMetaByCardName(const QString& name)
             "Deploy: Give this Unit a Shield.\n"
                 "Deathwish: Spawn 2 Lesser Earth Elementals at the end of the row."
         );
-        cardMeta->SetPictureResourcePath(""); //todo fill this
+        cardMeta->SetPictureResourcePath(":Resources/SmallCards/EarthElemental.png");
         cardMeta->SetIsLoyal(true);
         cardMeta->SetInitialPower(6);
         cardMeta->SetDeployLocation(UnitMeta::DeployLocationEnum::Melee);
@@ -285,7 +285,7 @@ CardMeta *CardMeta::GetMetaByCardName(const QString& name)
         cardMeta->SetDescription(
             "Deploy: Play Brewess and Whispess from your Deck."
         );
-        cardMeta->SetPictureResourcePath(""); //todo fill this
+        cardMeta->SetPictureResourcePath(":Resources/SmallCards/CroneWeavess.png");
         cardMeta->SetIsLoyal(true);
         cardMeta->SetInitialPower(6);
         cardMeta->SetDeployLocation(UnitMeta::DeployLocationEnum::Siege);
@@ -301,7 +301,7 @@ CardMeta *CardMeta::GetMetaByCardName(const QString& name)
         cardMeta->SetDescription(
             "Deploy: Play Brewess and Weavess from your Deck."
         );
-        cardMeta->SetPictureResourcePath(""); //todo fill this
+        cardMeta->SetPictureResourcePath(":Resources/SmallCards/CroneWhispess.png");
         cardMeta->SetIsLoyal(true);
         cardMeta->SetInitialPower(6);
         cardMeta->SetDeployLocation(UnitMeta::DeployLocationEnum::Siege);
@@ -317,7 +317,7 @@ CardMeta *CardMeta::GetMetaByCardName(const QString& name)
         cardMeta->SetDescription(
             "Deploy: Play Whispess and Weavess from your Deck."
         );
-        cardMeta->SetPictureResourcePath(""); //todo fill this
+        cardMeta->SetPictureResourcePath(":Resources/SmallCards/CroneBrewess.png");
         cardMeta->SetIsLoyal(true);
         cardMeta->SetInitialPower(8);
         cardMeta->SetDeployLocation(UnitMeta::DeployLocationEnum::Siege);
@@ -333,7 +333,7 @@ CardMeta *CardMeta::GetMetaByCardName(const QString& name)
         cardMeta->SetDescription(
             "Deploy: Clear Weather from the row on your side. Move a Bronze card from one Graveyard to the other."
         );
-        cardMeta->SetPictureResourcePath(""); //todo fill this
+        cardMeta->SetPictureResourcePath(":Resources/SmallCards/Archgriffin.png");
         cardMeta->SetIsLoyal(true);
         cardMeta->SetInitialPower(8);
         cardMeta->SetDeployLocation(UnitMeta::DeployLocationEnum::Any);
@@ -349,7 +349,7 @@ CardMeta *CardMeta::GetMetaByCardName(const QString& name)
         cardMeta->SetDescription(
             "Deploy: Move an Enemy to this row on its side and apply Frost to that row."
         );
-        cardMeta->SetPictureResourcePath(""); //todo fill this
+        cardMeta->SetPictureResourcePath(":Resources/SmallCards/Caranthir.png");
         cardMeta->SetIsLoyal(true);
         cardMeta->SetInitialPower(8);
         cardMeta->SetDeployLocation(UnitMeta::DeployLocationEnum::Any);
@@ -366,7 +366,7 @@ CardMeta *CardMeta::GetMetaByCardName(const QString& name)
             "Doomed.\n"
                 "Deploy: Move a Unit on another row on this side to this row. Draw the top card from your Deck."
         );
-        cardMeta->SetPictureResourcePath(""); //todo fill this
+        cardMeta->SetPictureResourcePath(":Resources/SmallCards/Frightener.png");
         cardMeta->SetIsLoyal(false);
         cardMeta->SetInitialPower(12);
         cardMeta->SetDeployLocation(UnitMeta::DeployLocationEnum::Any);
@@ -383,7 +383,7 @@ CardMeta *CardMeta::GetMetaByCardName(const QString& name)
             "Doomed, Stubborn.\n"
                 "Deploy: Consume an Ally, but Strengthen instead of Boosting. Repeat 2 times."
         );
-        cardMeta->SetPictureResourcePath(""); //todo fill this
+        cardMeta->SetPictureResourcePath(":Resources/SmallCards/UnseenElder.png");
         cardMeta->SetIsLoyal(true);
         cardMeta->SetInitialPower(5);
         cardMeta->SetDeployLocation(UnitMeta::DeployLocationEnum::Any);
@@ -399,7 +399,7 @@ CardMeta *CardMeta::GetMetaByCardName(const QString& name)
         cardMeta->SetDescription(
             "Deploy: Play all Arachasae from your Deck."
         );
-        cardMeta->SetPictureResourcePath(""); //todo fill this
+        cardMeta->SetPictureResourcePath(":Resources/SmallCards/Arachas.png");
         cardMeta->SetIsLoyal(true);
         cardMeta->SetInitialPower(3);
         cardMeta->SetDeployLocation(UnitMeta::DeployLocationEnum::Ranged);
@@ -417,7 +417,7 @@ CardMeta *CardMeta::GetMetaByCardName(const QString& name)
                 "Spawn an Arachas Hatchling on a random row and Damage self by 1 (ignoring Armor).\n"
                 "Deploy: Gain 2 Armor."
         );
-        cardMeta->SetPictureResourcePath(""); //todo fill this
+        cardMeta->SetPictureResourcePath(":Resources/SmallCards/ArachasBehemoth.png");
         cardMeta->SetIsLoyal(true);
         cardMeta->SetInitialPower(6);
         cardMeta->SetDeployLocation(UnitMeta::DeployLocationEnum::Siege);
@@ -434,7 +434,7 @@ CardMeta *CardMeta::GetMetaByCardName(const QString& name)
             "Deploy: Consume the Unit to the right.\n"
                 "Every 2 turns, at the start of your turn, Consume the Unit to the right."
         );
-        cardMeta->SetPictureResourcePath(""); //todo fill this
+        cardMeta->SetPictureResourcePath(":Resources/SmallCards/VranWarrior.png");
         cardMeta->SetIsLoyal(true);
         cardMeta->SetInitialPower(5);
         cardMeta->SetDeployLocation(UnitMeta::DeployLocationEnum::Any);
@@ -450,7 +450,7 @@ CardMeta *CardMeta::GetMetaByCardName(const QString& name)
         cardMeta->SetDescription(
             "Add 2 Armor to 3 adjacent Units and Boost them by 3."
         );
-        cardMeta->SetPictureResourcePath("");// todo fill this
+        cardMeta->SetPictureResourcePath(":Resources/SmallCards/ThunderboltPotion.png");
         cardMeta->SetDeployType(EffectsMeta::DeployTypeEnum::TargetSelection);
 
         return cardMeta;
@@ -465,7 +465,7 @@ CardMeta *CardMeta::GetMetaByCardName(const QString& name)
             "Whenever you play a Gold card from your Hand (note: does not include Leaders),"
                 " play Roach from your Deck on a random row before that card resolves."
         );
-        cardMeta->SetPictureResourcePath(""); //todo fill this
+        cardMeta->SetPictureResourcePath(":Resources/SmallCards/Roach.png");
         cardMeta->SetIsLoyal(true);
         cardMeta->SetInitialPower(4);
         cardMeta->SetDeployLocation(UnitMeta::DeployLocationEnum::Any);
@@ -481,7 +481,7 @@ CardMeta *CardMeta::GetMetaByCardName(const QString& name)
         cardMeta->SetDescription(
             "Increase by 1 the Damage dealt by Frost on the opposite row."
         );
-        cardMeta->SetPictureResourcePath(""); //todo fill this
+        cardMeta->SetPictureResourcePath(":Resources/SmallCards/WildHuntRider.png");
         cardMeta->SetIsLoyal(true);
         cardMeta->SetInitialPower(8);
         cardMeta->SetDeployLocation(UnitMeta::DeployLocationEnum::Any);
@@ -501,7 +501,7 @@ CardMeta *CardMeta::GetMetaByCardName(const QString& name)
                 "When Consumed by another Unit, Boost that Unit by an additional 5.\n"
                 "Deathwish: Spawn a Harpy Hatchling on a random row."
         );
-        cardMeta->SetPictureResourcePath(""); //todo fill this
+        cardMeta->SetPictureResourcePath(":Resources/SmallCards/HarpyEgg.png");
         cardMeta->SetIsLoyal(true);
         cardMeta->SetInitialPower(1);
         cardMeta->SetDeployLocation(UnitMeta::DeployLocationEnum::Any);
@@ -517,7 +517,7 @@ CardMeta *CardMeta::GetMetaByCardName(const QString& name)
         cardMeta->SetDescription(
             "Doomed."
         );
-        cardMeta->SetPictureResourcePath(""); //todo fill this
+        cardMeta->SetPictureResourcePath(":Resources/SmallCards/HarpyHatchling.png");
         cardMeta->SetIsLoyal(true);
         cardMeta->SetInitialPower(1);
         cardMeta->SetDeployLocation(UnitMeta::DeployLocationEnum::Any);
@@ -533,7 +533,7 @@ CardMeta *CardMeta::GetMetaByCardName(const QString& name)
         cardMeta->SetDescription(
             "Doomed."
         );
-        cardMeta->SetPictureResourcePath(""); //todo fill this
+        cardMeta->SetPictureResourcePath(":Resources/SmallCards/RabidWolf.png");
         cardMeta->SetIsLoyal(true);
         cardMeta->SetInitialPower(1);
         cardMeta->SetDeployLocation(UnitMeta::DeployLocationEnum::Melee);
@@ -549,7 +549,7 @@ CardMeta *CardMeta::GetMetaByCardName(const QString& name)
         cardMeta->SetDescription(
             "Doomed."
         );
-        cardMeta->SetPictureResourcePath(""); //todo fill this
+        cardMeta->SetPictureResourcePath(":Resources/SmallCards/LesserEarthElemental.png");
         cardMeta->SetIsLoyal(true);
         cardMeta->SetInitialPower(2);
         cardMeta->SetDeployLocation(UnitMeta::DeployLocationEnum::Melee);
@@ -566,7 +566,7 @@ CardMeta *CardMeta::GetMetaByCardName(const QString& name)
             "Doomed.\n"
                 "Deploy: Play all Arachasae from your Deck."
         );
-        cardMeta->SetPictureResourcePath(""); //todo fill this
+        cardMeta->SetPictureResourcePath(":Resources/SmallCards/ArachasHatchling.png");
         cardMeta->SetIsLoyal(true);
         cardMeta->SetInitialPower(3);
         cardMeta->SetDeployLocation(UnitMeta::DeployLocationEnum::Any);
@@ -585,7 +585,7 @@ CardMeta *CardMeta::GetMetaByCardName(const QString& name)
         cardMeta->SetDescription(
             "Doomed. Clear all Weather from your side."
         );
-        cardMeta->SetPictureResourcePath(""); // todo fill this
+        cardMeta->SetPictureResourcePath(":Resources/SmallCards/ClearSkies.png");
         cardMeta->SetDeployType(EffectsMeta::DeployTypeEnum::GlobalSelection);
 
         return cardMeta;
@@ -599,7 +599,7 @@ CardMeta *CardMeta::GetMetaByCardName(const QString& name)
         cardMeta->SetDescription(
             "Doomed. Play a random Bronze Unit from your Deck."
         );
-        cardMeta->SetPictureResourcePath(""); // todo fill this
+        cardMeta->SetPictureResourcePath(":Resources/SmallCards/Rally.png");
         cardMeta->SetDeployType(EffectsMeta::DeployTypeEnum::GlobalSelection);
 
         return cardMeta;

@@ -7,6 +7,8 @@
 
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QStackedWidget>
+#include <QtCore/QMap>
+#include <QVariant>
 
 
 class BaseWindow : public QMainWindow
@@ -21,6 +23,15 @@ public:
     QStackedWidget *GetStackedWidget() const;
 
     void SwitchToState(const QString& stateName);
+
+    QVariant GetSharedData(const QString& index);
+    void SetSharedData(const QString& index, QVariant data);
+
+protected:
+    bool    IsLoggedIn = false;
+    QString Username   = "";
+
+    QMap<QString, QVariant> SharedData;
 };
 
 

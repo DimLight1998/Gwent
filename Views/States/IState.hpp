@@ -17,6 +17,12 @@ public:
     {
         Base = baseWindow;
     }
+
+
+    BaseWindow *GetBase() const
+    {
+        return Base;
+    }
 };
 
 

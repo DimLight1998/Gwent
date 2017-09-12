@@ -140,9 +140,15 @@ set(
         Views/States/StartGameSettingsState.cpp
         Views/States/StartGameSettingsState.hpp
         Views/Resources/CardsResource.qrc
+        Views/States/GamePlayingState.cpp
+        Views/States/GamePlayingState.hpp
+        Views/Widgets/CardButton.cpp
+        Views/Widgets/CardButton.hpp
+        Views/States/CardSelectionState.cpp
+        Views/States/CardSelectionState.hpp
 )
 
-add_executable(Gwent ${CORE_FILES} Main.cpp)
+#add_executable(Gwent ${CORE_FILES} Main.cpp)
 add_executable(
         GwentServer Controllers/Network/Server.cpp
         Controllers/Network/Server.hpp
@@ -155,7 +161,7 @@ add_executable(GuiMain ${UI_FILES} ${CORE_FILES} GuiMain.cpp)
 #add_executable(ServerTest Controllers/Network/Server.cpp Controllers/Network/Server.hpp Tests/ServerMain.cpp)
 #add_executable(RandomIntegerTest Utilities/RandomInteger.hpp Utilities/RandomInteger.cpp Tests/RandomIntegerMain.cpp)
 
-target_link_libraries(Gwent Qt5::Widgets Qt5::Core Qt5::Network)
+#target_link_libraries(Gwent Qt5::Widgets Qt5::Core Qt5::Network)
 target_link_libraries(GwentServer Qt5::Core Qt5::Network)
 target_link_libraries(GuiMain Qt5::Core Qt5::Widgets Qt5::Network)
 #target_link_libraries(ClientTest Qt5::Widgets Qt5::Core Qt5::Network)

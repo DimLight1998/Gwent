@@ -62,7 +62,7 @@
                                         </sizepolicy>
                                     </property>
                                     <property name="text">
-                                        <string>TextLabel</string>
+                                        <string>Server IP Address:</string>
                                     </property>
                                 </widget>
                             </item>
@@ -101,7 +101,7 @@
                                         </sizepolicy>
                                     </property>
                                     <property name="text">
-                                        <string>TextLabel</string>
+                                        <string>Server Port:</string>
                                     </property>
                                 </widget>
                             </item>
@@ -140,7 +140,7 @@
                                         </sizepolicy>
                                     </property>
                                     <property name="text">
-                                        <string>TextLabel</string>
+                                        <string>Select Card Group:</string>
                                     </property>
                                 </widget>
                             </item>
@@ -173,14 +173,14 @@
                             <item>
                                 <widget class="QPushButton" name="pushButton">
                                     <property name="text">
-                                        <string>PushButton</string>
+                                        <string>Connect To Server</string>
                                     </property>
                                 </widget>
                             </item>
                             <item>
                                 <widget class="QPushButton" name="pushButton_2">
                                     <property name="text">
-                                        <string>PushButton</string>
+                                        <string>Exit</string>
                                     </property>
                                 </widget>
                             </item>

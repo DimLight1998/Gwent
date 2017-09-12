@@ -12,6 +12,9 @@
 class GameController;
 
 
+class GamePlayingState;
+
+
 class InteractingController
 {
 public:
@@ -33,8 +36,8 @@ public:
     /// \endcode
     /// now we have what the player choose
     int GetSelectedCardFromExistingCards(const QVector<int>& existingCardsId);
-    InteractingController(GameController *Controller);
 
+    InteractingController(GameController *Controller);
 
     /// \brief get selected card from existing cards, and you can abdicate the operation
     /// \param existingCardsId the vector of cards chosen from
@@ -82,8 +85,11 @@ public:
     /// \brief update the view of the battle field
     void UpdateBattleFieldView();
 
+    void SetPlayingState(GamePlayingState *PlayingState);
+
 protected:
-    GameController *Controller;
+    GameController   *Controller;
+    GamePlayingState *PlayingState;
 };
 
 

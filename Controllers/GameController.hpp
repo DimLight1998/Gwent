@@ -13,6 +13,10 @@
 #include "InteractingController.hpp"
 #include "../Models/Containers/CardGroup.hpp"
 #include "Network/Client.hpp"
+#include "InteractingController.hpp"
+
+
+class InteractingController;
 
 
 class CardManager;
@@ -25,10 +29,11 @@ class GameController : public Client
 {
 Q_OBJECT
 private:
-    BattleField *_battleField         = nullptr;
-    CardManager *_cardManager         = nullptr;
+    BattleField           *_battleField = nullptr;
+    CardManager           *_cardManager = nullptr;
 
 public:
+    GameController();
     /// \brief this function can deploy a unit to a specific battle line,
     /// then trigger its OnDeploy function
     /// \param cardId id of the card
@@ -95,7 +100,6 @@ public:
     /// \return true if yes else no;
     bool IsThisUnitEnemy(int id);
 
-
     /// \brief test if the unit is an allied unit (the unit must on the battle field, not in grave/hand/deck)
     /// \param id id of the unit
     /// \return true if yes else no
@@ -150,6 +154,8 @@ public:
     /// \brief called per round to
     void HandleRoundUpdate();
 
+    void UpdateRoundPower();
+
     BattleField *GetBattleField() const;
     CardManager *GetCardManager() const;
 
@@ -162,8 +168,7 @@ protected:
 public:
     InteractingController *GetInteracting() const;
     void SetInteracting(InteractingController *Interacting);
-protected:
-    InteractingController *Interacting = nullptr;
+    InteractingController *Interacting  = nullptr;
 protected:
     //<editor-fold desc="data used for a game">
     bool IsAllyAbdicated;
@@ -206,8 +211,6 @@ protected:
 
     /// \brief called before the game to set up network
     void InitializeNetwork();
-
-    void UpdateRoundPower();
 
     void SynchronizeRemoteData();
     void SynchronizeRemoteDataAllySideOnly();

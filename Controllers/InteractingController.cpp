@@ -2,11 +2,12 @@
 // Created on 2017/09/05 at 09:58.
 //
 
-#include "InteractingController.hpp"
-#include "GameController.hpp"
-#include <iostream>
 #include <QtWidgets/QInputDialog>
+#include "InteractingController.hpp"
+#include "../Views/States/CardSelectionState.hpp"
 #include "../Models/Containers/CardContainer.hpp"
+#include "../Views/States/GamePlayingState.hpp"
+#include "../Views/Widgets/CardButton.hpp"
 
 
 GameController *InteractingController::GetController() const
@@ -28,258 +29,405 @@ void InteractingController::SetController(GameController *Controller)
 
 int InteractingController::GetSelectedCardFromExistingCards(const QVector<int>& existingCardsId)
 {
-    // todo switch to GUI
-    std::cout << "You need to choose one card from the follow cards:\n";
-    for (const auto i:existingCardsId)
+    auto cardSelectionState =
+             PlayingState->GetBase()->GetSharedData("CardSelectionState").value<CardSelectionState *>();
+    cardSelectionState->ClearAllCards();
+
+    QVector<CardButton *> deleteList;
+
+    for (const auto item:existingCardsId)
     {
-        auto card = Controller->GetCardManager()->GetCardById(i);
-        std::cout << "Card Name: " << card->GetCardMetaInfo()->GetName().toStdString() << " Card Id: "
-                  << card->GetCardId() << std::endl;
+        auto *cardButton = new CardButton(nullptr, item, PlayingState->GetMainGameController()->GetCardManager());
+        deleteList.append(cardButton);
+        cardSelectionState->InsertCard(cardButton);
+        PlayingState->GetBase()->SwitchToState("CardSelection");
     }
-    std::cout << "Choose one from the cards above, enter id" << std::endl;
-    int input = QInputDialog::getInt(nullptr, "", "");
-    //    int input;
-    //    std::cin >> input;
-    return input;
+
+    cardSelectionState->RefreshMapper();
+
+    cardSelectionState->SetAbdicable(false);
+
+    QEventLoop eventLoop;
+
+    int selected;
+
+    QObject::connect
+        (
+            cardSelectionState->SignalMapper,
+            static_cast<void (QSignalMapper::*)(int)>(&QSignalMapper::mapped),
+            [&eventLoop, &selected](int cardId)
+            {
+              selected = cardId;
+              eventLoop.quit();
+            }
+        );
+
+    eventLoop.exec();
+
+    for (const auto item:deleteList)
+    {
+        delete item;
+    }
+
+    PlayingState->GetBase()->SwitchToState("GamePlaying");
+
+    return selected;
 }
-// todo functions bellow
+
 
 int InteractingController::GetSelectedCardFromExistingCardsAbdicable(const QVector<int>& existingCardsId)
 {
-    std::cout << "Choose a card from the following cards\nYou can input -1 to abdicate\n";
+    auto cardSelectionState =
+             PlayingState->GetBase()->GetSharedData("CardSelectionState").value<CardSelectionState *>();
+    cardSelectionState->ClearAllCards();
+
+    QVector<CardButton *> deleteList;
+
     for (const auto item:existingCardsId)
     {
-        std::cout << Controller->GetCardManager()->GetCardById(item)->ToDisplayableString().toStdString() << std::endl;
+        auto *cardButton = new CardButton(nullptr, item, PlayingState->GetMainGameController()->GetCardManager());
+        deleteList.append(cardButton);
+        cardSelectionState->InsertCard(cardButton);
+        PlayingState->GetBase()->SwitchToState("CardSelection");
     }
 
-    int index = QInputDialog::getInt(nullptr, "", "");
-    //    int index;
-    //    std::cin >> index;
-    if (index == -1)
+    cardSelectionState->RefreshMapper();
+
+    cardSelectionState->SetAbdicable(true);
+
+    QEventLoop eventLoop;
+
+    int selected;
+
+    QObject::connect
+        (
+            cardSelectionState->SignalMapper,
+            static_cast<void (QSignalMapper::*)(int)>(&QSignalMapper::mapped),// todo can't arrive here
+            [&eventLoop, &selected](int cardId)
+            {
+              selected = cardId;
+              eventLoop.quit();
+            }
+        );
+
+    QObject::connect
+        (
+            cardSelectionState,
+            &CardSelectionState::ClickOnDoneButton,
+            [&eventLoop, &selected]
+            {
+              selected = -1;
+              eventLoop.quit();
+            }
+        );
+
+    eventLoop.exec();
+
+    for (const auto item:deleteList)
     {
-        return -1;
+        delete item;
     }
-    else
-    {
-        return index;
-    }
+
+    PlayingState->GetBase()->SwitchToState("GamePlaying");
+    return selected;
 }
 
 
 void InteractingController::GetRoundInput(bool& abdicate, int& selectedCardId)
 {
-    std::cout
-        << "[ Intercating ] Input a integer,"
-            " -1 represents abdicate the round, others represent the card id you want to deploy";
+    PlayingState->RefreshCardsConnections();
 
-    int input = QInputDialog::getInt(nullptr, "", "");
-    //    int input;
-    //    std::cin >> input;
-    if (input == -1)
-    {
-        abdicate       = true;
-        selectedCardId = -1;
-    }
-    else
-    {
-        abdicate       = false;
-        selectedCardId = input;
-    }
+    bool isAbdicate;
+    int  id;
+
+    QEventLoop eventLoop;
+
+    QObject::connect(
+        PlayingState->SignalMapper,
+        static_cast<void (QSignalMapper::*)(int)>(&QSignalMapper::mapped),
+        [&id, &eventLoop](int cardId)
+        {
+          id = cardId;
+          eventLoop.quit();
+        }
+    );
+
+    QObject::connect(
+        PlayingState,
+        &GamePlayingState::ClickedOnAbdicateButton,
+        [&isAbdicate, &eventLoop]
+        {
+          isAbdicate = true;
+          eventLoop.quit();
+        }
+    );
+
+    eventLoop.exec();
+
+    abdicate       = isAbdicate;
+    selectedCardId = id;
 }
 
 
 CardMeta InteractingController::GetSelectedCardFromSpanningCards(const QVector<CardMeta *>& spawningCardsMeta)
 {
-    std::cout << "Choose a card from the following cards\n";
+    auto cardSelectionState =
+             PlayingState->GetBase()->GetSharedData("CardSelectionState").value<CardSelectionState *>();
+    cardSelectionState->ClearAllCards();
+
+    QVector<CardButton *> deleteList;
+
     for (int i = 0; i < spawningCardsMeta.size(); i++)
     {
-        std::cout << i << " " << spawningCardsMeta[i]->GetName().toStdString() << std::endl;
+        auto *cardButton = new CardButton(nullptr, i, PlayingState->GetMainGameController()->GetCardManager());
+        deleteList.append(cardButton);
+        cardSelectionState->InsertCard(cardButton);
+        PlayingState->GetBase()->SwitchToState("CardSelection");
     }
 
-    int index = QInputDialog::getInt(nullptr, "", "");
-    //    int index;
-    //    std::cin >> index;
+    cardSelectionState->RefreshMapper();
 
-    return *(spawningCardsMeta[index]);
+    cardSelectionState->SetAbdicable(false);
+
+    QEventLoop eventLoop;
+
+    int selected;
+
+    QObject::connect
+        (
+            cardSelectionState->SignalMapper,
+            static_cast<void (QSignalMapper::*)(int)>(&QSignalMapper::mapped),
+            [&eventLoop, &selected](int cardId)
+            {
+              selected = cardId;
+              eventLoop.quit();
+            }
+        );
+
+    eventLoop.exec();
+
+    for (const auto item:deleteList)
+    {
+        delete item;
+    }
+
+    PlayingState->GetBase()->SwitchToState("GamePlaying");
+
+    return *(spawningCardsMeta[selected]);
 }
 
 
 int InteractingController::GetSelectedCardFromBattleField()
 {
-    std::cout << "Select a card from the battle field\n";
+    PlayingState->RefreshCardsConnections();
 
-    auto displayBattleLine = [this](QString name)
-    {
-      auto units = Controller->GetBattleField()->GetBattleLineByName(name)->GetUnits();
-      std::cout << "Line " << name.toStdString() << std::endl;
-      for (const auto item:units)
-      {
-          std::cout << Controller->GetCardManager()->GetCardById(item)->ToDisplayableString().toStdString()
-                    << std::endl;
-      }
-    };
+    QEventLoop eventLoop;
 
-    for (const auto& prefix:QVector<QString>({"Enemy", "Allied"}))
-        for (const auto& postfix:QVector<QString>({"Siege", "Ranged", "Melee"}))
+    int id;
+
+    QObject::connect(
+        PlayingState->SignalMapper,
+        static_cast<void (QSignalMapper::*)(int)>(&QSignalMapper::mapped),
+        [&id, &eventLoop](int cardId)
         {
-            displayBattleLine(prefix + postfix);
+          id = cardId;
+          eventLoop.quit();
         }
+    );
 
-    std::cout << "Input the id of the card";
-    int input = QInputDialog::getInt(nullptr, "", "");
-    //    int input;
-    //    std::cin >> input;
+    eventLoop.exec();
 
-    return input;
+    return id;
 }
 
 
 void InteractingController::GetSelectedUnitDeployLocation(QString& deployBattleLine, int& deployIndex)
 {
-    std::cout << "You are now deploying the card to the battlefield, please input two integers" << std::endl;
-    std::cout << "the first int represent the battle line, as following:" << std::endl;
-    std::cout << "1 - AlliedMelee\n2 - AlliedRanged\n3 - AlliedSiege\n";
-    std::cout << "4 - EnemyMelee\n5 - EnemyRanged\n6 - EnemySiege\n";
-    std::cout << "the second int represent the index of the insertion\n";
+    //    std::cout << "You are now deploying the card to the battlefield, please input two integers" << std::endl;
+    //    std::cout << "the first int represent the battle line, as following:" << std::endl;
+    //    std::cout << "1 - AlliedMelee\n2 - AlliedRanged\n3 - AlliedSiege\n";
+    //    std::cout << "4 - EnemyMelee\n5 - EnemyRanged\n6 - EnemySiege\n";
+    //    std::cout << "the second int represent the index of the insertion\n";
+    //
+    //    int first  = QInputDialog::getInt(nullptr, "", "");
+    //    int second = QInputDialog::getInt(nullptr, "", "");
+    //
+    //    //    int first;
+    //    //    int second;
+    //    //    std::cin >> first;
+    //    //    std::cin >> second;
+    //
+    //    switch (first)
+    //    {
+    //    case 1:
+    //    {
+    //        deployBattleLine = "AlliedMelee";
+    //        break;
+    //    }
+    //    case 2:
+    //    {
+    //        deployBattleLine = "AlliedRanged";
+    //        break;
+    //    }
+    //    case 3:
+    //    {
+    //        deployBattleLine = "AlliedSiege";
+    //        break;
+    //    }
+    //    case 4:
+    //    {
+    //        deployBattleLine = "EnemyMelee";
+    //        break;
+    //    }
+    //    case 5:
+    //    {
+    //        deployBattleLine = "EnemyRanged";
+    //        break;
+    //    }
+    //    case 6:
+    //    {
+    //        deployBattleLine = "EnemySiege";
+    //        break;
+    //    }
+    //    default:break;
+    //    }
+    //
+    //    deployIndex = second;
+    QEventLoop eventLoop;
 
-    int first  = QInputDialog::getInt(nullptr, "", "");
-    int second = QInputDialog::getInt(nullptr, "", "");
+    QObject::connect(PlayingState, &GamePlayingState::ClickedOnEnemySiege, [&deployBattleLine, &eventLoop]
+    {
+      deployBattleLine = "EnemySiege";
+      eventLoop.quit();
+    });
+    QObject::connect(PlayingState, &GamePlayingState::ClickedOnEnemyRanged, [&deployBattleLine, &eventLoop]
+    {
+      deployBattleLine = "EnemyRanged";
+      eventLoop.quit();
+    });
+    QObject::connect(PlayingState, &GamePlayingState::ClickedOnEnemyMelee, [&deployBattleLine, &eventLoop]
+    {
+      deployBattleLine = "EnemyMelee";
+      eventLoop.quit();
+    });
+    QObject::connect(PlayingState, &GamePlayingState::ClickedOnAlliedMelee, [&deployBattleLine, &eventLoop]
+    {
+      deployBattleLine = "AlliedMelee";
+      eventLoop.quit();
+    });
+    QObject::connect(PlayingState, &GamePlayingState::ClickedOnAlliedRanged, [&deployBattleLine, &eventLoop]
+    {
+      deployBattleLine = "AlliedRanged";
+      eventLoop.quit();
+    });
+    QObject::connect(PlayingState, &GamePlayingState::ClickedOnAlliedSiege, [&deployBattleLine, &eventLoop]
+    {
+      deployBattleLine = "AlliedSiege";
+      eventLoop.quit();
+    });
 
-    //    int first;
-    //    int second;
-    //    std::cin >> first;
-    //    std::cin >> second;
+    eventLoop.exec();
 
-    switch (first)
-    {
-    case 1:
-    {
-        deployBattleLine = "AlliedMelee";
-        break;
-    }
-    case 2:
-    {
-        deployBattleLine = "AlliedRanged";
-        break;
-    }
-    case 3:
-    {
-        deployBattleLine = "AlliedSiege";
-        break;
-    }
-    case 4:
-    {
-        deployBattleLine = "EnemyMelee";
-        break;
-    }
-    case 5:
-    {
-        deployBattleLine = "EnemyRanged";
-        break;
-    }
-    case 6:
-    {
-        deployBattleLine = "EnemySiege";
-        break;
-    }
-    default:break;
-    }
-
-    deployIndex = second;
+    deployIndex = 0;
 }
 
 
 QString InteractingController::GetSelectedEffectDeployBattleLine()
 {
-    std::cout << "You are now deploying the effect to a battle line, please input a integer" << std::endl;
-    std::cout << "the int represent the battle line, as following:" << std::endl;
-    std::cout << "1 - AlliedMelee\n2 - AlliedRanged\n3 - AlliedSiege\n";
-    std::cout << "4 - EnemyMelee\n5 - EnemyRanged\n6 - EnemySiege\n";
+    int choose;
 
-    int input = QInputDialog::getInt(nullptr, "", "");
-    //    int input;
-    //    std::cin >> input;
-    switch (input)
+    QEventLoop eventLoop;
+
+    QObject::connect(PlayingState, &GamePlayingState::ClickedOnEnemySiege, [&choose, &eventLoop]
     {
-    case 1:return "AlliedMelee";
-    case 2:return "AlliedRanged";
-    case 3:return "AlliedSiege";
-    case 4:return "EnemyMelee";
-    case 5:return "EnemyRanged";
-    case 6:return "EnemySiege";
+      choose = 1;
+      eventLoop.quit();
+    });
+    QObject::connect(PlayingState, &GamePlayingState::ClickedOnEnemyRanged, [&choose, &eventLoop]
+    {
+      choose = 2;
+      eventLoop.quit();
+    });
+    QObject::connect(PlayingState, &GamePlayingState::ClickedOnEnemyMelee, [&choose, &eventLoop]
+    {
+      choose = 3;
+      eventLoop.quit();
+    });
+    QObject::connect(PlayingState, &GamePlayingState::ClickedOnAlliedMelee, [&choose, &eventLoop]
+    {
+      choose = 4;
+      eventLoop.quit();
+    });
+    QObject::connect(PlayingState, &GamePlayingState::ClickedOnAlliedRanged, [&choose, &eventLoop]
+    {
+      choose = 5;
+      eventLoop.quit();
+    });
+    QObject::connect(PlayingState, &GamePlayingState::ClickedOnAlliedSiege, [&choose, &eventLoop]
+    {
+      choose = 6;
+      eventLoop.quit();
+    });
+
+    eventLoop.exec();
+
+    switch (choose)
+    {
+    case 1:return "EnemySiege";
+    case 2:return "EnemyRanged";
+    case 3:return "EnemyMelee";
+    case 4:return "AlliedMelee";
+    case 5:return "AlliedRanged";
+    case 6:return "AlliedSiege";
     }
 }
 
 
 void InteractingController::GetGlobalSelection()
 {
-    std::cout << "Only to confirm, input a integer\n";
-    int i = QInputDialog::getInt(nullptr, "", "");
-    //    int i;
-    //    std::cin >> i;
+    QEventLoop eventLoop;
+
+    QObject::connect(PlayingState, &GamePlayingState::ClickedOnEnemySiege, &eventLoop, &QEventLoop::quit);
+    QObject::connect(PlayingState, &GamePlayingState::ClickedOnEnemyRanged, &eventLoop, &QEventLoop::quit);
+    QObject::connect(PlayingState, &GamePlayingState::ClickedOnEnemyMelee, &eventLoop, &QEventLoop::quit);
+    QObject::connect(PlayingState, &GamePlayingState::ClickedOnAlliedMelee, &eventLoop, &QEventLoop::quit);
+    QObject::connect(PlayingState, &GamePlayingState::ClickedOnAlliedRanged, &eventLoop, &QEventLoop::quit);
+    QObject::connect(PlayingState, &GamePlayingState::ClickedOnAlliedSiege, &eventLoop, &QEventLoop::quit);
+
+    eventLoop.exec();
 }
 
 
 void InteractingController::UpdateBattleFieldView()
 {
-    std::cout << "================================\n";
-    std::cout << "Enemy Hand\n";
-    std::cout << "[" << Controller->GetBattleField()->GetCardContainerByName("EnemyHand")->GetCards().size()
-              << " cards remained]\n";
-    std::cout << "================================\n";
-    std::cout << "Enemy Siege "
-              << Controller->GetBattleField()->GetBattleLineByName("EnemySiege")->GetWeatherString().toStdString()
-              << std::endl;
-    for (const auto item:Controller->GetBattleField()->GetBattleLineByName("EnemySiege")->GetUnits())
+    PlayingState->ClearBattleLine();
+    PlayingState->ClearHand();
+
+    for (const auto& item:QVector<QString>({"EnemySiege", "EnemyRanged", "EnemyMelee", "AlliedMelee", "AlliedRanged",
+                                            "AlliedSiege"}))
     {
-        std::cout << Controller->GetCardManager()->GetCardById(item)->ToDisplayableString().toStdString() << std::endl;
+        auto units = Controller->GetBattleField()->GetBattleLineByName(item)->GetUnits();
+
+        for (int i = 0; i < units.size(); i++)
+        {
+            PlayingState->InsertCardToBattleLine(item, units[i], i);
+        }
     }
-    std::cout << "================================\n";
-    std::cout << "Enemy Ranged "
-              << Controller->GetBattleField()->GetBattleLineByName("EnemyRanged")->GetWeatherString().toStdString()
-              << std::endl;
-    for (const auto item:Controller->GetBattleField()->GetBattleLineByName("EnemyRanged")->GetUnits())
+
+    for (const auto& item:QVector<QString>({"EnemyHand", "AlliedHand"}))
     {
-        std::cout << Controller->GetCardManager()->GetCardById(item)->ToDisplayableString().toStdString() << std::endl;
+        auto cards = Controller->GetBattleField()->GetCardContainerByName(item)->GetCards();
+
+        for (int i = 0; i < cards.size(); i++)
+        {
+            PlayingState->InsertCardToBattleLine(item, cards[i], i);
+        }
     }
-    std::cout << "================================\n";
-    std::cout << "Enemy Melee "
-              << Controller->GetBattleField()->GetBattleLineByName("EnemyMelee")->GetWeatherString().toStdString()
-              << std::endl;
-    for (const auto item:Controller->GetBattleField()->GetBattleLineByName("EnemyMelee")->GetUnits())
-    {
-        std::cout << Controller->GetCardManager()->GetCardById(item)->ToDisplayableString().toStdString() << std::endl;
-    }
-    std::cout << "================================\n";
-    std::cout << "Allied Melee "
-              << Controller->GetBattleField()->GetBattleLineByName("AlliedMelee")->GetWeatherString().toStdString()
-              << std::endl;
-    for (const auto item:Controller->GetBattleField()->GetBattleLineByName("AlliedMelee")->GetUnits())
-    {
-        std::cout << Controller->GetCardManager()->GetCardById(item)->ToDisplayableString().toStdString() << std::endl;
-    }
-    std::cout << "================================\n";
-    std::cout << "Allied Ranged "
-              << Controller->GetBattleField()->GetBattleLineByName("AlliedRanged")->GetWeatherString().toStdString()
-              << std::endl;
-    for (const auto item:Controller->GetBattleField()->GetBattleLineByName("AlliedRanged")->GetUnits())
-    {
-        std::cout << Controller->GetCardManager()->GetCardById(item)->ToDisplayableString().toStdString() << std::endl;
-    }
-    std::cout << "================================\n";
-    std::cout << "Allied Siege "
-              << Controller->GetBattleField()->GetBattleLineByName("AlliedSiege")->GetWeatherString().toStdString()
-              << std::endl;
-    for (const auto item:Controller->GetBattleField()->GetBattleLineByName("AlliedSiege")->GetUnits())
-    {
-        std::cout << Controller->GetCardManager()->GetCardById(item)->ToDisplayableString().toStdString() << std::endl;
-    }
-    std::cout << "================================\n";
-    std::cout << "Allied Hand\n";
-    for (const auto item:Controller->GetBattleField()->GetCardContainerByName("AlliedHand")->GetCards())
-    {
-        std::cout << Controller->GetCardManager()->GetCardById(item)->ToDisplayableString().toStdString() << std::endl;
-    }
-    std::cout << "================================\n";
+}
+
+
+void InteractingController::SetPlayingState(GamePlayingState *PlayingState)
+{
+    InteractingController::PlayingState = PlayingState;
 }
 

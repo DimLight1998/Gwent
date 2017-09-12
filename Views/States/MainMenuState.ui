@@ -59,7 +59,7 @@
                                         <string notr="true">font: 24pt &quot;微软雅黑&quot;;</string>
                                     </property>
                                     <property name="text">
-                                        <string>#</string>
+                                        <string>Recover Game</string>
                                     </property>
                                 </widget>
                             </item>
@@ -91,7 +91,7 @@
                                         <string notr="true">font: 24pt &quot;微软雅黑&quot;;</string>
                                     </property>
                                     <property name="text">
-                                        <string>#</string>
+                                        <string>Log In / Sign Up</string>
                                     </property>
                                 </widget>
                             </item>

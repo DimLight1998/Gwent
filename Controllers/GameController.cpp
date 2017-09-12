@@ -39,6 +39,14 @@ InteractingController *GameController::GetInteracting() const
 }
 
 
+GameController::GameController()
+{
+    Interacting  = new InteractingController(this);
+    _battleField = new BattleField();
+    _cardManager = new CardManager();
+}
+
+
 void GameController::SetInteracting(InteractingController *Interacting)
 {
     GameController::Interacting = Interacting;
@@ -651,15 +659,6 @@ void GameController::ResetGameData()
     auto localAddress = GetLocalAddress();
     auto localPort    = ClientServer->serverPort();
     SendMessage("PLAYER|" + localAddress + "|" + QString::number(localPort));
-
-    // the card group data should be ready already
-    delete _battleField;
-    delete _cardManager;
-    delete Interacting;
-
-    _battleField = new BattleField();
-    _cardManager = new CardManager();
-    Interacting  = new InteractingController(this);
 
     // before indexing, we need to know whether we are the first to start
     // we need a lock to lock this
