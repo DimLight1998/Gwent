@@ -7,8 +7,8 @@
 #include <QtCore/QEventLoop>
 #include <QtCore/QTimer>
 #include <QtWidgets/QMessageBox>
-#include "GameController.hpp"
 
+#include "GameController.hpp"
 #include "../Models/Containers/CardContainer.hpp"
 #include "../Models/Card/Unit.hpp"
 #include "../Models/Card/Effect.hpp"
@@ -512,7 +512,7 @@ void GameController::StartGameEntry()
     InitializeNetwork();
 
     // todo remove hack
-    HackBeforeStart();
+    // HackBeforeStart();
 
     ResetGameData();
 
@@ -1043,8 +1043,8 @@ void GameController::InitializeNetwork()
 {
     qDebug() << "Initializing network";
     // todo should be modified
-    SetRemoteServerAddress("localhost");
-    SetRemoteServerPort(6666);
+    SetRemoteServerAddress(AddressOfRemoteServer);
+    SetRemoteServerPort(PortOfRemoteServer);
     RegisterToHost();
 }
 
@@ -1214,6 +1214,24 @@ void GameController::UpdateRoundPower()
             EnemyRoundPower += dynamic_cast<Unit *>(unit)->GetPower();
         }
     }
+}
+
+
+void GameController::SetAddressOfRemoteServer(const QString& AddressOfRemoteServer)
+{
+    GameController::AddressOfRemoteServer = AddressOfRemoteServer;
+}
+
+
+void GameController::SetPortOfRemoteServer(quint16 PortOfRemoteServer)
+{
+    GameController::PortOfRemoteServer = PortOfRemoteServer;
+}
+
+
+void GameController::SetAllyCardGroup(const CardGroup& AllyCardGroup)
+{
+    GameController::AllyCardGroup = AllyCardGroup;
 }
 
 //</editor-fold>

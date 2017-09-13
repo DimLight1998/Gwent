@@ -19,6 +19,8 @@ class StartGameSettingsState : public QWidget, public IState
 Q_OBJECT
 public:;
     StartGameSettingsState(QWidget *parent);
+
+    void RefreshList();
 protected:
     Ui::StartGameSettingsState *StartGameSettingsStateUi;
 };

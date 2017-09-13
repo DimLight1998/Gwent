@@ -164,6 +164,8 @@ public:
     QVector<QString> GetBattleLineWeathers();
     bool GetIsAllyTurn();
 
+    void SetAllyCardGroup(const CardGroup& AllyCardGroup);
+
     BattleField *GetBattleField() const;
     CardManager *GetCardManager() const;
 
@@ -240,6 +242,12 @@ protected:
     // 0: reserved
     // -1: used for default in some cased
     // others: reserved
+
+    QString AddressOfRemoteServer;
+    quint16 PortOfRemoteServer;
+public:
+    void SetAddressOfRemoteServer(const QString& AddressOfRemoteServer);
+    void SetPortOfRemoteServer(quint16 PortOfRemoteServer);
 private:
     /// \brief hacking code goes here
     void HackBeforeStart();

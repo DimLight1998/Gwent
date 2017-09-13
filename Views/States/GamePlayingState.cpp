@@ -37,8 +37,33 @@ void GamePlayingState::StartGame()
     delete MainGameController;
 
     MainGameController = new GameController();
+
+    CardGroup cardGroup;
+    auto      fileName = Base->GetSharedData("SelectedCardGroupName").value<QString>();
+
+    QFile file("./" + fileName + ".cg");
+    file.open(QIODevice::ReadOnly);
+
+    QTextStream in(&file);
+    QString     cardGroupString;
+    cardGroupString = in.readAll();
+
+    file.close();
+
+    cardGroup.UpdateFromString(cardGroupString);
+
+    MainGameController->SetAllyCardGroup(cardGroup);
+    MainGameController->SetAddressOfRemoteServer(Base->GetSharedData("ServerAddress").value<QString>());
+    MainGameController->SetPortOfRemoteServer(static_cast<quint16>(Base->GetSharedData("ServerPort").value<int>()));
     MainGameController->GetInteracting()->SetPlayingState(this);
-    MainGameController->StartGameEntry();
+
+    try
+    {
+        MainGameController->StartGameEntry();
+    }
+    catch (...)
+    {
+    }
 }
 
 

@@ -3,6 +3,7 @@
 //
 
 #include <QApplication>
+#include <QtGui/QPainter>
 #include "BaseWindow.hpp"
 #include "States/MainMenuState.hpp"
 #include "States/CardGroupEditState.hpp"

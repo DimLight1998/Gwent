@@ -4,8 +4,10 @@
 
 #include <QtWidgets/QMessageBox>
 #include <QDebug>
+#include <QtCore/QFile>
 #include "CardGroupEditState.hpp"
 #include "ui_CardGroupEditState.h"
+#include "StartGameSettingsState.hpp"
 
 
 CardGroupEditState::CardGroupEditState(QWidget *parent)
@@ -32,18 +34,27 @@ void CardGroupEditState::OnSave()
 {
     auto    cardGroup = GetCardGroup();
     QString exportString;
+    QString name      = CardGroupEditStateUi->lineEdit->text();
 
-    if (cardGroup.IsValid())
+    if (cardGroup.IsValid() && name != "")
     {
         exportString = cardGroup.ToString();
     }
     else
     {
-        QMessageBox::critical(this, tr("Error"), tr("Invalid card group"));
+        QMessageBox::critical(this, tr("Error"), tr("Invalid card group or name"));
     }
 
-    //todo
-    QMessageBox::information(this, "Todo", "Save to server");
+    QFile data("./" + name + ".cg");
+    if (data.open(QFile::WriteOnly | QIODevice::Truncate))
+    {
+        QTextStream out(&data);
+        out << exportString;
+    }
+    data.close();
+
+    CardGroupEditStateUi->lineEdit->clear();
+    Base->GetSharedData("StartGameSettingsState").value<StartGameSettingsState *>()->RefreshList();
 }
 
 
