@@ -87,6 +87,9 @@ public:
 
     void SetPlayingState(GamePlayingState *PlayingState);
 
+    /// \brief pause the game for a small while
+    void SetCheckPoint();
+
 protected:
     GameController   *Controller;
     GamePlayingState *PlayingState;

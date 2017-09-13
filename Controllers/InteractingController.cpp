@@ -3,6 +3,7 @@
 //
 
 #include <QtWidgets/QInputDialog>
+#include <QtCore/QTimer>
 #include "InteractingController.hpp"
 #include "../Views/States/CardSelectionState.hpp"
 #include "../Models/Containers/CardContainer.hpp"
@@ -301,7 +302,6 @@ void InteractingController::GetSelectedUnitDeployLocation(QString& deployBattleL
         {
           deployBattleLine = "AlliedMelee";
           deployIndex      = index;
-          qDebug() << "******************" << index;
           eventLoop.quit();
         });
     auto alliedRangedConnection = QObject::connect(
@@ -310,7 +310,6 @@ void InteractingController::GetSelectedUnitDeployLocation(QString& deployBattleL
         {
           deployBattleLine = "AlliedRanged";
           deployIndex      = index;
-          qDebug() << "******************" << index;
           eventLoop.quit();
         });
     auto alliedSiegeConnection  = QObject::connect(
@@ -319,7 +318,6 @@ void InteractingController::GetSelectedUnitDeployLocation(QString& deployBattleL
         {
           deployBattleLine = "AlliedSiege";
           deployIndex      = index;
-          qDebug() << "******************" << index;
           eventLoop.quit();
         });
 
@@ -456,5 +454,19 @@ void InteractingController::UpdateBattleField()
 void InteractingController::SetPlayingState(GamePlayingState *PlayingState)
 {
     InteractingController::PlayingState = PlayingState;
+}
+
+
+void InteractingController::SetCheckPoint()
+{
+    QEventLoop eventLoop;
+
+    QTimer::singleShot(150, &eventLoop, &QEventLoop::quit);
+    eventLoop.exec();
+
+    UpdateBattleField();
+
+    QTimer::singleShot(150, &eventLoop, &QEventLoop::quit);
+    eventLoop.exec();
 }
 

@@ -140,6 +140,7 @@ void GameController::HandleImpenetrableFogDeployed(const QString& battleLine)
     if (!success)
     {
         DeployUnitFromContainerToBattleLine("Foglet", "AlliedGrave", fogletDeployLine, index);
+        Interacting->SetCheckPoint();
     }
 }
 
@@ -156,6 +157,7 @@ void GameController::HandleGoldCardDeploying()
     auto index = qrand() % (size + 1);
 
     DeployUnitFromContainerToBattleLine("Roach", "AlliedDeck", lineName, index);
+    Interacting->SetCheckPoint();
 }
 
 
@@ -192,6 +194,7 @@ void GameController::HandleUnitSwallowed()
 
                 auto id = SpawnCard("ArachasHatchling", "AlliedHand", 0);
                 DeployTheCardOfId(id);
+                Interacting->SetCheckPoint();
             }
         }
     }
@@ -209,16 +212,21 @@ void GameController::HandleRoundUpdate()
         case BattleLine::WeatherEnum::Rain:
         {
             TorrentialRain::ExecuteDamage(this, battleLineName);
+            Interacting->SetCheckPoint();
+
             break;
         }
         case BattleLine::WeatherEnum::Frost:
         {
+
             BitingFrost::ExecuteDamage(this, battleLineName);
+            Interacting->SetCheckPoint();
             break;
         }
         case BattleLine::WeatherEnum::Fog:
         {
             ImpenetrableFog::ExecuteDamage(this, battleLineName);
+            Interacting->SetCheckPoint();
             break;
         }
         case BattleLine::WeatherEnum::None:
@@ -236,6 +244,7 @@ void GameController::HandleRoundUpdate()
         for (const auto item:battleLine->GetUnits())
         {
             dynamic_cast<Unit *>(_cardManager->GetCardById(item))->RoundUpdate();
+            Interacting->SetCheckPoint();
         }
     }
 }
@@ -252,6 +261,7 @@ void GameController::DeployUnitToBattleLine(int cardId, const QString& battleLin
     dynamic_cast<Unit *>(_cardManager->GetCardById(cardId))->SetSelectedLine(battleLineName);
     dynamic_cast<Unit *>(_cardManager->GetCardById(cardId))->SetSelectedIndex(index);
     _cardManager->GetCardById(cardId)->OnDeploy();
+    Interacting->SetCheckPoint();
 }
 
 
@@ -278,6 +288,7 @@ bool GameController::DeployUnitFromContainerToBattleLine
             dynamic_cast<Unit *>(_cardManager->GetCardById(id))->SetSelectedIndex(index);
 
             _cardManager->GetCardById(id)->OnDeploy();
+            Interacting->SetCheckPoint();
 
             return true;
         }
@@ -316,6 +327,7 @@ int GameController::SpawnCard(const QString& cardName, const QString& containerO
         }
 
         _battleField->GetCardContainerByName(containerOrBattleLineName)->InsertCard(card->GetCardId(), index);
+        Interacting->SetCheckPoint();
     }
 
     return card->GetCardId();
@@ -331,6 +343,7 @@ bool GameController::MoveCardFromBattleLineToBattleLine
         sourceBattleLine->RemoveCardOfId(id);
         auto destinationBattleLine = _battleField->GetBattleLineByName(destinationBattleLineName);
         destinationBattleLine->InsertUnit(id, index);
+        Interacting->SetCheckPoint();
         return true;
     }
     catch (...)
@@ -364,11 +377,13 @@ bool GameController::MoveCardFromCardsSetToCardsSet
         {
             auto destinationContainer = _battleField->GetCardContainerByName(destinationCardsSetName);
             destinationContainer->InsertCard(id, index);
+            Interacting->SetCheckPoint();
         }
         else if (_battleField->IsABattleLine(destinationCardsSetName))
         {
             auto destinationBattleLine = _battleField->GetBattleLineByName(destinationCardsSetName);
             destinationBattleLine->InsertUnit(id, index);
+            Interacting->SetCheckPoint();
         }
         else
         {
@@ -455,7 +470,7 @@ void GameController::DeployTheCardOfId(int id)
             MoveCardFromCardsSetToCardsSet(id, deployLine, deployIndex);
             dynamic_cast<Unit *>(card)->SetSelectedLine(deployLine);
             dynamic_cast<Unit *>(card)->SetSelectedIndex(deployIndex);
-            Interacting->UpdateBattleField();
+            Interacting->SetCheckPoint();
             card->OnDeploy();
             isValid = true;
         }
@@ -489,7 +504,7 @@ void GameController::DeployTheCardOfId(int id)
         card->OnDestroy();
     }
 
-    Interacting->UpdateBattleField();
+    Interacting->SetCheckPoint();
 }
 //</editor-fold>
 
@@ -869,6 +884,7 @@ void GameController::DrawOneCard()
     _battleField->GetCardContainerByName("AlliedDeck")->RemoveCardOfId(cardId);
 
     _battleField->GetCardContainerByName("AlliedHand")->InsertCard(cardId, 0);
+    Interacting->SetCheckPoint();
 }
 
 
@@ -929,6 +945,7 @@ void GameController::RedrawOneCard(int originalCardId)
 
     auto deckSize = _battleField->GetCardContainerByName("AlliedDeck")->GetCards().size();
     MoveCardFromCardsSetToCardsSet(originalCardId, "AlliedHand", "AlliedDeck", deckSize);
+    Interacting->SetCheckPoint();
 }
 
 
@@ -1017,7 +1034,7 @@ void GameController::HackBeforeStart()
 {
     for (auto& i:QVector<QString>(
         {
-            "Dagon",
+            "UnseenElder",
             "WoodlandSpirit", "Caranthir", "GeraltIgni", "GeEls",
             "CroneWeavess", "CroneWhispess", "CroneBrewess", "Frightener", "Roach", "BekkersTwistedMirror",
             "FirstLight", "BitingFrost", "ImpenetrableFog", "Foglet", "Foglet", "Foglet", "TorrentialRain",
