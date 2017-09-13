@@ -40,8 +40,9 @@ int InteractingController::GetSelectedCardFromExistingCards(const QVector<int>& 
         auto *cardButton = new CardButton(nullptr, item, PlayingState->GetMainGameController()->GetCardManager());
         deleteList.append(cardButton);
         cardSelectionState->InsertCard(cardButton);
-        PlayingState->GetBase()->SwitchToState("CardSelection");
     }
+
+    PlayingState->GetBase()->SwitchToState("CardSelection");
 
     cardSelectionState->RefreshMapper();
 
@@ -51,7 +52,7 @@ int InteractingController::GetSelectedCardFromExistingCards(const QVector<int>& 
 
     int selected;
 
-    QObject::connect
+    auto connection = QObject::connect
         (
             cardSelectionState->SignalMapper,
             static_cast<void (QSignalMapper::*)(int)>(&QSignalMapper::mapped),
@@ -68,6 +69,8 @@ int InteractingController::GetSelectedCardFromExistingCards(const QVector<int>& 
     {
         delete item;
     }
+
+    QObject::disconnect(connection);
 
     PlayingState->GetBase()->SwitchToState("GamePlaying");
 
@@ -88,8 +91,9 @@ int InteractingController::GetSelectedCardFromExistingCardsAbdicable(const QVect
         auto *cardButton = new CardButton(nullptr, item, PlayingState->GetMainGameController()->GetCardManager());
         deleteList.append(cardButton);
         cardSelectionState->InsertCard(cardButton);
-        PlayingState->GetBase()->SwitchToState("CardSelection");
     }
+
+    PlayingState->GetBase()->SwitchToState("CardSelection");
 
     cardSelectionState->RefreshMapper();
 
@@ -99,7 +103,7 @@ int InteractingController::GetSelectedCardFromExistingCardsAbdicable(const QVect
 
     int selected;
 
-    QObject::connect
+    auto signalMapConncetion = QObject::connect
         (
             cardSelectionState->SignalMapper,
             static_cast<void (QSignalMapper::*)(int)>(&QSignalMapper::mapped),// todo can't arrive here
@@ -110,7 +114,7 @@ int InteractingController::GetSelectedCardFromExistingCardsAbdicable(const QVect
             }
         );
 
-    QObject::connect
+    auto doneButtonConnection = QObject::connect
         (
             cardSelectionState,
             &CardSelectionState::ClickOnDoneButton,
@@ -128,6 +132,9 @@ int InteractingController::GetSelectedCardFromExistingCardsAbdicable(const QVect
         delete item;
     }
 
+    QObject::disconnect(signalMapConncetion);
+    QObject::disconnect(doneButtonConnection);
+
     PlayingState->GetBase()->SwitchToState("GamePlaying");
     return selected;
 }
@@ -142,7 +149,7 @@ void InteractingController::GetRoundInput(bool& abdicate, int& selectedCardId)
 
     QEventLoop eventLoop;
 
-    QObject::connect(
+    auto signalMapConnection = QObject::connect(
         PlayingState->SignalMapper,
         static_cast<void (QSignalMapper::*)(int)>(&QSignalMapper::mapped),
         [&id, &eventLoop](int cardId)
@@ -152,7 +159,7 @@ void InteractingController::GetRoundInput(bool& abdicate, int& selectedCardId)
         }
     );
 
-    QObject::connect(
+    auto abdicateButtonConnection = QObject::connect(
         PlayingState,
         &GamePlayingState::ClickedOnAbdicateButton,
         [&isAbdicate, &eventLoop]
@@ -163,6 +170,9 @@ void InteractingController::GetRoundInput(bool& abdicate, int& selectedCardId)
     );
 
     eventLoop.exec();
+
+    QObject::disconnect(signalMapConnection);
+    QObject::disconnect(abdicateButtonConnection);
 
     abdicate       = isAbdicate;
     selectedCardId = id;
@@ -177,13 +187,23 @@ CardMeta InteractingController::GetSelectedCardFromSpanningCards(const QVector<C
 
     QVector<CardButton *> deleteList;
 
+    auto temporaryCardManager = new CardManager();
+
     for (int i = 0; i < spawningCardsMeta.size(); i++)
     {
-        auto *cardButton = new CardButton(nullptr, i, PlayingState->GetMainGameController()->GetCardManager());
+        auto card = Card::SpawnCardByName(spawningCardsMeta[i]->GetName(), nullptr);
+        card->SetCardId(i);
+        temporaryCardManager->RegisterCard(card);
+    }
+
+    for (int i = 0; i < spawningCardsMeta.size(); i++)
+    {
+        auto *cardButton = new CardButton(nullptr, i, temporaryCardManager);
         deleteList.append(cardButton);
         cardSelectionState->InsertCard(cardButton);
-        PlayingState->GetBase()->SwitchToState("CardSelection");
     }
+
+    PlayingState->GetBase()->SwitchToState("CardSelection");
 
     cardSelectionState->RefreshMapper();
 
@@ -193,7 +213,7 @@ CardMeta InteractingController::GetSelectedCardFromSpanningCards(const QVector<C
 
     int selected;
 
-    QObject::connect
+    auto connection = QObject::connect
         (
             cardSelectionState->SignalMapper,
             static_cast<void (QSignalMapper::*)(int)>(&QSignalMapper::mapped),
@@ -210,6 +230,10 @@ CardMeta InteractingController::GetSelectedCardFromSpanningCards(const QVector<C
     {
         delete item;
     }
+    QObject::disconnect(connection);
+
+    delete temporaryCardManager;
+    qDebug() << spawningCardsMeta[selected]->GetName();
 
     PlayingState->GetBase()->SwitchToState("GamePlaying");
 
@@ -225,7 +249,7 @@ int InteractingController::GetSelectedCardFromBattleField()
 
     int id;
 
-    QObject::connect(
+    auto connection = QObject::connect(
         PlayingState->SignalMapper,
         static_cast<void (QSignalMapper::*)(int)>(&QSignalMapper::mapped),
         [&id, &eventLoop](int cardId)
@@ -237,6 +261,8 @@ int InteractingController::GetSelectedCardFromBattleField()
 
     eventLoop.exec();
 
+    QObject::disconnect(connection);
+
     return id;
 }
 
@@ -245,38 +271,45 @@ void InteractingController::GetSelectedUnitDeployLocation(QString& deployBattleL
 {
     QEventLoop eventLoop;
 
-    QObject::connect(PlayingState, &GamePlayingState::ClickedOnEnemySiege, [&deployBattleLine, &eventLoop]
+    auto enemySiegeConnection   = QObject::connect(PlayingState, &GamePlayingState::ClickedOnEnemySiege, [&deployBattleLine, &eventLoop]
     {
       deployBattleLine = "EnemySiege";
       eventLoop.quit();
     });
-    QObject::connect(PlayingState, &GamePlayingState::ClickedOnEnemyRanged, [&deployBattleLine, &eventLoop]
+    auto enemyRangedConnection  = QObject::connect(PlayingState, &GamePlayingState::ClickedOnEnemyRanged, [&deployBattleLine, &eventLoop]
     {
       deployBattleLine = "EnemyRanged";
       eventLoop.quit();
     });
-    QObject::connect(PlayingState, &GamePlayingState::ClickedOnEnemyMelee, [&deployBattleLine, &eventLoop]
+    auto enemyMeleeConnection   = QObject::connect(PlayingState, &GamePlayingState::ClickedOnEnemyMelee, [&deployBattleLine, &eventLoop]
     {
       deployBattleLine = "EnemyMelee";
       eventLoop.quit();
     });
-    QObject::connect(PlayingState, &GamePlayingState::ClickedOnAlliedMelee, [&deployBattleLine, &eventLoop]
+    auto alliedMeleeConnection  = QObject::connect(PlayingState, &GamePlayingState::ClickedOnAlliedMelee, [&deployBattleLine, &eventLoop]
     {
       deployBattleLine = "AlliedMelee";
       eventLoop.quit();
     });
-    QObject::connect(PlayingState, &GamePlayingState::ClickedOnAlliedRanged, [&deployBattleLine, &eventLoop]
+    auto alliedRangedConnection = QObject::connect(PlayingState, &GamePlayingState::ClickedOnAlliedRanged, [&deployBattleLine, &eventLoop]
     {
       deployBattleLine = "AlliedRanged";
       eventLoop.quit();
     });
-    QObject::connect(PlayingState, &GamePlayingState::ClickedOnAlliedSiege, [&deployBattleLine, &eventLoop]
+    auto alliedSiegeConnection  = QObject::connect(PlayingState, &GamePlayingState::ClickedOnAlliedSiege, [&deployBattleLine, &eventLoop]
     {
       deployBattleLine = "AlliedSiege";
       eventLoop.quit();
     });
 
     eventLoop.exec();
+
+    QObject::disconnect(enemySiegeConnection);
+    QObject::disconnect(enemyRangedConnection);
+    QObject::disconnect(enemyMeleeConnection);
+    QObject::disconnect(alliedMeleeConnection);
+    QObject::disconnect(alliedRangedConnection);
+    QObject::disconnect(alliedSiegeConnection);
 
     deployIndex = 0;
 }
@@ -288,38 +321,51 @@ QString InteractingController::GetSelectedEffectDeployBattleLine()
 
     QEventLoop eventLoop;
 
-    QObject::connect(PlayingState, &GamePlayingState::ClickedOnEnemySiege, [&choose, &eventLoop]
-    {
-      choose = 1;
-      eventLoop.quit();
-    });
-    QObject::connect(PlayingState, &GamePlayingState::ClickedOnEnemyRanged, [&choose, &eventLoop]
-    {
-      choose = 2;
-      eventLoop.quit();
-    });
-    QObject::connect(PlayingState, &GamePlayingState::ClickedOnEnemyMelee, [&choose, &eventLoop]
-    {
-      choose = 3;
-      eventLoop.quit();
-    });
-    QObject::connect(PlayingState, &GamePlayingState::ClickedOnAlliedMelee, [&choose, &eventLoop]
-    {
-      choose = 4;
-      eventLoop.quit();
-    });
-    QObject::connect(PlayingState, &GamePlayingState::ClickedOnAlliedRanged, [&choose, &eventLoop]
-    {
-      choose = 5;
-      eventLoop.quit();
-    });
-    QObject::connect(PlayingState, &GamePlayingState::ClickedOnAlliedSiege, [&choose, &eventLoop]
-    {
-      choose = 6;
-      eventLoop.quit();
-    });
+    auto enemySiegeConnection   = QObject::connect
+        (PlayingState, &GamePlayingState::ClickedOnEnemySiege, [&choose, &eventLoop]
+        {
+          choose = 1;
+          eventLoop.quit();
+        });
+    auto enemyRangedConnection  = QObject::connect
+        (PlayingState, &GamePlayingState::ClickedOnEnemyRanged, [&choose, &eventLoop]
+        {
+          choose = 2;
+          eventLoop.quit();
+        });
+    auto enemyMeleeConnection   = QObject::connect
+        (PlayingState, &GamePlayingState::ClickedOnEnemyMelee, [&choose, &eventLoop]
+        {
+          choose = 3;
+          eventLoop.quit();
+        });
+    auto alliedMeleeConnection  = QObject::connect
+        (PlayingState, &GamePlayingState::ClickedOnAlliedMelee, [&choose, &eventLoop]
+        {
+          choose = 4;
+          eventLoop.quit();
+        });
+    auto alliedRangedConnection = QObject::connect
+        (PlayingState, &GamePlayingState::ClickedOnAlliedRanged, [&choose, &eventLoop]
+        {
+          choose = 5;
+          eventLoop.quit();
+        });
+    auto alliedSiegeConnection  = QObject::connect
+        (PlayingState, &GamePlayingState::ClickedOnAlliedSiege, [&choose, &eventLoop]
+        {
+          choose = 6;
+          eventLoop.quit();
+        });
 
     eventLoop.exec();
+
+    QObject::disconnect(enemySiegeConnection);
+    QObject::disconnect(enemyRangedConnection);
+    QObject::disconnect(enemyMeleeConnection);
+    QObject::disconnect(alliedMeleeConnection);
+    QObject::disconnect(alliedRangedConnection);
+    QObject::disconnect(alliedSiegeConnection);
 
     switch (choose)
     {

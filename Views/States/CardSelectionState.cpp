@@ -42,6 +42,8 @@ void CardSelectionState::InsertCard(CardButton *cardButton)
 
 void CardSelectionState::RefreshMapper()
 {
+    SignalMapper->disconnect();
+
     for (int i = 0; i < CardSelectionStateUi->horizontalLayout->count(); i++)
     {
         auto cardButton = dynamic_cast<CardButton *>(CardSelectionStateUi->horizontalLayout->itemAt(i)->widget());

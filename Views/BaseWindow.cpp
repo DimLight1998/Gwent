@@ -14,7 +14,7 @@ BaseWindow::BaseWindow()
 {
     StackedWidget = new QStackedWidget(this);
     setCentralWidget(StackedWidget);
-    setMinimumSize(1280, 720);
+    setMinimumSize(1280, 750);
 
     auto mainMenuState = new MainMenuState(StackedWidget);
     mainMenuState->SetBase(this);

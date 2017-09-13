@@ -408,6 +408,7 @@ bool GameController::MoveCardFromCardsSetToCardsSet(int id, const QString& desti
 void GameController::DeployTheCardOfId(int id)
 {
     auto card = _cardManager->GetCardById(id);
+    qDebug() << card->GetCardMetaInfo()->GetName();
     if (Unit::IsCardUnit(card))
     {
         QString deployLine;
@@ -418,6 +419,7 @@ void GameController::DeployTheCardOfId(int id)
         do
         {
             Interacting->GetSelectedUnitDeployLocation(deployLine, deployIndex);
+            qDebug() << deployLine;
             QString prefix = (dynamic_cast<UnitMeta *>(card->GetCardMetaInfo())->IsLoyal()) ? "Allied" : "Enemy";
 
             qDebug() << deployLine;
