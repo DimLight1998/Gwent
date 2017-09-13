@@ -552,7 +552,7 @@ void GameController::StartGameEntry()
         }
         //</editor-fold>
 
-        SynchronizeRemoteDataAllyHandOnly();
+        SynchronizeRemoteDataAllySideOnly();
 
         while (!isRoundOver)
         {
@@ -945,7 +945,6 @@ void GameController::RedrawOneCard(int originalCardId)
 
     auto deckSize = _battleField->GetCardContainerByName("AlliedDeck")->GetCards().size();
     MoveCardFromCardsSetToCardsSet(originalCardId, "AlliedHand", "AlliedDeck", deckSize);
-    Interacting->SetCheckPoint();
 }
 
 
@@ -1026,6 +1025,84 @@ void GameController::SynchronizeRemoteDataAllyHandOnly()
     auto finalSendString = "SynchronizeStatus|" + QString::number(PlayerNumber) + "|" + sendString;
 
     SendMessage(finalSendString);
+}
+
+
+QVector<int> GameController::GetBattleLineScores()
+{
+    auto alliedMeleePower  = 0;
+    auto alliedRangedPower = 0;
+    auto alliedSiegePower  = 0;
+    auto enemyMeleePower   = 0;
+    auto enemyRangedPower  = 0;
+    auto enemySiegePower   = 0;
+
+    for (const auto item:_battleField->GetBattleLineByName("AlliedMelee")->GetUnits())
+    {
+        auto unit = _cardManager->GetCardById(item);
+        alliedMeleePower += dynamic_cast<Unit *>(unit)->GetPower();
+    }
+
+    for (const auto item:_battleField->GetBattleLineByName("AlliedRanged")->GetUnits())
+    {
+        auto unit = _cardManager->GetCardById(item);
+        alliedRangedPower += dynamic_cast<Unit *>(unit)->GetPower();
+    }
+
+    for (const auto item:_battleField->GetBattleLineByName("AlliedSiege")->GetUnits())
+    {
+        auto unit = _cardManager->GetCardById(item);
+        alliedSiegePower += dynamic_cast<Unit *>(unit)->GetPower();
+    }
+
+    for (const auto item:_battleField->GetBattleLineByName("EnemyMelee")->GetUnits())
+    {
+        auto unit = _cardManager->GetCardById(item);
+        enemyMeleePower += dynamic_cast<Unit *>(unit)->GetPower();
+    }
+
+    for (const auto item:_battleField->GetBattleLineByName("EnemyRanged")->GetUnits())
+    {
+        auto unit = _cardManager->GetCardById(item);
+        enemyRangedPower += dynamic_cast<Unit *>(unit)->GetPower();
+    }
+
+    for (const auto item:_battleField->GetBattleLineByName("EnemySiege")->GetUnits())
+    {
+        auto unit = _cardManager->GetCardById(item);
+        enemySiegePower += dynamic_cast<Unit *>(unit)->GetPower();
+    }
+
+    return QVector<int>(
+        {
+            enemySiegePower,
+            enemyRangedPower,
+            enemyMeleePower,
+            alliedMeleePower,
+            alliedRangedPower,
+            alliedSiegePower
+        });
+}
+
+
+QVector<QString> GameController::GetBattleLineWeathers()
+{
+    return QVector<QString>(
+        {
+            _battleField->GetBattleLineByName("EnemySiege")->GetWeatherString(),
+            _battleField->GetBattleLineByName("EnemyRanged")->GetWeatherString(),
+            _battleField->GetBattleLineByName("EnemyMelee")->GetWeatherString(),
+            _battleField->GetBattleLineByName("AlliedMelee")->GetWeatherString(),
+            _battleField->GetBattleLineByName("AlliedRanged")->GetWeatherString(),
+            _battleField->GetBattleLineByName("AlliedSiege")->GetWeatherString()
+        }
+    );
+}
+
+
+bool GameController::GetIsAllyTurn()
+{
+    return IsAllyTurn;
 }
 
 

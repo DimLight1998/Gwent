@@ -28,6 +28,7 @@ class BattleField;
 class GameController : public Client
 {
 Q_OBJECT
+
 private:
     BattleField           *_battleField = nullptr;
     CardManager           *_cardManager = nullptr;
@@ -156,6 +157,12 @@ public:
 
     void UpdateRoundPower();
 
+    void SynchronizeRemoteData();
+
+    QVector<int> GetBattleLineScores();
+    QVector<QString> GetBattleLineWeathers();
+    bool GetIsAllyTurn();
+
     BattleField *GetBattleField() const;
     CardManager *GetCardManager() const;
 
@@ -212,7 +219,6 @@ protected:
     /// \brief called before the game to set up network
     void InitializeNetwork();
 
-    void SynchronizeRemoteData();
     void SynchronizeRemoteDataAllySideOnly();
     void SynchronizeLocalData(const QString& message);
     void SynchronizeRemoteDataAllyHandOnly();

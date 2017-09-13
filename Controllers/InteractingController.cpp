@@ -448,6 +448,12 @@ void InteractingController::UpdateBattleField()
     }
 
     PlayingState->RefreshCardsConnections();
+
+    PlayingState->UpdateUi(
+        Controller->GetBattleLineScores(),
+        Controller->GetBattleLineWeathers(),
+        Controller->GetIsAllyTurn()
+    );
 }
 
 
@@ -459,6 +465,8 @@ void InteractingController::SetPlayingState(GamePlayingState *PlayingState)
 
 void InteractingController::SetCheckPoint()
 {
+    Controller->SynchronizeRemoteData();
+
     QEventLoop eventLoop;
 
     QTimer::singleShot(150, &eventLoop, &QEventLoop::quit);

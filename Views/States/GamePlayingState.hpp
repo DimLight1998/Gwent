@@ -71,6 +71,12 @@ public:
     /// \param index index of the insertion
     void InsertCardToBattleLine(const QString& battleLineName, int cardId, int index);
 
+    void UpdateUi(
+        const QVector<int>& battleLineScores,
+        const QVector<QString>& battleLineWeathers,
+        bool isAllyTurn
+    );
+
 public:
     bool eventFilter(QObject *watched, QEvent *event) override;
 

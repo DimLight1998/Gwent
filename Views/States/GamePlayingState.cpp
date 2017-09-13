@@ -353,3 +353,67 @@ int GamePlayingState::GetIndexByMouseAndLayout(QMouseEvent *mouseEvent, QHBoxLay
 
     return index;
 }
+
+
+void GamePlayingState::UpdateUi(
+    const QVector<int>& battleLineScores,
+    const QVector<QString>& battleLineWeathers,
+    bool isAllyTurn)
+{
+    EnemySiegeScoreIndicator->setText(QString::number(battleLineScores[0]));
+    EnemyRangedScoreIndicator->setText(QString::number(battleLineScores[1]));
+    EnemyMeleeScoreIndicator->setText(QString::number(battleLineScores[2]));
+    AlliedMeleeScoreIndicator->setText(QString::number(battleLineScores[3]));
+    AlliedRangedScoreIndicator->setText(QString::number(battleLineScores[4]));
+    AlliedSiegeScoreIndicator->setText(QString::number(battleLineScores[5]));
+
+    auto widgets = QVector<QWidget *>(
+        {
+            GamePlayingStateUi->widget_5,
+            GamePlayingStateUi->widget,
+            GamePlayingStateUi->widget_4,
+            GamePlayingStateUi->widget_6,
+            GamePlayingStateUi->widget_7,
+            GamePlayingStateUi->widget_8,
+        }
+    );
+
+    GamePlayingStateUi->label->setText(
+        QString::number(battleLineScores[0] + battleLineScores[1] + battleLineScores[2])
+    );
+
+    GamePlayingStateUi->label_2->setText(
+        QString::number(battleLineScores[3] + battleLineScores[4] + battleLineScores[5])
+    );
+
+    for (int i = 0; i < widgets.size(); i++)
+    {
+        if (battleLineWeathers[i] == "Rain")
+        {
+            widgets[i]->setStyleSheet("background-color: rgba(0, 85, 100, 100);");
+        }
+        if (battleLineWeathers[i] == "Frost")
+        {
+            widgets[i]->setStyleSheet("background-color: rgba(0, 85, 200, 100);");
+        }
+        if (battleLineWeathers[i] == "Fog")
+        {
+            widgets[i]->setStyleSheet("background-color: rgba(57, 125, 84, 120);");
+        }
+        if (battleLineWeathers[i] == "None")
+        {
+            widgets[i]->setStyleSheet("background-color: rgb(0, 0, 0, 0);");
+        }
+    }
+
+    if (isAllyTurn)
+    {
+        GamePlayingStateUi->abdicateButton->setText("Your turn\n\nPress here to pass");
+        GamePlayingStateUi->abdicateButton->setStyleSheet("background-color: rgb(0, 118, 177);");
+    }
+    else
+    {
+        GamePlayingStateUi->abdicateButton->setText("Your opponent's turn\n\nPlease wait...");
+        GamePlayingStateUi->abdicateButton->setStyleSheet("background-color: rgb(140, 0, 2);");
+    }
+}
