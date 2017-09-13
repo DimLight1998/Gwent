@@ -9,6 +9,7 @@
 #include "../Models/Containers/CardContainer.hpp"
 #include "../Views/States/GamePlayingState.hpp"
 #include "../Views/Widgets/CardButton.hpp"
+#include "../Views/States/ResultState.hpp"
 
 
 GameController *InteractingController::GetController() const
@@ -465,7 +466,7 @@ void InteractingController::SetPlayingState(GamePlayingState *PlayingState)
 
 void InteractingController::SetCheckPoint()
 {
-    Controller->SynchronizeRemoteData();
+    Controller->SynchronizeRemoteDataAllySideOnly();
 
     QEventLoop eventLoop;
 
@@ -478,3 +479,45 @@ void InteractingController::SetCheckPoint()
     eventLoop.exec();
 }
 
+
+void InteractingController::InformResult(
+    bool isWinner,
+    int allyRound1,
+    int allyRound2,
+    int allyRound3,
+    int enemyRound1,
+    int enemyRound2,
+    int enemyRound3
+)
+{
+    PlayingState->GetBase()->SwitchToState("Result");
+    auto resultState = PlayingState->GetBase()->GetSharedData("ResultState").value<ResultState *>();
+    resultState->SetResult(
+        isWinner, allyRound1,
+        allyRound2,
+        allyRound3,
+        enemyRound1,
+        enemyRound2,
+        enemyRound3
+    );
+}
+
+
+void InteractingController::InformResult(
+    bool isWinner,
+    int allyRound1,
+    int allyRound2,
+    int enemyRound1,
+    int enemyRound2
+)
+{
+    PlayingState->GetBase()->SwitchToState("Result");
+    auto resultState = PlayingState->GetBase()->GetSharedData("ResultState").value<ResultState *>();
+    resultState->SetResult(
+        isWinner,
+        allyRound1,
+        allyRound2,
+        enemyRound1,
+        enemyRound2
+    );
+}

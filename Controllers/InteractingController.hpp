@@ -90,6 +90,24 @@ public:
     /// \brief pause the game for a small while
     void SetCheckPoint();
 
+    void InformResult(
+        bool isWinner,
+        int allyRound1,
+        int allyRound2,
+        int allyRound3,
+        int enemyRound1,
+        int enemyRound2,
+        int enemyRound3
+    );
+
+    void InformResult(
+        bool isWinner,
+        int allyRound1,
+        int allyRound2,
+        int enemyRound1,
+        int enemyRound2
+    );
+
 protected:
     GameController   *Controller;
     GamePlayingState *PlayingState;

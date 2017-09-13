@@ -146,7 +146,7 @@ set(
         Views/Widgets/CardButton.hpp
         Views/States/CardSelectionState.cpp
         Views/States/CardSelectionState.hpp
-)
+        Views/States/ResultState.cpp Views/States/ResultState.hpp)
 
 #add_executable(Gwent ${CORE_FILES} Main.cpp)
 add_executable(

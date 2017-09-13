@@ -26,6 +26,8 @@ public:
 
     QVariant GetSharedData(const QString& index);
     void SetSharedData(const QString& index, QVariant data);
+protected:
+    void closeEvent(QCloseEvent *event) override;
 
 protected:
     bool    IsLoggedIn = false;

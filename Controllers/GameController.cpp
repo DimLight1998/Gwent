@@ -396,8 +396,6 @@ bool GameController::MoveCardFromCardsSetToCardsSet
     {
         return false;
     }
-
-    return false;
 }
 
 
@@ -518,8 +516,16 @@ void GameController::StartGameEntry()
 
     ResetGameData();
 
+    bool isWinner  = false;
+    bool hadRound3 = false;
+
     for (int i = 0; i < 3; i++)
     {
+        if (i == 2)
+        {
+            hadRound3 = true;
+        }
+
         InitializeRoundGameData();
         bool isRoundOver = false;
 
@@ -600,6 +606,7 @@ void GameController::StartGameEntry()
 
                 SendMessage("OperationDone|" + QString::number(PlayerNumber));
                 SynchronizeRemoteData();
+                Interacting->UpdateBattleField();
                 IsAllyTurn = false;
             }
             //</editor-fold>
@@ -611,6 +618,46 @@ void GameController::StartGameEntry()
                 SendMessage("OperationDone|" + QString::number(PlayerNumber));
             }
         }
+
+        auto totalPower = GetBattleLineScores();
+        switch (i)
+        {
+        case 0:
+        {
+            AllyRound1Score  = totalPower[3] + totalPower[4] + totalPower[5];
+            EnemyRound1Score = totalPower[0] + totalPower[1] + totalPower[2];
+            break;
+        }
+        case 1:
+        {
+            AllyRound2Score  = totalPower[3] + totalPower[4] + totalPower[5];
+            EnemyRound2Score = totalPower[0] + totalPower[1] + totalPower[2];
+            break;
+        }
+        case 2:
+        {
+            AllyRound3Score  = totalPower[3] + totalPower[4] + totalPower[5];
+            EnemyRound3Score = totalPower[0] + totalPower[1] + totalPower[2];
+            break;
+        }
+        }
+
+        QVector<Unit *> units;
+        for (auto       item:QVector<QString>({"AlliedSiege", "AlliedRanged", "AlliedMelee"}))
+        {
+            auto      battleLine = _battleField->GetBattleLineByName(item);
+            for (auto unit:battleLine->GetUnits())
+            {
+                units.append(dynamic_cast<Unit *>(_cardManager->GetCardById(unit)));
+            }
+        }
+
+        for (auto unit:units)
+        {
+            unit->Destroy();
+        }
+
+        SynchronizeRemoteDataAllySideOnly();
 
         //<editor-fold desc="Statistics">
         if (AllyRoundPower > EnemyRoundPower)
@@ -641,25 +688,41 @@ void GameController::StartGameEntry()
             }
         }
 
-        if (AllyTotalScore == 2 && EnemyTotalScore == 2)
+        if (AllyTotalScore == 2)
         {
-            std::cout << "Draw!";
-            break;
-        }
-        else if (AllyTotalScore == 2)
-        {
-            std::cout << "You win!";
+            isWinner = true;
             break;
         }
         else if (EnemyTotalScore == 2)
         {
-            std::cout << "You lose!";
+            isWinner = false;
             break;
         }
         //</editor-fold>
     }
 
-    QMessageBox::information(nullptr, "End", "End");
+    if (hadRound3)
+    {
+        Interacting->InformResult(
+            isWinner,
+            AllyRound1Score,
+            AllyRound2Score,
+            AllyRound3Score,
+            EnemyRound1Score,
+            EnemyRound2Score,
+            EnemyRound3Score
+        );
+    }
+    else
+    {
+        Interacting->InformResult(
+            isWinner,
+            AllyRound1Score,
+            AllyRound2Score,
+            EnemyRound1Score,
+            EnemyRound2Score
+        );
+    }
 }
 
 
@@ -884,7 +947,6 @@ void GameController::DrawOneCard()
     _battleField->GetCardContainerByName("AlliedDeck")->RemoveCardOfId(cardId);
 
     _battleField->GetCardContainerByName("AlliedHand")->InsertCard(cardId, 0);
-    Interacting->SetCheckPoint();
 }
 
 

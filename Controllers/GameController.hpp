@@ -158,6 +158,7 @@ public:
     void UpdateRoundPower();
 
     void SynchronizeRemoteData();
+    void SynchronizeRemoteDataAllySideOnly();
 
     QVector<int> GetBattleLineScores();
     QVector<QString> GetBattleLineWeathers();
@@ -185,6 +186,14 @@ protected:
 
     int AllyTotalScore;
     int EnemyTotalScore;
+
+    int AllyRound1Score = 0;
+    int AllyRound2Score = 0;
+    int AllyRound3Score = 0;
+
+    int EnemyRound1Score = 0;
+    int EnemyRound2Score = 0;
+    int EnemyRound3Score = 0;
 
     int PlayerNumber;
 
@@ -219,7 +228,6 @@ protected:
     /// \brief called before the game to set up network
     void InitializeNetwork();
 
-    void SynchronizeRemoteDataAllySideOnly();
     void SynchronizeLocalData(const QString& message);
     void SynchronizeRemoteDataAllyHandOnly();
 

@@ -99,10 +99,11 @@
                                             <height>150</height>
                                         </size>
                                     </property>
+                                    <property name="styleSheet">
+                                        <string notr="true">background-color: rgb(140, 0, 2);</string>
+                                    </property>
                                     <property name="text">
-                                        <string>Your turn
-                                            Press here to pass
-                                        </string>
+                                        <string>Please wait...</string>
                                     </property>
                                 </widget>
                             </item>
@@ -182,6 +183,9 @@
                         <layout class="QVBoxLayout" name="verticalLayout_2">
                             <item>
                                 <widget class="QWidget" name="widget_3" native="true">
+                                    <property name="styleSheet">
+                                        <string notr="true"/>
+                                    </property>
                                     <layout class="QHBoxLayout" name="horizontalLayout_15">
                                         <property name="topMargin">
                                             <number>0</number>

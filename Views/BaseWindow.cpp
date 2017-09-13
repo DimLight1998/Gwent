@@ -2,12 +2,14 @@
 // Created on 2017/09/11 at 15:32.
 //
 
+#include <QApplication>
 #include "BaseWindow.hpp"
 #include "States/MainMenuState.hpp"
 #include "States/CardGroupEditState.hpp"
 #include "States/StartGameSettingsState.hpp"
 #include "States/GamePlayingState.hpp"
 #include "States/CardSelectionState.hpp"
+#include "States/ResultState.hpp"
 
 
 BaseWindow::BaseWindow()
@@ -40,6 +42,11 @@ BaseWindow::BaseWindow()
     cardSelectionState->SetBase(this);
     StackedWidget->addWidget(cardSelectionState);
     SetSharedData("CardSelectionState", QVariant::fromValue(cardSelectionState));
+
+    auto resultState = new ResultState(StackedWidget);
+    resultState->SetBase(this);
+    StackedWidget->addWidget(resultState);
+    SetSharedData("ResultState", QVariant::fromValue(resultState));
 
     SwitchToState("MainMenu");
 }
@@ -83,6 +90,11 @@ void BaseWindow::SwitchToState(const QString& stateName)
     {
         StackedWidget->setCurrentIndex(4);
     }
+
+    if (stateName == "Result")
+    {
+        StackedWidget->setCurrentIndex(5);
+    }
 }
 
 
@@ -95,4 +107,10 @@ QVariant BaseWindow::GetSharedData(const QString& index)
 void BaseWindow::SetSharedData(const QString& index, QVariant data)
 {
     SharedData.insert(index, data);
+}
+
+
+void BaseWindow::closeEvent(QCloseEvent *event)
+{
+    QApplication::exit(0);
 }
