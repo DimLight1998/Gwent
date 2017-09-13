@@ -40,12 +40,12 @@ void CommandersHorn::OnDeploy()
                 dynamic_cast<Unit *>(cardManager->GetCardById(battleLine->GetUnits()[i - 2]))->GainPower(4);
             }
 
-            if (i + 1 <= battleLine->GetUnits().size())
+            if (i + 1 < battleLine->GetUnits().size())
             {
                 dynamic_cast<Unit *>(cardManager->GetCardById(battleLine->GetUnits()[i + 1]))->GainPower(4);
             }
 
-            if (i + 2 <= battleLine->GetUnits().size())
+            if (i + 2 < battleLine->GetUnits().size())
             {
                 dynamic_cast<Unit *>(cardManager->GetCardById(battleLine->GetUnits()[i + 2]))->GainPower(4);
             }

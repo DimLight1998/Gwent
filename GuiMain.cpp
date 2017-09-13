@@ -10,10 +10,10 @@
 int main(int argc, char **argv)
 {
     QApplication application(argc, argv);
-    //
-    //    QTranslator translator;
-    //    translator.load("Chinese.qm");
-    //    application.installTranslator(&translator);
+
+    QTranslator translator;
+    translator.load("Chinese.qm");
+    application.installTranslator(&translator);
 
     BaseWindow baseWindow;
     baseWindow.show();

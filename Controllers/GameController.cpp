@@ -511,9 +511,6 @@ void GameController::StartGameEntry()
 {
     InitializeNetwork();
 
-    // todo remove hack
-    // HackBeforeStart();
-
     ResetGameData();
 
     bool isWinner  = false;
@@ -606,8 +603,8 @@ void GameController::StartGameEntry()
 
                 SendMessage("OperationDone|" + QString::number(PlayerNumber));
                 SynchronizeRemoteData();
-                Interacting->UpdateBattleField();
                 IsAllyTurn = false;
+                Interacting->UpdateBattleField();
             }
             //</editor-fold>
 

@@ -39,7 +39,7 @@ void ThunderboltPotion::OnDeploy()
                 unitLeft->GainArmor(2);
             }
 
-            if (i + 1 <= battleLine->GetUnits().size())
+            if (i + 1 < battleLine->GetUnits().size())
             {
                 auto unitRight = dynamic_cast<Unit *>(cardManager->GetCardById(battleLine->GetUnits()[i + 1]));
                 unitRight->GainPower(3);
