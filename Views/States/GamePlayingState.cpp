@@ -142,12 +142,12 @@ void GamePlayingState::ClearBattleLine()
         ->addSpacerItem(new QSpacerItem(1, 1, QSizePolicy::Expanding, QSizePolicy::Preferred));
     GamePlayingStateUi->horizontalLayout_4->addWidget(EnemyMeleeIndicator);
 
-    GamePlayingStateUi->horizontalLayout_7->addWidget(AlliedSiegeScoreIndicator);
+    GamePlayingStateUi->horizontalLayout_7->addWidget(AlliedMeleeScoreIndicator);
     GamePlayingStateUi->horizontalLayout_7
         ->addSpacerItem(new QSpacerItem(1, 1, QSizePolicy::Expanding, QSizePolicy::Preferred));
     GamePlayingStateUi->horizontalLayout_7
         ->addSpacerItem(new QSpacerItem(1, 1, QSizePolicy::Expanding, QSizePolicy::Preferred));
-    GamePlayingStateUi->horizontalLayout_7->addWidget(AlliedSiegeIndicator);
+    GamePlayingStateUi->horizontalLayout_7->addWidget(AlliedMeleeIndicator);
 
     GamePlayingStateUi->horizontalLayout_9->addWidget(AlliedRangedScoreIndicator);
     GamePlayingStateUi->horizontalLayout_9
@@ -156,12 +156,12 @@ void GamePlayingState::ClearBattleLine()
         ->addSpacerItem(new QSpacerItem(1, 1, QSizePolicy::Expanding, QSizePolicy::Preferred));
     GamePlayingStateUi->horizontalLayout_9->addWidget(AlliedRangedIndicator);
 
-    GamePlayingStateUi->horizontalLayout_11->addWidget(AlliedMeleeScoreIndicator);
+    GamePlayingStateUi->horizontalLayout_11->addWidget(AlliedSiegeScoreIndicator);
     GamePlayingStateUi->horizontalLayout_11
         ->addSpacerItem(new QSpacerItem(1, 1, QSizePolicy::Expanding, QSizePolicy::Preferred));
     GamePlayingStateUi->horizontalLayout_11
         ->addSpacerItem(new QSpacerItem(1, 1, QSizePolicy::Expanding, QSizePolicy::Preferred));
-    GamePlayingStateUi->horizontalLayout_11->addWidget(AlliedMeleeIndicator);
+    GamePlayingStateUi->horizontalLayout_11->addWidget(AlliedSiegeIndicator);
 }
 
 
@@ -257,21 +257,18 @@ bool GamePlayingState::eventFilter(QObject *watched, QEvent *event)
             auto mouseEvent = dynamic_cast<QMouseEvent *>(event);
             auto index      = GetIndexByMouseAndLayout(mouseEvent, GamePlayingStateUi->horizontalLayout_7);
             emit(ClickedOnAlliedMelee(index));
-            qDebug() << "hhhmelee";
         }
         if (watched == GamePlayingStateUi->widget_7)
         {
             auto mouseEvent = dynamic_cast<QMouseEvent *>(event);
             auto index      = GetIndexByMouseAndLayout(mouseEvent, GamePlayingStateUi->horizontalLayout_9);
             emit(ClickedOnAlliedRanged(index));
-            qDebug() << "hhhranged";
         }
         if (watched == GamePlayingStateUi->widget_8)
         {
             auto mouseEvent = dynamic_cast<QMouseEvent *>(event);
             auto index      = GetIndexByMouseAndLayout(mouseEvent, GamePlayingStateUi->horizontalLayout_11);
             emit(ClickedOnAlliedSiege(index));
-            qDebug() << "hhhsiege";
         }
 
         return false;
@@ -306,7 +303,6 @@ void GamePlayingState::RefreshCardsConnections()
                     &QPushButton::clicked, []
                     { qDebug() << "Clicked"; });
             SignalMapper->setMapping(button, dynamic_cast<CardButton *>(button)->GetCardId());
-            qDebug() << dynamic_cast<CardButton *>(button)->GetCardId();
         }
     }
 
@@ -330,7 +326,6 @@ void GamePlayingState::RefreshCardsConnections()
                     &QPushButton::clicked, []
                     { qDebug() << "Clicked"; });
             SignalMapper->setMapping(button, dynamic_cast<CardButton *>(button)->GetCardId());
-            qDebug() << dynamic_cast<CardButton *>(button)->GetCardId();
         }
     }
 }
@@ -344,6 +339,17 @@ GameController *GamePlayingState::GetMainGameController() const
 
 int GamePlayingState::GetIndexByMouseAndLayout(QMouseEvent *mouseEvent, QHBoxLayout *layout)
 {
-    qDebug() << mouseEvent->pos();
-    return 0;
+    auto x     = mouseEvent->pos().x();
+    auto index = 0;
+
+    for (int i = 2; i < layout->count() - 2; i++)
+    {
+        auto cardButton = layout->itemAt(i)->widget();
+        if (x > cardButton->pos().x() + cardButton->size().width() / 2)
+        {
+            index++;
+        }
+    }
+
+    return index;
 }

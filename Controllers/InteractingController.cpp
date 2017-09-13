@@ -271,36 +271,57 @@ void InteractingController::GetSelectedUnitDeployLocation(QString& deployBattleL
 {
     QEventLoop eventLoop;
 
-    auto enemySiegeConnection   = QObject::connect(PlayingState, &GamePlayingState::ClickedOnEnemySiege, [&deployBattleLine, &eventLoop]
-    {
-      deployBattleLine = "EnemySiege";
-      eventLoop.quit();
-    });
-    auto enemyRangedConnection  = QObject::connect(PlayingState, &GamePlayingState::ClickedOnEnemyRanged, [&deployBattleLine, &eventLoop]
-    {
-      deployBattleLine = "EnemyRanged";
-      eventLoop.quit();
-    });
-    auto enemyMeleeConnection   = QObject::connect(PlayingState, &GamePlayingState::ClickedOnEnemyMelee, [&deployBattleLine, &eventLoop]
-    {
-      deployBattleLine = "EnemyMelee";
-      eventLoop.quit();
-    });
-    auto alliedMeleeConnection  = QObject::connect(PlayingState, &GamePlayingState::ClickedOnAlliedMelee, [&deployBattleLine, &eventLoop]
-    {
-      deployBattleLine = "AlliedMelee";
-      eventLoop.quit();
-    });
-    auto alliedRangedConnection = QObject::connect(PlayingState, &GamePlayingState::ClickedOnAlliedRanged, [&deployBattleLine, &eventLoop]
-    {
-      deployBattleLine = "AlliedRanged";
-      eventLoop.quit();
-    });
-    auto alliedSiegeConnection  = QObject::connect(PlayingState, &GamePlayingState::ClickedOnAlliedSiege, [&deployBattleLine, &eventLoop]
-    {
-      deployBattleLine = "AlliedSiege";
-      eventLoop.quit();
-    });
+    auto enemySiegeConnection   = QObject::connect(
+        PlayingState, &GamePlayingState::ClickedOnEnemySiege,
+        [&deployBattleLine, &eventLoop, &deployIndex](int index)
+        {
+          deployBattleLine = "EnemySiege";
+          deployIndex      = index;
+          eventLoop.quit();
+        });
+    auto enemyRangedConnection  = QObject::connect(
+        PlayingState, &GamePlayingState::ClickedOnEnemyRanged,
+        [&deployBattleLine, &eventLoop, &deployIndex](int index)
+        {
+          deployBattleLine = "EnemyRanged";
+          deployIndex      = index;
+          eventLoop.quit();
+        });
+    auto enemyMeleeConnection   = QObject::connect(
+        PlayingState, &GamePlayingState::ClickedOnEnemyMelee,
+        [&deployBattleLine, &eventLoop, &deployIndex](int index)
+        {
+          deployBattleLine = "EnemyMelee";
+          deployIndex      = index;
+          eventLoop.quit();
+        });
+    auto alliedMeleeConnection  = QObject::connect(
+        PlayingState, &GamePlayingState::ClickedOnAlliedMelee,
+        [&deployBattleLine, &eventLoop, &deployIndex](int index)
+        {
+          deployBattleLine = "AlliedMelee";
+          deployIndex      = index;
+          qDebug() << "******************" << index;
+          eventLoop.quit();
+        });
+    auto alliedRangedConnection = QObject::connect(
+        PlayingState, &GamePlayingState::ClickedOnAlliedRanged,
+        [&deployBattleLine, &eventLoop, &deployIndex](int index)
+        {
+          deployBattleLine = "AlliedRanged";
+          deployIndex      = index;
+          qDebug() << "******************" << index;
+          eventLoop.quit();
+        });
+    auto alliedSiegeConnection  = QObject::connect(
+        PlayingState, &GamePlayingState::ClickedOnAlliedSiege,
+        [&deployBattleLine, &eventLoop, &deployIndex](int index)
+        {
+          deployBattleLine = "AlliedSiege";
+          deployIndex      = index;
+          qDebug() << "******************" << index;
+          eventLoop.quit();
+        });
 
     eventLoop.exec();
 
@@ -310,8 +331,6 @@ void InteractingController::GetSelectedUnitDeployLocation(QString& deployBattleL
     QObject::disconnect(alliedMeleeConnection);
     QObject::disconnect(alliedRangedConnection);
     QObject::disconnect(alliedSiegeConnection);
-
-    deployIndex = 0;
 }
 
 

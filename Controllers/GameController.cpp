@@ -455,6 +455,7 @@ void GameController::DeployTheCardOfId(int id)
             MoveCardFromCardsSetToCardsSet(id, deployLine, deployIndex);
             dynamic_cast<Unit *>(card)->SetSelectedLine(deployLine);
             dynamic_cast<Unit *>(card)->SetSelectedIndex(deployIndex);
+            Interacting->UpdateBattleField();
             card->OnDeploy();
             isValid = true;
         }
