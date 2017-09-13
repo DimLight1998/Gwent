@@ -63,7 +63,7 @@ public:
     /// \param faction faction of the card, in format (Enemy|Ally)
     /// \param cardId id of the card
     /// \param index index of insertion
-    void InsertCardToDeck(const QString& faction, int cardId, int index);
+    void InsertCardToHand(const QString& faction, int cardId, int index);
 
     /// \brief insert a unit in to the battle line
     /// \param battleLineName in format (Enemy|Allied)(Siege|Melee|Ranged)

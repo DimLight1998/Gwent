@@ -22,6 +22,13 @@ GamePlayingState::GamePlayingState(QWidget *parent)
             this,
             &GamePlayingState::ClickedOnAbdicateButton
     );
+
+    GamePlayingStateUi->widget_5->installEventFilter(this);
+    GamePlayingStateUi->widget->installEventFilter(this);
+    GamePlayingStateUi->widget_4->installEventFilter(this);
+    GamePlayingStateUi->widget_6->installEventFilter(this);
+    GamePlayingStateUi->widget_7->installEventFilter(this);
+    GamePlayingStateUi->widget_8->installEventFilter(this);
 }
 
 
@@ -49,20 +56,22 @@ void GamePlayingState::ClearHand()
     layout        = GamePlayingStateUi->horizontalLayout_3;
     while ((child = layout->takeAt(0)) != nullptr)
     {
-        delete child;
+        delete child->widget();
+        delete child->spacerItem();
     }
 
-    layout->addStretch(1);
-    layout->addStretch(1);
+    layout->addSpacerItem(new QSpacerItem(1, 1, QSizePolicy::Expanding, QSizePolicy::Preferred));
+    layout->addSpacerItem(new QSpacerItem(1, 1, QSizePolicy::Expanding, QSizePolicy::Preferred));
 
     layout        = GamePlayingStateUi->horizontalLayout_13;
     while ((child = layout->takeAt(0)) != nullptr)
     {
-        delete child;
+        delete child->widget();
+        delete child->spacerItem();
     }
 
-    layout->addStretch(1);
-    layout->addStretch(1);
+    layout->addSpacerItem(new QSpacerItem(1, 1, QSizePolicy::Expanding, QSizePolicy::Preferred));
+    layout->addSpacerItem(new QSpacerItem(1, 1, QSizePolicy::Expanding, QSizePolicy::Preferred));
 }
 
 
@@ -80,7 +89,8 @@ void GamePlayingState::ClearBattleLine()
         QLayoutItem *child;
         while ((child = item->takeAt(0)) != nullptr)
         {
-            delete child;
+            delete child->widget();
+            delete child->spacerItem();
         }
     }
 
@@ -112,38 +122,50 @@ void GamePlayingState::ClearBattleLine()
     AlliedMeleeIndicator->setEnabled(false);
 
     GamePlayingStateUi->horizontalLayout_2->addWidget(EnemySiegeScoreIndicator);
-    GamePlayingStateUi->horizontalLayout_2->addStretch(1);
-    GamePlayingStateUi->horizontalLayout_2->addStretch(1);
+    GamePlayingStateUi->horizontalLayout_2
+        ->addSpacerItem(new QSpacerItem(1, 1, QSizePolicy::Expanding, QSizePolicy::Preferred));
+    GamePlayingStateUi->horizontalLayout_2
+        ->addSpacerItem(new QSpacerItem(1, 1, QSizePolicy::Expanding, QSizePolicy::Preferred));
     GamePlayingStateUi->horizontalLayout_2->addWidget(EnemySiegeIndicator);
 
     GamePlayingStateUi->horizontalLayout_6->addWidget(EnemyRangedScoreIndicator);
-    GamePlayingStateUi->horizontalLayout_6->addStretch(1);
-    GamePlayingStateUi->horizontalLayout_6->addStretch(1);
+    GamePlayingStateUi->horizontalLayout_6
+        ->addSpacerItem(new QSpacerItem(1, 1, QSizePolicy::Expanding, QSizePolicy::Preferred));
+    GamePlayingStateUi->horizontalLayout_6
+        ->addSpacerItem(new QSpacerItem(1, 1, QSizePolicy::Expanding, QSizePolicy::Preferred));
     GamePlayingStateUi->horizontalLayout_6->addWidget(EnemyRangedIndicator);
 
     GamePlayingStateUi->horizontalLayout_4->addWidget(EnemyMeleeScoreIndicator);
-    GamePlayingStateUi->horizontalLayout_4->addStretch(1);
-    GamePlayingStateUi->horizontalLayout_4->addStretch(1);
+    GamePlayingStateUi->horizontalLayout_4
+        ->addSpacerItem(new QSpacerItem(1, 1, QSizePolicy::Expanding, QSizePolicy::Preferred));
+    GamePlayingStateUi->horizontalLayout_4
+        ->addSpacerItem(new QSpacerItem(1, 1, QSizePolicy::Expanding, QSizePolicy::Preferred));
     GamePlayingStateUi->horizontalLayout_4->addWidget(EnemyMeleeIndicator);
 
     GamePlayingStateUi->horizontalLayout_7->addWidget(AlliedSiegeScoreIndicator);
-    GamePlayingStateUi->horizontalLayout_7->addStretch(1);
-    GamePlayingStateUi->horizontalLayout_7->addStretch(1);
+    GamePlayingStateUi->horizontalLayout_7
+        ->addSpacerItem(new QSpacerItem(1, 1, QSizePolicy::Expanding, QSizePolicy::Preferred));
+    GamePlayingStateUi->horizontalLayout_7
+        ->addSpacerItem(new QSpacerItem(1, 1, QSizePolicy::Expanding, QSizePolicy::Preferred));
     GamePlayingStateUi->horizontalLayout_7->addWidget(AlliedSiegeIndicator);
 
     GamePlayingStateUi->horizontalLayout_9->addWidget(AlliedRangedScoreIndicator);
-    GamePlayingStateUi->horizontalLayout_9->addStretch(1);
-    GamePlayingStateUi->horizontalLayout_9->addStretch(1);
+    GamePlayingStateUi->horizontalLayout_9
+        ->addSpacerItem(new QSpacerItem(1, 1, QSizePolicy::Expanding, QSizePolicy::Preferred));
+    GamePlayingStateUi->horizontalLayout_9
+        ->addSpacerItem(new QSpacerItem(1, 1, QSizePolicy::Expanding, QSizePolicy::Preferred));
     GamePlayingStateUi->horizontalLayout_9->addWidget(AlliedRangedIndicator);
 
     GamePlayingStateUi->horizontalLayout_11->addWidget(AlliedMeleeScoreIndicator);
-    GamePlayingStateUi->horizontalLayout_11->addStretch(1);
-    GamePlayingStateUi->horizontalLayout_11->addStretch(1);
+    GamePlayingStateUi->horizontalLayout_11
+        ->addSpacerItem(new QSpacerItem(1, 1, QSizePolicy::Expanding, QSizePolicy::Preferred));
+    GamePlayingStateUi->horizontalLayout_11
+        ->addSpacerItem(new QSpacerItem(1, 1, QSizePolicy::Expanding, QSizePolicy::Preferred));
     GamePlayingStateUi->horizontalLayout_11->addWidget(AlliedMeleeIndicator);
 }
 
 
-void GamePlayingState::InsertCardToDeck(const QString& faction, int cardId, int index)
+void GamePlayingState::InsertCardToHand(const QString& faction, int cardId, int index)
 {
     auto cardButton = new CardButton(this, cardId, MainGameController->GetCardManager());
     if (faction == "Ally")
@@ -212,41 +234,44 @@ bool GamePlayingState::eventFilter(QObject *watched, QEvent *event)
 {
     if (event->type() == QEvent::MouseButtonPress)
     {
-        if (watched == GamePlayingStateUi->horizontalLayout_2)
+        if (watched == GamePlayingStateUi->widget_5)
         {
             auto mouseEvent = dynamic_cast<QMouseEvent *>(event);
             auto index      = GetIndexByMouseAndLayout(mouseEvent, GamePlayingStateUi->horizontalLayout_2);
             emit(ClickedOnEnemySiege(index));
         }
-        if (watched == GamePlayingStateUi->horizontalLayout_6)
+        if (watched == GamePlayingStateUi->widget)
         {
             auto mouseEvent = dynamic_cast<QMouseEvent *>(event);
             auto index      = GetIndexByMouseAndLayout(mouseEvent, GamePlayingStateUi->horizontalLayout_6);
             emit(ClickedOnEnemyRanged(index));
         }
-        if (watched == GamePlayingStateUi->horizontalLayout_4)
+        if (watched == GamePlayingStateUi->widget_4)
         {
             auto mouseEvent = dynamic_cast<QMouseEvent *>(event);
             auto index      = GetIndexByMouseAndLayout(mouseEvent, GamePlayingStateUi->horizontalLayout_4);
             emit(ClickedOnEnemyMelee(index));
         }
-        if (watched == GamePlayingStateUi->horizontalLayout_7)
+        if (watched == GamePlayingStateUi->widget_6)
         {
             auto mouseEvent = dynamic_cast<QMouseEvent *>(event);
             auto index      = GetIndexByMouseAndLayout(mouseEvent, GamePlayingStateUi->horizontalLayout_7);
-            emit(ClickedOnEnemyMelee(index));
+            emit(ClickedOnAlliedMelee(index));
+            qDebug() << "hhhmelee";
         }
-        if (watched == GamePlayingStateUi->horizontalLayout_9)
+        if (watched == GamePlayingStateUi->widget_7)
         {
             auto mouseEvent = dynamic_cast<QMouseEvent *>(event);
             auto index      = GetIndexByMouseAndLayout(mouseEvent, GamePlayingStateUi->horizontalLayout_9);
-            emit(ClickedOnEnemyRanged(index));
+            emit(ClickedOnAlliedRanged(index));
+            qDebug() << "hhhranged";
         }
-        if (watched == GamePlayingStateUi->horizontalLayout_11)
+        if (watched == GamePlayingStateUi->widget_8)
         {
             auto mouseEvent = dynamic_cast<QMouseEvent *>(event);
             auto index      = GetIndexByMouseAndLayout(mouseEvent, GamePlayingStateUi->horizontalLayout_11);
-            emit(ClickedOnEnemySiege(index));
+            emit(ClickedOnAlliedSiege(index));
+            qDebug() << "hhhsiege";
         }
 
         return false;
@@ -276,7 +301,12 @@ void GamePlayingState::RefreshCardsConnections()
                 SignalMapper,
                 static_cast<void (QSignalMapper::*)()> (&QSignalMapper::map)
             );
+
+            connect(dynamic_cast<QPushButton *>(button),
+                    &QPushButton::clicked, []
+                    { qDebug() << "Clicked"; });
             SignalMapper->setMapping(button, dynamic_cast<CardButton *>(button)->GetCardId());
+            qDebug() << dynamic_cast<CardButton *>(button)->GetCardId();
         }
     }
 
@@ -295,7 +325,12 @@ void GamePlayingState::RefreshCardsConnections()
                 SignalMapper,
                 static_cast<void (QSignalMapper::*)()> (&QSignalMapper::map)
             );
+
+            connect(dynamic_cast<QPushButton *>(button),
+                    &QPushButton::clicked, []
+                    { qDebug() << "Clicked"; });
             SignalMapper->setMapping(button, dynamic_cast<CardButton *>(button)->GetCardId());
+            qDebug() << dynamic_cast<CardButton *>(button)->GetCardId();
         }
     }
 }

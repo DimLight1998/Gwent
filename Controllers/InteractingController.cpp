@@ -137,7 +137,7 @@ void InteractingController::GetRoundInput(bool& abdicate, int& selectedCardId)
 {
     PlayingState->RefreshCardsConnections();
 
-    bool isAbdicate;
+    bool isAbdicate = false;
     int  id;
 
     QEventLoop eventLoop;
@@ -243,56 +243,6 @@ int InteractingController::GetSelectedCardFromBattleField()
 
 void InteractingController::GetSelectedUnitDeployLocation(QString& deployBattleLine, int& deployIndex)
 {
-    //    std::cout << "You are now deploying the card to the battlefield, please input two integers" << std::endl;
-    //    std::cout << "the first int represent the battle line, as following:" << std::endl;
-    //    std::cout << "1 - AlliedMelee\n2 - AlliedRanged\n3 - AlliedSiege\n";
-    //    std::cout << "4 - EnemyMelee\n5 - EnemyRanged\n6 - EnemySiege\n";
-    //    std::cout << "the second int represent the index of the insertion\n";
-    //
-    //    int first  = QInputDialog::getInt(nullptr, "", "");
-    //    int second = QInputDialog::getInt(nullptr, "", "");
-    //
-    //    //    int first;
-    //    //    int second;
-    //    //    std::cin >> first;
-    //    //    std::cin >> second;
-    //
-    //    switch (first)
-    //    {
-    //    case 1:
-    //    {
-    //        deployBattleLine = "AlliedMelee";
-    //        break;
-    //    }
-    //    case 2:
-    //    {
-    //        deployBattleLine = "AlliedRanged";
-    //        break;
-    //    }
-    //    case 3:
-    //    {
-    //        deployBattleLine = "AlliedSiege";
-    //        break;
-    //    }
-    //    case 4:
-    //    {
-    //        deployBattleLine = "EnemyMelee";
-    //        break;
-    //    }
-    //    case 5:
-    //    {
-    //        deployBattleLine = "EnemyRanged";
-    //        break;
-    //    }
-    //    case 6:
-    //    {
-    //        deployBattleLine = "EnemySiege";
-    //        break;
-    //    }
-    //    default:break;
-    //    }
-    //
-    //    deployIndex = second;
     QEventLoop eventLoop;
 
     QObject::connect(PlayingState, &GamePlayingState::ClickedOnEnemySiege, [&deployBattleLine, &eventLoop]
@@ -398,7 +348,7 @@ void InteractingController::GetGlobalSelection()
 }
 
 
-void InteractingController::UpdateBattleFieldView()
+void InteractingController::UpdateBattleField()
 {
     PlayingState->ClearBattleLine();
     PlayingState->ClearHand();
@@ -418,11 +368,23 @@ void InteractingController::UpdateBattleFieldView()
     {
         auto cards = Controller->GetBattleField()->GetCardContainerByName(item)->GetCards();
 
+        QString faction;
+        if (item == "EnemyHand")
+        {
+            faction = "Enemy";
+        }
+        else if (item == "AlliedHand")
+        {
+            faction = "Ally";
+        }
+
         for (int i = 0; i < cards.size(); i++)
         {
-            PlayingState->InsertCardToBattleLine(item, cards[i], i);
+            PlayingState->InsertCardToHand(faction, cards[i], i);
         }
     }
+
+    PlayingState->RefreshCardsConnections();
 }
 
 

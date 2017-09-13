@@ -83,7 +83,7 @@ public:
     QString GetSelectedEffectDeployBattleLine();
 
     /// \brief update the view of the battle field
-    void UpdateBattleFieldView();
+    void UpdateBattleField();
 
     void SetPlayingState(GamePlayingState *PlayingState);
 

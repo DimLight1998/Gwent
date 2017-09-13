@@ -420,6 +420,8 @@ void GameController::DeployTheCardOfId(int id)
             Interacting->GetSelectedUnitDeployLocation(deployLine, deployIndex);
             QString prefix = (dynamic_cast<UnitMeta *>(card->GetCardMetaInfo())->IsLoyal()) ? "Allied" : "Enemy";
 
+            qDebug() << deployLine;
+
             switch (dynamic_cast<UnitMeta *>(card->GetCardMetaInfo())->GetDeployLocation())
             {
             case UnitMeta::DeployLocationEnum::Melee:
@@ -484,7 +486,7 @@ void GameController::DeployTheCardOfId(int id)
         card->OnDestroy();
     }
 
-    Interacting->UpdateBattleFieldView();
+    Interacting->UpdateBattleField();
 }
 //</editor-fold>
 
@@ -549,7 +551,7 @@ void GameController::StartGameEntry()
 
                 // round update
                 HandleRoundUpdate();
-                Interacting->UpdateBattleFieldView();
+                Interacting->UpdateBattleField();
 
                 if (!IsAllyAbdicated)
                 {
@@ -819,7 +821,7 @@ void GameController::SynchronizeLocalData(const QString& message)
             }
         }
         qDebug() << "Synchronized";
-        Interacting->UpdateBattleFieldView();
+        Interacting->UpdateBattleField();
     }
 }
 
@@ -908,10 +910,22 @@ void GameController::RedrawOneCard(int originalCardId)
         _battleField->GetCardContainerByName("AlliedDeck")->RemoveCardOfId(cardId);
     }
 
-    _battleField->GetCardContainerByName("AlliedHand")->InsertCard(cardId, 0);
+    auto handSize       = _battleField->GetCardContainerByName("AlliedHand")->GetCards().size();
+    int  insertionIndex = 0;
 
-    auto size = _battleField->GetCardContainerByName("AlliedDeck")->GetCards().size();
-    MoveCardFromCardsSetToCardsSet(originalCardId, "AlliedHand", "AlliedDeck", size);
+    for (int i = 0; i < handSize; i++)
+    {
+        if (_battleField->GetCardContainerByName("AlliedHand")->GetCards()[i] == originalCardId)
+        {
+            insertionIndex = i;
+            break;
+        }
+    }
+
+    _battleField->GetCardContainerByName("AlliedHand")->InsertCard(cardId, insertionIndex);
+
+    auto deckSize = _battleField->GetCardContainerByName("AlliedDeck")->GetCards().size();
+    MoveCardFromCardsSetToCardsSet(originalCardId, "AlliedHand", "AlliedDeck", deckSize);
 }
 
 
