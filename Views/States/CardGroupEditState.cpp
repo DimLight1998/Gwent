@@ -39,7 +39,7 @@ void CardGroupEditState::OnSave()
     }
     else
     {
-        QMessageBox::critical(this, "Error", "Invalid card group");
+        QMessageBox::critical(this, tr("Error"), tr("Invalid card group"));
     }
 
     //todo
@@ -58,7 +58,7 @@ void CardGroupEditState::OnExport()
     }
     else
     {
-        QMessageBox::critical(this, "Error", "Invalid card group");
+        QMessageBox::critical(this, tr("Error"), tr("Invalid card group"));
     }
 
     CardGroupEditStateUi->textEdit->setText(exportString);
@@ -80,7 +80,7 @@ void CardGroupEditState::OnImport()
     }
     catch (...)
     {
-        QMessageBox::critical(this, "Error", "Failed to import card group");
+        QMessageBox::critical(this, tr("Error"), tr("Failed to import card group"));
     }
 }
 

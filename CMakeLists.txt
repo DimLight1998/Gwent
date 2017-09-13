@@ -14,6 +14,7 @@ set(CMAKE_AUTORCC on)
 # set modules
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Network REQUIRED)
+find_package(Qt5LinguistTools REQUIRED)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/bin/Debug")
 
@@ -146,7 +147,18 @@ set(
         Views/Widgets/CardButton.hpp
         Views/States/CardSelectionState.cpp
         Views/States/CardSelectionState.hpp
-        Views/States/ResultState.cpp Views/States/ResultState.hpp)
+        Views/States/ResultState.cpp Views/States/ResultState.hpp
+        Views/States/MainMenuState.ui
+        Views/States/CardGroupEditState.ui
+        Views/States/CardSelectionState.ui
+        Views/States/GamePlayingState.ui
+        Views/States/ResultState.ui
+        Views/States/StartGameSettingsState.ui
+)
+
+
+qt5_create_translation(qm_files Views/Languages/Englist.ts Views/Languages/Chinese.ts ${UI_FILES} ${CORE_FILES} GuiMain.cpp)
+set_directory_properties(PROPERTIES CLEAN_NO_CUSTOM TRUE)
 
 #add_executable(Gwent ${CORE_FILES} Main.cpp)
 add_executable(
@@ -156,7 +168,7 @@ add_executable(
         Controllers/RemoteController.hpp
         ServerMain.cpp
 )
-add_executable(GuiMain ${UI_FILES} ${CORE_FILES} GuiMain.cpp)
+add_executable(GuiMain ${UI_FILES} ${CORE_FILES} GuiMain.cpp ${qm_files})
 #add_executable(ClientTest Controllers/Network/Client.cpp Controllers/Network/Client.hpp Tests/ClientMain.cpp)
 #add_executable(ServerTest Controllers/Network/Server.cpp Controllers/Network/Server.hpp Tests/ServerMain.cpp)
 #add_executable(RandomIntegerTest Utilities/RandomInteger.hpp Utilities/RandomInteger.cpp Tests/RandomIntegerMain.cpp)

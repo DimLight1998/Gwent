@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+    <class>ResultState</class>
+    <widget class="QWidget" name="ResultState">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>1223</width>
+                <height>702</height>
+            </rect>
+        </property>
+        <property name="windowTitle">
+            <string>Form</string>
+        </property>
+        <property name="styleSheet">
+            <string notr="true">font: 36pt &quot;微软雅黑&quot;;</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+            <item>
+                <layout class="QVBoxLayout" name="verticalLayout">
+                    <item>
+                        <widget class="QLabel" name="label">
+                            <property name="text">
+                                <string>Win or Lose</string>
+                            </property>
+                            <property name="alignment">
+                                <set>Qt::AlignCenter</set>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QLabel" name="label_2">
+                            <property name="text">
+                                <string>TextLabel</string>
+                            </property>
+                            <property name="alignment">
+                                <set>Qt::AlignCenter</set>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QLabel" name="label_3">
+                            <property name="text">
+                                <string>TextLabel</string>
+                            </property>
+                            <property name="alignment">
+                                <set>Qt::AlignCenter</set>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QLabel" name="label_4">
+                            <property name="text">
+                                <string>TextLabel</string>
+                            </property>
+                            <property name="alignment">
+                                <set>Qt::AlignCenter</set>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QPushButton" name="pushButton">
+                            <property name="text">
+                                <string>Exit</string>
+                            </property>
+                        </widget>
+                    </item>
+                </layout>
+            </item>
+        </layout>
+    </widget>
+    <resources/>
+    <connections/>
+</ui>

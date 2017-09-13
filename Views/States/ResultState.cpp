@@ -32,16 +32,16 @@ void ResultState::SetResult(
 {
     if (isWin)
     {
-        ResultStateUi->label->setText("You Win!");
+        ResultStateUi->label->setText(tr("You Win!"));
     }
     else
     {
         ResultStateUi->label->setText("You Lose!");
     }
 
-    ResultStateUi->label_2->setText(QString("You: %1 | Oppenent: %2").arg(allyRound1, enemyRound1));
-    ResultStateUi->label_3->setText(QString("You: %1 | Oppenent: %2").arg(allyRound2, enemyRound2));
-    ResultStateUi->label_4->setText(QString("You: %1 | Oppenent: %2").arg(allyRound3, enemyRound3));
+    ResultStateUi->label_2->setText(QString(tr("You: %1 | Oppenent: %2")).arg(allyRound1, enemyRound1));
+    ResultStateUi->label_3->setText(QString(tr("You: %1 | Oppenent: %2")).arg(allyRound2, enemyRound2));
+    ResultStateUi->label_4->setText(QString(tr("You: %1 | Oppenent: %2")).arg(allyRound3, enemyRound3));
 }
 
 
@@ -55,14 +55,14 @@ void ResultState::SetResult(
 {
     if (isWin)
     {
-        ResultStateUi->label->setText("You Win!");
+        ResultStateUi->label->setText(tr("You Win!"));
     }
     else
     {
-        ResultStateUi->label->setText("You Lose!");
+        ResultStateUi->label->setText(tr("You Lose!"));
     }
 
-    ResultStateUi->label_2->setText(QString("You: %1 | Oppenent: %2").arg(allyRound1, enemyRound1));
-    ResultStateUi->label_3->setText(QString("You: %1 | Oppenent: %2").arg(allyRound2, enemyRound2));
+    ResultStateUi->label_2->setText(QString(tr("You: %1 | Oppenent: %2")).arg(allyRound1, enemyRound1));
+    ResultStateUi->label_3->setText(QString(tr("You: %1 | Oppenent: %2")).arg(allyRound2, enemyRound2));
     ResultStateUi->label_4->setText(QString(""));
 }

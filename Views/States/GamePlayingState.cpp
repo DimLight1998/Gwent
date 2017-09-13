@@ -101,12 +101,12 @@ void GamePlayingState::ClearBattleLine()
     AlliedRangedScoreIndicator = new QPushButton(this);
     AlliedMeleeScoreIndicator  = new QPushButton(this);
 
-    EnemySiegeIndicator   = new QPushButton("Siege", this);
-    EnemyRangedIndicator  = new QPushButton("Ranged", this);
-    EnemyMeleeIndicator   = new QPushButton("Melee", this);
-    AlliedSiegeIndicator  = new QPushButton("Siege", this);
-    AlliedRangedIndicator = new QPushButton("Ranged", this);
-    AlliedMeleeIndicator  = new QPushButton("Melee", this);
+    EnemySiegeIndicator   = new QPushButton(tr("Siege"), this);
+    EnemyRangedIndicator  = new QPushButton(tr("Ranged"), this);
+    EnemyMeleeIndicator   = new QPushButton(tr("Melee"), this);
+    AlliedSiegeIndicator  = new QPushButton(tr("Siege"), this);
+    AlliedRangedIndicator = new QPushButton(tr("Ranged"), this);
+    AlliedMeleeIndicator  = new QPushButton(tr("Melee"), this);
 
     EnemySiegeScoreIndicator->setEnabled(false);
     EnemyRangedScoreIndicator->setEnabled(false);
@@ -408,12 +408,12 @@ void GamePlayingState::UpdateUi(
 
     if (isAllyTurn)
     {
-        GamePlayingStateUi->abdicateButton->setText("Your turn\n\nPress here to pass");
+        GamePlayingStateUi->abdicateButton->setText(tr("Your turn\n\nPress here to pass"));
         GamePlayingStateUi->abdicateButton->setStyleSheet("background-color: rgb(0, 118, 177);");
     }
     else
     {
-        GamePlayingStateUi->abdicateButton->setText("Your opponent's turn\n\nPlease wait...");
+        GamePlayingStateUi->abdicateButton->setText(tr("Your opponent's turn\n\nPlease wait..."));
         GamePlayingStateUi->abdicateButton->setStyleSheet("background-color: rgb(140, 0, 2);");
     }
 }
