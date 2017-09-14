@@ -129,7 +129,7 @@ void Server::Broadcast(const QString& readMessage)
         sendingSocket->disconnectFromHost();
         sendingSocket->close();
 
-        QTimer::singleShot(2000, sendingSocket, &deleteLater);
+        QTimer::singleShot(2000, sendingSocket, &QTcpSocket::deleteLater);
     }
 }
 

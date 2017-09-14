@@ -123,7 +123,7 @@
         <translation>Melee</translation>
     </message>
     <message>
-        <location filename="../States/GamePlayingState.cpp" line="436"/>
+        <location filename="../States/GamePlayingState.cpp" line="446"/>
         <source>Your turn
 
 Press here to pass</source>
@@ -132,7 +132,7 @@ Press here to pass</source>
 Press here to pass</translation>
     </message>
     <message>
-        <location filename="../States/GamePlayingState.cpp" line="441"/>
+        <location filename="../States/GamePlayingState.cpp" line="451"/>
         <source>Your opponent&apos;s turn
 
 Please wait...</source>

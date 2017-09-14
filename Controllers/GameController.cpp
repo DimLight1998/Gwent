@@ -571,7 +571,7 @@ void GameController::StartGameEntry()
             eventLoop.exec();
 
             //<editor-fold desc="If is ally's turn">
-            if (IsAllyTurn)
+            if (IsAllyTurn && !(IsAllyAbdicated && IsEnemyAbdicated))
             {
                 bool abdicate;
                 int  cardId;
@@ -615,6 +615,8 @@ void GameController::StartGameEntry()
 
             if (IsAllyAbdicated && IsEnemyAbdicated)
             {
+                Lock();
+
                 isRoundOver = true;
                 UpdateRoundPower();
 

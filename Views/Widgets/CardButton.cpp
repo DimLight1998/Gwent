@@ -50,7 +50,7 @@ void CardButton::paintEvent(QPaintEvent *event)
     QPainter painter(this);
 
     auto card = Manager->GetCardById(CardId);
-    if (Unit::IsCardUnit(card))
+    if (Unit::IsCardUnit(card) && IsVisibleToPlayer)
     {
         painter.setBrush(QBrush(QColor::fromRgb(255, 255, 255, 127)));
 
@@ -109,5 +109,20 @@ void CardButton::paintEvent(QPaintEvent *event)
         painter.drawRect(countDownPower);
         painter.drawText(countDownPower, Qt::AlignCenter,
                          ":" + QString::number(dynamic_cast<Unit *>(card)->GetTimeCount()));
+    }
+}
+
+
+void CardButton::SetVisibleToPlayer(bool visible)
+{
+    IsVisibleToPlayer = visible;
+    if (!visible)
+    {
+        setStyleSheet("border-image: url(:Resources/Back.png);");
+    }
+    else
+    {
+        auto pictureResourcePath = Manager->GetCardById(CardId)->GetCardMetaInfo()->GetPictureResourcePath();
+        setStyleSheet("border-image: url(" + pictureResourcePath + ");");
     }
 }

@@ -23,7 +23,9 @@ public:
     void SetCardId(int CardId);
     CardManager *GetManager() const;
     void SetManager(CardManager *Manager);
+    void SetVisibleToPlayer(bool visible);
 private:
+    bool IsVisibleToPlayer = true;
 };
 
 

@@ -194,9 +194,19 @@ void GamePlayingState::InsertCardToHand(const QString& faction, int cardId, int 
 {
     auto cardButton = new CardButton(this, cardId, MainGameController->GetCardManager());
     if (faction == "Ally")
-    { GamePlayingStateUi->horizontalLayout_13->insertWidget(index + 1, cardButton); }
+    {
+        GamePlayingStateUi->horizontalLayout_13->insertWidget(index + 1, cardButton);
+    }
     if (faction == "Enemy")
-    { GamePlayingStateUi->horizontalLayout_3->insertWidget(index + 1, cardButton); }
+    {
+        if (MainGameController->GetCardManager()->GetCardById(cardId)->GetCardMetaInfo()->GetCardType()
+            != CardMeta::CardTypeEnum::Leader)
+        {
+            cardButton->SetVisibleToPlayer(false);
+        }
+
+        GamePlayingStateUi->horizontalLayout_3->insertWidget(index + 1, cardButton);
+    }
 }
 
 
