@@ -11,6 +11,7 @@
 #include "States/GamePlayingState.hpp"
 #include "States/CardSelectionState.hpp"
 #include "States/ResultState.hpp"
+#include "States/SplashState.hpp"
 
 
 BaseWindow::BaseWindow()
@@ -49,7 +50,12 @@ BaseWindow::BaseWindow()
     StackedWidget->addWidget(resultState);
     SetSharedData("ResultState", QVariant::fromValue(resultState));
 
-    SwitchToState("MainMenu");
+    auto splashState = new SplashState(StackedWidget);
+    splashState->SetBase(this);
+    StackedWidget->addWidget(splashState);
+    SetSharedData("SplashState", QVariant::fromValue(splashState));
+
+    SwitchToState("SplashState");
 }
 
 
@@ -95,6 +101,12 @@ void BaseWindow::SwitchToState(const QString& stateName)
     if (stateName == "Result")
     {
         StackedWidget->setCurrentIndex(5);
+    }
+
+    if (stateName == "SplashState")
+    {
+        StackedWidget->setCurrentIndex(6);
+        dynamic_cast<SplashState *>(StackedWidget->currentWidget())->RestartAnimation();
     }
 }
 

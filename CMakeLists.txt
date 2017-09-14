@@ -154,6 +154,9 @@ set(
         Views/States/GamePlayingState.ui
         Views/States/ResultState.ui
         Views/States/StartGameSettingsState.ui
+        Views/States/SplashState.ui
+        Views/States/SplashState.cpp
+        Views/States/SplashState.hpp
 )
 
 
