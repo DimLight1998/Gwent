@@ -209,24 +209,29 @@ Please wait...</translation>
         <translation>Exit</translation>
     </message>
     <message>
-        <location filename="../States/ResultState.cpp" line="35"/>
-        <location filename="../States/ResultState.cpp" line="58"/>
         <source>You Win!</source>
-        <translation>You Win!</translation>
+        <translation type="vanished">You Win!</translation>
     </message>
     <message>
-        <location filename="../States/ResultState.cpp" line="42"/>
-        <location filename="../States/ResultState.cpp" line="43"/>
-        <location filename="../States/ResultState.cpp" line="44"/>
-        <location filename="../States/ResultState.cpp" line="65"/>
-        <location filename="../States/ResultState.cpp" line="66"/>
+        <location filename="../States/ResultState.cpp" line="35"/>
+        <location filename="../States/ResultState.cpp" line="36"/>
+        <location filename="../States/ResultState.cpp" line="37"/>
+        <location filename="../States/ResultState.cpp" line="51"/>
+        <location filename="../States/ResultState.cpp" line="52"/>
         <source>You: %1 | Oppenent: %2</source>
         <translation>You: %1 | Oppenent: %2</translation>
     </message>
     <message>
-        <location filename="../States/ResultState.cpp" line="62"/>
         <source>You Lose!</source>
-        <translation>You Lose!</translation>
+        <translation type="vanished">You Lose!</translation>
+    </message>
+</context>
+<context>
+    <name>SplashState</name>
+    <message>
+        <location filename="../States/SplashState.ui" line="14"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
