@@ -16,6 +16,8 @@ CroneWeavess::CroneWeavess(GameController *gameController)
 
 void CroneWeavess::OnDeploy()
 {
+    Card::OnDeploy();
+
     GlobalGameController->DeployUnitFromContainerToBattleLine(
         "CroneBrewess", "AlliedDeck", SelectedLine, SelectedIndex + 1
     );

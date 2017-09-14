@@ -13,6 +13,12 @@ class Foglet : public Unit
 public:
     Foglet(GameController *gameController);
     void OnDestroy() override;
+    void
+    OnWeatherChangedHandler(
+        const QString& battleLineName,
+        BattleLine::WeatherEnum originalWeather,
+        BattleLine::WeatherEnum newWeather
+    ) override;
 };
 
 

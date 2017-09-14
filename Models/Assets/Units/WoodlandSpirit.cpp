@@ -16,7 +16,7 @@ WoodlandSpirit::WoodlandSpirit(GameController *gameController)
 
 void WoodlandSpirit::OnDeploy()
 {
-    GlobalGameController->HandleGoldCardDeploying();
+    Card::OnDeploy();
 
     auto selectedLine     = SelectedLine;
     auto alliedBattleLine = GlobalGameController->GetBattleField()->GetBattleLineByName(selectedLine);
@@ -35,7 +35,6 @@ void WoodlandSpirit::OnDeploy()
     }
 
     GlobalGameController->SetWeatherToBattleLine(enemyLine, BattleLine::WeatherEnum::Fog);
-    GlobalGameController->HandleImpenetrableFogDeployed(SelectedLine);
 }
 
 

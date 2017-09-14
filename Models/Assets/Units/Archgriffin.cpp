@@ -17,6 +17,8 @@ Archgriffin::Archgriffin(GameController *gameController)
 
 void Archgriffin::OnDeploy()
 {
+    Card::OnDeploy();
+
     GlobalGameController->SetWeatherToBattleLine(SelectedLine, BattleLine::WeatherEnum::None);
 
     auto enemyGrave  = GlobalGameController->GetBattleField()->GetCardContainerByName("EnemyGrave")->GetCards();

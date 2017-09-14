@@ -16,9 +16,6 @@
 #include "../Models/Meta/EffectsMeta.hpp"
 #include "../Models/Containers/BattleSide.hpp"
 #include "../Utilities/RandomInteger.hpp"
-#include "../Models/Assets/Effects/TorrentialRain.hpp"
-#include "../Models/Assets/Effects/ImpenetrableFog.hpp"
-#include "../Models/Assets/Effects/BitingFrost.hpp"
 
 
 BattleField *GameController::GetBattleField() const
@@ -122,136 +119,6 @@ bool GameController::AllyHasCards()
 }
 
 
-//<editor-fold desc="special rules">
-
-void GameController::HandleImpenetrableFogDeployed(const QString& battleLine)
-{
-    auto fogletDeployLine = battleLine;
-    if (fogletDeployLine.startsWith("Enemy"))
-    {
-        fogletDeployLine.replace(0, 5, "Allied");
-    }
-
-    // todo Maybe the location should be selected by player? Place to rightmost place now.
-    int index = GetBattleField()->GetBattleLineByName(fogletDeployLine)->GetUnits().size();
-
-    auto success = DeployUnitFromContainerToBattleLine("Foglet", "AlliedDeck", fogletDeployLine, index);
-
-    if (!success)
-    {
-        DeployUnitFromContainerToBattleLine("Foglet", "AlliedGrave", fogletDeployLine, index);
-        Interacting->SetCheckPoint();
-    }
-}
-
-
-void GameController::HandleGoldCardDeploying()
-{
-    qsrand(static_cast<uint>(QDateTime::currentMSecsSinceEpoch()));
-    auto lineNumber = qrand() % 3;
-    auto lineName   = QVector<QString>({QString("AlliedSiege"),
-                                        QString("AlliedRanged"),
-                                        QString("AlliedMelee")})[lineNumber];
-
-    auto size  = _battleField->GetBattleLineByName(lineName)->GetUnits().size();
-    auto index = qrand() % (size + 1);
-
-    DeployUnitFromContainerToBattleLine("Roach", "AlliedDeck", lineName, index);
-    Interacting->SetCheckPoint();
-}
-
-
-int GameController::GetPowerUpOfSwallowing(int swallowedCardId)
-{
-    auto unit  = dynamic_cast<Unit *>(_cardManager->GetCardById(swallowedCardId));
-    auto power = unit->GetPower();
-
-    if (unit->GetCardMetaInfo()->GetName() == "HarpyEgg")
-    {
-        power += 5;
-    }
-
-    return power;
-}
-
-
-void GameController::HandleUnitSwallowed()
-{
-    for (const auto& lineName:QVector<QString>({QString("Melee"), QString("Ranged"), QString("Siege")}))
-    {
-        auto battleLineName = "Allied" + lineName;
-
-        for (const auto item:_battleField->GetBattleLineByName(battleLineName)->GetUnits())
-        {
-            if (_cardManager->GetCardById(item)->GetCardMetaInfo()->GetName() == "ArachasBehemoth")
-            {
-                dynamic_cast<Unit *>(_cardManager->GetCardById(item))->DamageIgnoringArmorAndShield(1);
-
-                // deploy arachas hatchling
-                auto arachasHatchling = CardMeta::GetMetaByCardName("ArachasHatchling");
-                Interacting->GetSelectedCardFromSpanningCards(QVector<CardMeta *>({arachasHatchling}));
-                delete arachasHatchling;
-
-                auto id = SpawnCard("ArachasHatchling", "AlliedHand", 0);
-                DeployTheCardOfId(id);
-                Interacting->SetCheckPoint();
-            }
-        }
-    }
-}
-
-
-void GameController::HandleRoundUpdate()
-{
-    // update weathers
-    for (const auto& battleLineName :QVector<QString>({"EnemyMelee", "EnemyRanged", "EnemySiege"}))
-    {
-        auto battleLine = _battleField->GetBattleLineByName(battleLineName);
-        switch (battleLine->GetWeather())
-        {
-        case BattleLine::WeatherEnum::Rain:
-        {
-            TorrentialRain::ExecuteDamage(this, battleLineName);
-            Interacting->SetCheckPoint();
-
-            break;
-        }
-        case BattleLine::WeatherEnum::Frost:
-        {
-
-            BitingFrost::ExecuteDamage(this, battleLineName);
-            Interacting->SetCheckPoint();
-            break;
-        }
-        case BattleLine::WeatherEnum::Fog:
-        {
-            ImpenetrableFog::ExecuteDamage(this, battleLineName);
-            Interacting->SetCheckPoint();
-            break;
-        }
-        case BattleLine::WeatherEnum::None:
-        {
-            break;
-        }
-        }
-    }
-
-    // update cards
-    for (const auto& battleLineName :QVector<QString>({"AlliedMelee", "AlliedRanged", "AlliedSiege"}))
-    {
-        auto battleLine = _battleField->GetBattleLineByName(battleLineName);
-
-        for (const auto item:battleLine->GetUnits())
-        {
-            dynamic_cast<Unit *>(_cardManager->GetCardById(item))->RoundUpdate();
-            Interacting->SetCheckPoint();
-        }
-    }
-}
-
-//</editor-fold>
-
-
 //<editor-fold desc="Cards manipulation">
 
 void GameController::DeployUnitToBattleLine(int cardId, const QString& battleLineName, int index)
@@ -267,6 +134,7 @@ void GameController::DeployUnitToBattleLine(int cardId, const QString& battleLin
 
 void GameController::SetWeatherToBattleLine(const QString& battleLineName, BattleLine::WeatherEnum weather)
 {
+    HandleWeatherChanged(battleLineName, _battleField->GetBattleLineByName(battleLineName)->GetWeather(), weather);
     _battleField->GetBattleLineByName(battleLineName)->SetWeather(weather);
 }
 
@@ -417,7 +285,6 @@ bool GameController::MoveCardFromCardsSetToCardsSet(int id, const QString& desti
 }
 
 
-// todo merge validation into cards
 void GameController::DeployTheCardOfId(int id)
 {
     auto card = _cardManager->GetCardById(id);
@@ -526,7 +393,7 @@ void GameController::StartGameEntry()
         InitializeRoundGameData();
         bool isRoundOver = false;
 
-        Lock();
+        SetSynchronizationPoint();
 
         //<editor-fold desc="Handle drawing cards and redraw">
         switch (i)
@@ -557,11 +424,11 @@ void GameController::StartGameEntry()
         }
         //</editor-fold>
 
-        Lock();
+        SetSynchronizationPoint();
 
         SynchronizeRemoteDataAllySideOnly();
 
-        Lock();
+        SetSynchronizationPoint();
 
         while (!isRoundOver)
         {
@@ -615,7 +482,7 @@ void GameController::StartGameEntry()
 
             if (IsAllyAbdicated && IsEnemyAbdicated)
             {
-                Lock();
+                SetSynchronizationPoint();
 
                 isRoundOver = true;
                 UpdateRoundPower();
@@ -645,7 +512,7 @@ void GameController::StartGameEntry()
             }
         }
 
-        Lock();
+        SetSynchronizationPoint();
 
         //<editor-fold desc="Statistics">
         if (AllyRoundPower > EnemyRoundPower)
@@ -688,7 +555,7 @@ void GameController::StartGameEntry()
         }
         //</editor-fold>
 
-        Lock();
+        SetSynchronizationPoint();
 
         // clear all units and weathers
         QVector<Unit *> units;
@@ -708,11 +575,11 @@ void GameController::StartGameEntry()
             unit->Destroy();
         }
 
-        Lock();
+        SetSynchronizationPoint();
 
         SynchronizeRemoteDataAllySideOnly();
 
-        Lock();
+        SetSynchronizationPoint();
     }
 
     if (hadRound3)
@@ -781,6 +648,21 @@ void GameController::ResetGameData()
     InitializeAllyCardData();
 
     SynchronizeRemoteDataAllySideOnly();
+
+    // setting up special handlers
+    for (auto item :QVector<QString>(
+        {
+            "FirstLight", "BitingFrost", "ImpenetrableFog", "Foglet", "TorrentialRain",
+            "Lacerate", "CommandersHorn", "BekkersTwistedMirror", "GeraltIgni", "Dagon",
+            "GeEls", "CelaenoHarpy", "WoodlandSpirit", "EarthElemental", "CroneWeavess",
+            "CroneWhispess", "CroneBrewess", "Archgriffin", "Caranthir", "Frightener",
+            "UnseenElder", "Arachas", "ArachasBehemoth", "VranWarrior", "ThunderboltPotion",
+            "Roach", "WildHuntRider", "HarpyEgg", "HarpyHatchling", "RabidWolf",
+            "LesserEarthElemental", "ArachasHatchling", "ClearSkies", "Rally"
+        }))
+    {
+        SpecialHandlers.append(Card::SpawnCardByName(item, this));
+    }
 }
 
 
@@ -1099,18 +981,6 @@ void GameController::SynchronizeRemoteDataAllySideOnly()
 }
 
 
-void GameController::SynchronizeRemoteDataAllyHandOnly()
-{
-    auto allyString  = "$HandCards:" + _battleField->GetCardContainerByName("AlliedHand")->ToString();
-    auto cardsString = _cardManager->ToString();
-
-    auto sendString      = "<Ally>" + allyString + "<Cards>" + cardsString;
-    auto finalSendString = "SynchronizeStatus|" + QString::number(PlayerNumber) + "|" + sendString;
-
-    SendMessage(finalSendString);
-}
-
-
 QVector<int> GameController::GetBattleLineScores()
 {
     auto alliedMeleePower  = 0;
@@ -1189,28 +1059,6 @@ bool GameController::GetIsAllyTurn()
 }
 
 
-//<editor-fold desc="Hacking codes">
-void GameController::HackBeforeStart()
-{
-    for (auto& i:QVector<QString>(
-        {
-            "UnseenElder",
-            "WoodlandSpirit", "Caranthir", "GeraltIgni", "GeEls",
-            "CroneWeavess", "CroneWhispess", "CroneBrewess", "Frightener", "Roach", "BekkersTwistedMirror",
-            "FirstLight", "BitingFrost", "ImpenetrableFog", "Foglet", "Foglet", "Foglet", "TorrentialRain",
-            "Lacerate",
-            "CelaenoHarpy", "Arachas", "Arachas", "Arachas", "EarthElemental", "EarthElemental", "EarthElemental",
-            "Archgriffin", "VranWarrior", "VranWarrior", "CelaenoHarpy", "CelaenoHarpy"
-        }
-    ))
-    {
-        auto card = CardMeta::GetMetaByCardName(i);
-        AllyCardGroup.InsertIntoCardGroup(*card);
-        delete card;
-    }
-}
-
-
 void GameController::UpdateRoundPower()
 {
     AllyRoundPower  = 0;
@@ -1256,7 +1104,7 @@ void GameController::SetAllyCardGroup(const CardGroup& AllyCardGroup)
 }
 
 
-void GameController::Lock()
+void GameController::SetSynchronizationPoint()
 {
 
     IsLocked = true;
@@ -1268,6 +1116,67 @@ void GameController::Lock()
         QTimer::singleShot(500, &eventLoop, &QEventLoop::quit);
         eventLoop.exec();
     }
+}
+
+
+void GameController::HandleRoundUpdate()
+{
+    SynchronizeRemoteData();
+    for (const auto item:SpecialHandlers)
+    {
+        item->OnRoundUpdateHandler();
+    }
+
+    // update cards
+    for (const auto& battleLineName :QVector<QString>({"AlliedMelee", "AlliedRanged", "AlliedSiege"}))
+    {
+        auto battleLine = _battleField->GetBattleLineByName(battleLineName);
+
+        for (const auto item:battleLine->GetUnits())
+        {
+            dynamic_cast<Unit *>(_cardManager->GetCardById(item))->RoundUpdate();
+            Interacting->SetCheckPoint();
+        }
+    }
+
+    SynchronizeRemoteData();
+}
+
+
+void GameController::HandleCardDeployed(int cardId)
+{
+    SynchronizeRemoteData();
+    for (const auto item:SpecialHandlers)
+    {
+        item->OnOtherCardDeployHandler(cardId);
+    }
+    SynchronizeRemoteData();
+}
+
+
+void GameController::HandleWeatherChanged(
+    const QString& battleLineName, BattleLine::WeatherEnum originalWeather, BattleLine::WeatherEnum newWeather
+)
+{
+    SynchronizeRemoteData();
+    for (const auto item:SpecialHandlers)
+    {
+        item->OnWeatherChangedHandler(battleLineName, originalWeather, newWeather);
+    }
+    SynchronizeRemoteData();
+}
+
+
+void GameController::HandleUnitSwallowed(int swallowedUnitId)
+{
+    SynchronizeRemoteData();
+    dynamic_cast<Unit *>(GetCardManager()->GetCardById(swallowedUnitId))->Destroy();
+
+    for (const auto item:SpecialHandlers)
+    {
+        item->OnOtherUnitSwallowedHandler(swallowedUnitId);
+    }
+    SynchronizeRemoteData();
 }
 
 //</editor-fold>

@@ -16,5 +16,7 @@ LesserEarthElemental::LesserEarthElemental(GameController *gameController)
 
 void LesserEarthElemental::OnDestroy()
 {
+    Card::OnDeploy();
+
     GlobalGameController->MoveCardFromCardsSetToCardsSet(CardId, GetFactionString() + "Discard", 0);
 }

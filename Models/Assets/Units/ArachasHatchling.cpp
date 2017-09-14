@@ -16,6 +16,8 @@ ArachasHatchling::ArachasHatchling(GameController *gameController)
 
 void ArachasHatchling::OnDeploy()
 {
+    Card::OnDeploy();
+
     bool success = true;
 
     while (success)

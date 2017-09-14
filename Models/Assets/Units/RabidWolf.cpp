@@ -16,5 +16,7 @@ RabidWolf::RabidWolf(GameController *gameController)
 
 void RabidWolf::OnDestroy()
 {
+    Card::OnDeploy();
+
     GlobalGameController->MoveCardFromCardsSetToCardsSet(CardId, GetFactionString() + "Discard", 0);
 }

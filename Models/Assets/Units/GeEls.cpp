@@ -17,7 +17,8 @@ GeEls::GeEls(GameController *gameController)
 
 void GeEls::OnDeploy()
 {
-    GlobalGameController->HandleGoldCardDeploying();
+    Card::OnDeploy();
+
 
     auto hasSilver = false;
     auto hasGold   = false;

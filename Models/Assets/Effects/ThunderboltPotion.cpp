@@ -18,6 +18,8 @@ ThunderboltPotion::ThunderboltPotion(GameController *gameController)
 
 void ThunderboltPotion::OnDeploy()
 {
+    Card::OnDeploy();
+
     auto id             = SelectedUnit;
     auto battleLineName = GlobalGameController->GetBattleField()->GetBattleLineContainingCard(id);
     auto battleLine     = GlobalGameController->GetBattleField()->GetBattleLineByName(battleLineName);

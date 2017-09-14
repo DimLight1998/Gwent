@@ -145,6 +145,7 @@ Card *Card::SpawnCardByName(const QString& name, GameController *gameController)
 
 void Card::OnDeploy()
 {
+    GlobalGameController->HandleCardDeployed(CardId);
 }
 
 
@@ -191,4 +192,26 @@ QString Card::GetFactionString()
 QString Card::ToString()
 {
     return "";
+}
+
+
+void Card::OnOtherCardDeployHandler(int cardId)
+{
+}
+
+
+void Card::OnWeatherChangedHandler(
+    const QString& battleLineName, BattleLine::WeatherEnum originalWeather, BattleLine::WeatherEnum newWeather
+)
+{
+}
+
+
+void Card::OnRoundUpdateHandler()
+{
+}
+
+
+void Card::OnOtherUnitSwallowedHandler(int cardId)
+{
 }

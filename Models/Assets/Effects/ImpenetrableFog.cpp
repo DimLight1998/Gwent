@@ -18,9 +18,10 @@ ImpenetrableFog::ImpenetrableFog(GameController *gameController)
 
 void ImpenetrableFog::OnDeploy()
 {
+    Card::OnDeploy();
+
     GlobalGameController->SetWeatherToBattleLine(SelectedLine, BattleLine::WeatherEnum::Fog);
     ImpenetrableFog::ExecuteDamage(GlobalGameController, SelectedLine);
-    GlobalGameController->HandleImpenetrableFogDeployed(SelectedLine);
 }
 
 
@@ -51,5 +52,21 @@ void ImpenetrableFog::ExecuteDamage(GameController *gameController, const QStrin
 
         auto unitIndex = qrand() % (highestPowerUnitsId.size());
         dynamic_cast<Unit *>(gameController->GetCardManager()->GetCardById(highestPowerUnitsId[unitIndex]))->Damage(2);
+    }
+}
+
+
+void ImpenetrableFog::OnRoundUpdateHandler()
+{
+    // update weathers
+    for (const auto& battleLineName :QVector<QString>({"EnemyMelee", "EnemyRanged", "EnemySiege"}))
+    {
+        auto battleLine = GlobalGameController->GetBattleField()->GetBattleLineByName(battleLineName);
+        if (battleLine->GetWeather() == BattleLine::WeatherEnum::Fog)
+        {
+            ImpenetrableFog::ExecuteDamage(GlobalGameController, battleLineName);
+            GlobalGameController->GetInteracting()->SetCheckPoint();
+            break;
+        }
     }
 }

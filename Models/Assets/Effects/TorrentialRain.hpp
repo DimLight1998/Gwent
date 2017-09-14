@@ -16,6 +16,7 @@ public:
     TorrentialRain(GameController *gameController);
 
     static void ExecuteDamage(GameController *gameController, const QString& battleLineName);
+    void OnRoundUpdateHandler() override;
 };
 
 

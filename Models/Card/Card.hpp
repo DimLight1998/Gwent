@@ -67,6 +67,13 @@ public:
     virtual void UpdateFromString(const QString& source) = 0;
 
     QString GetFactionString();
+
+    virtual void OnWeatherChangedHandler(
+        const QString& battleLineName, BattleLine::WeatherEnum originalWeather, BattleLine::WeatherEnum newWeather
+    );
+    virtual void OnOtherCardDeployHandler(int cardId);
+    virtual void OnRoundUpdateHandler();
+    virtual void OnOtherUnitSwallowedHandler(int cardId);
 };
 
 

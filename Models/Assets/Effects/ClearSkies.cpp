@@ -18,6 +18,8 @@ ClearSkies::ClearSkies(GameController *gameController)
 
 void ClearSkies::OnDeploy()
 {
+    Card::OnDeploy();
+
     for (auto& postfix:QVector<QString>({QString("Siege"), QString("Ranged"), QString("Melee")}))
     {
         GlobalGameController->SetWeatherToBattleLine("Allied" + postfix, BattleLine::WeatherEnum::None);

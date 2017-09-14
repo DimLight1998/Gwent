@@ -16,6 +16,8 @@ UnseenElder::UnseenElder(GameController *gameController)
 
 void UnseenElder::OnDeploy()
 {
+    Card::OnDeploy();
+
     for (int i = 0; i < 3; i++)
     {
         bool isValid = false;
@@ -41,10 +43,10 @@ void UnseenElder::OnDeploy()
 
             if (isValid)
             {
-                auto powerUp = GlobalGameController->GetPowerUpOfSwallowing(id);
+                auto powerUp = dynamic_cast<Unit *>(GlobalGameController->GetCardManager()->GetCardById(id))
+                    ->GetPowerUpWhenSwallowed();
                 GainPower(powerUp);
-                dynamic_cast<Unit *>(GlobalGameController->GetCardManager()->GetCardById(id))->Destroy();
-                GlobalGameController->HandleUnitSwallowed();
+                GlobalGameController->HandleUnitSwallowed(id);
             }
         }
         while (!isValid);

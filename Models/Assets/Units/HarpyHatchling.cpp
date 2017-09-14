@@ -16,5 +16,7 @@ HarpyHatchling::HarpyHatchling(GameController *gameController)
 
 void HarpyHatchling::OnDestroy()
 {
+    Card::OnDeploy();
+
     GlobalGameController->MoveCardFromCardsSetToCardsSet(CardId, GetFactionString() + "Discard", 0);
 }

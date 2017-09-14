@@ -17,6 +17,8 @@ VranWarrior::VranWarrior(GameController *gameController)
 
 void VranWarrior::OnDeploy()
 {
+    Card::OnDeploy();
+
     auto battleLineName  = GlobalGameController->GetBattleField()->GetBattleLineContainingCard(CardId);
     auto battleLineUnits = GlobalGameController->GetBattleField()->GetBattleLineByName(battleLineName)->GetUnits();
     auto size            = battleLineUnits.size();
@@ -24,10 +26,10 @@ void VranWarrior::OnDeploy()
     if (SelectedIndex < size - 1)
     {
         auto swallowedUnitId = battleLineUnits[SelectedIndex + 1];
-        auto powerUp         = GlobalGameController->GetPowerUpOfSwallowing(swallowedUnitId);
+        auto powerUp         = dynamic_cast<Unit *>(GlobalGameController->GetCardManager()
+            ->GetCardById(swallowedUnitId))->GetPowerUpWhenSwallowed();
         GainPower(powerUp);
-        dynamic_cast<Unit *>(GlobalGameController->GetCardManager()->GetCardById(swallowedUnitId))->Destroy();
-        GlobalGameController->HandleUnitSwallowed();
+        GlobalGameController->HandleUnitSwallowed(swallowedUnitId);
     }
 }
 
@@ -54,10 +56,10 @@ void VranWarrior::RoundUpdate()
         if (currentIndex < units.size() - 1)
         {
             auto swallowedUnitId = units[currentIndex + 1];
-            auto powerUp         = GlobalGameController->GetPowerUpOfSwallowing(swallowedUnitId);
+            auto powerUp         = dynamic_cast<Unit *>(GlobalGameController->GetCardManager()
+                ->GetCardById(swallowedUnitId))->GetPowerUpWhenSwallowed();
             GainPower(powerUp);
-            dynamic_cast<Unit *>(GlobalGameController->GetCardManager()->GetCardById(swallowedUnitId))->Destroy();
-            GlobalGameController->HandleUnitSwallowed();
+            GlobalGameController->HandleUnitSwallowed(swallowedUnitId);
         }
     }
 }

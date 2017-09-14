@@ -21,6 +21,8 @@ Rally::Rally(GameController *gameController)
 
 void Rally::OnDeploy()
 {
+    Card::OnDeploy();
+
     QVector<int> bronzeUnits;
 
     for (auto id:GlobalGameController->GetBattleField()->GetCardContainerByName("AlliedDeck")->GetCards())

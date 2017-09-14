@@ -14,6 +14,7 @@ public:
     ArachasBehemoth(GameController *gameController);
     void OnDeploy() override;
     void OnDestroy() override;
+    void OnOtherUnitSwallowedHandler(int unitId) override;
 };
 
 

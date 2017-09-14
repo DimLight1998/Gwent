@@ -17,6 +17,8 @@ HarpyEgg::HarpyEgg(GameController *gameController)
 
 void HarpyEgg::OnDeathWish()
 {
+    Card::OnDeploy();
+
     qsrand(static_cast<uint>(QDateTime::currentMSecsSinceEpoch()));
     auto    randomNumber = qrand() % 3;
     QString deployLine;
@@ -42,4 +44,10 @@ void HarpyEgg::OnDestroy()
 {
     OnDeathWish();
     GlobalGameController->MoveCardFromCardsSetToCardsSet(CardId, GetFactionString() + "Discard", 0);
+}
+
+
+int HarpyEgg::GetPowerUpWhenSwallowed()
+{
+    return Power + 5;
 }

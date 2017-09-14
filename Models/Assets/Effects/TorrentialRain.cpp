@@ -19,6 +19,8 @@ TorrentialRain::TorrentialRain(GameController *gameController)
 
 void TorrentialRain::OnDeploy()
 {
+    Card::OnDeploy();
+
     GlobalGameController->SetWeatherToBattleLine(SelectedLine, BattleLine::WeatherEnum::Rain);
     TorrentialRain::ExecuteDamage(GlobalGameController, SelectedLine);
 }
@@ -41,5 +43,21 @@ void TorrentialRain::ExecuteDamage(GameController *gameController, const QString
     for (int i = 0; i < damageNumber; i++)
     {
         dynamic_cast<Unit *>(gameController->GetCardManager()->GetCardById(unitsId[i]))->Damage(1);
+    }
+}
+
+
+void TorrentialRain::OnRoundUpdateHandler()
+{
+    // update weathers
+    for (const auto& battleLineName :QVector<QString>({"EnemyMelee", "EnemyRanged", "EnemySiege"}))
+    {
+        auto battleLine = GlobalGameController->GetBattleField()->GetBattleLineByName(battleLineName);
+        if (battleLine->GetWeather() == BattleLine::WeatherEnum::Rain)
+        {
+            TorrentialRain::ExecuteDamage(GlobalGameController, battleLineName);
+            GlobalGameController->GetInteracting()->SetCheckPoint();
+            break;
+        }
     }
 }

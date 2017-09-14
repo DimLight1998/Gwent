@@ -14,6 +14,12 @@ WildHuntRider::WildHuntRider(GameController *gameController)
 }
 
 
+void WildHuntRider::OnDeploy()
+{
+    Card::OnDeploy();
+}
+
+
 void WildHuntRider::OnDestroy()
 {
     GlobalGameController->MoveCardFromCardsSetToCardsSet(CardId, GetFactionString() + "Grave", 0);

@@ -19,6 +19,7 @@ BekkersTwistedMirror::BekkersTwistedMirror(GameController *gameController)
 
 void BekkersTwistedMirror::OnDeploy()
 {
+    Card::OnDeploy();
     // search for at least one unit
     bool hasAtLeastOneUnitOnField = false;
     int  initialId                = 0;

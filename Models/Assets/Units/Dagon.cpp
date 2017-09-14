@@ -17,6 +17,8 @@ Dagon::Dagon(GameController *gameController)
 
 void Dagon::OnDeploy()
 {
+    Card::OnDeploy();
+
     QVector<CardMeta *> cardMeta = QVector<CardMeta *>(
         {
             CardMeta::GetMetaByCardName("BitingFrost"),

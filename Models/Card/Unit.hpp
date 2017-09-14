@@ -37,7 +37,7 @@ public:
     /// \return true if yes otherwise no
     static bool IsCardUnit(Card *card);
 
-
+    virtual int GetPowerUpWhenSwallowed();
 protected:
     int  Power     = 0;
     int  Armor     = 0;

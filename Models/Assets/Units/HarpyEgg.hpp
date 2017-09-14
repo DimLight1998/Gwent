@@ -14,6 +14,7 @@ public:
     HarpyEgg(GameController *gameController);
     void OnDeathWish() override;
     void OnDestroy() override;
+    int GetPowerUpWhenSwallowed() override;
 };
 
 

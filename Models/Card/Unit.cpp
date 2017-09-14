@@ -183,3 +183,9 @@ void Unit::UpdateFromString(const QString& source)
     SetTimeCount(list[4].toInt());
     SetHasShield(list[5] == "1");
 }
+
+
+int Unit::GetPowerUpWhenSwallowed()
+{
+    return Power;
+}

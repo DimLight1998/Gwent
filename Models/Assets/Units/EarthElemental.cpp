@@ -16,6 +16,8 @@ EarthElemental::EarthElemental(GameController *gameController)
 
 void EarthElemental::OnDeploy()
 {
+    Card::OnDeploy();
+
     SetHasShield(true);
 }
 

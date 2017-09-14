@@ -16,6 +16,9 @@
 #include "InteractingController.hpp"
 
 
+class Card;
+
+
 class InteractingController;
 
 
@@ -120,20 +123,6 @@ public:
     /// \return true if yes, else no
     bool AllyHasCards();
 
-    /// \brief handle the result of deploying an impenetrable fog
-    /// \param battleLine
-    void HandleImpenetrableFogDeployed(const QString& battleLine);
-
-    /// \brief handle gold card deploying before it calculates its result
-    void HandleGoldCardDeploying();
-
-    /// \brief get the power of the card if swallow the card
-    /// \param swallowedCardId id of the card to be swallowed
-    /// \return the gain of power if swallow the card
-    int GetPowerUpOfSwallowing(int swallowedCardId);
-
-    /// \brief handle the result of some unit swallowed
-    void HandleUnitSwallowed();
 
     /// \brief spawn a card, allocate an id for it, add it to the card management system,
     /// then add it to a battle field of container by index
@@ -152,8 +141,16 @@ public:
     /// \brief called to controll the game logic
     void StartGameEntry();
 
+    void HandleCardDeployed(int cardId);
+
     /// \brief called per round to
     void HandleRoundUpdate();
+
+    /// \brief handle the result of some unit swallowed
+    void HandleUnitSwallowed(int swallowedUnitId);
+
+    void
+    HandleWeatherChanged(const QString& battleLineName, BattleLine::WeatherEnum originalWeather, BattleLine::WeatherEnum newWeather);
 
     void UpdateRoundPower();
 
@@ -207,7 +204,9 @@ protected:
     CardGroup        AllyCardGroup;
     QVector<QString> AllyCardBlackList;
 
-    void Lock();
+    QVector<Card *> SpecialHandlers;
+
+    void SetSynchronizationPoint();
 
     /// \brief reset the data used for a game
     void ResetGameData();
@@ -234,7 +233,6 @@ protected:
     void InitializeNetwork();
 
     void SynchronizeLocalData(const QString& message);
-    void SynchronizeRemoteDataAllyHandOnly();
 
     //</editor-fold>
 protected:
@@ -251,9 +249,6 @@ protected:
 public:
     void SetAddressOfRemoteServer(const QString& AddressOfRemoteServer);
     void SetPortOfRemoteServer(quint16 PortOfRemoteServer);
-private:
-    /// \brief hacking code goes here
-    void HackBeforeStart();
 
 signals:
     void BothSidesGetReady();

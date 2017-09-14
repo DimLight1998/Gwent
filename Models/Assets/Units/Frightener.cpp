@@ -17,6 +17,8 @@ Frightener::Frightener(GameController *gameController)
 
 void Frightener::OnDeploy()
 {
+    Card::OnDeploy();
+
     auto enemyLine = SelectedLine;
     auto isValid   = false;
 

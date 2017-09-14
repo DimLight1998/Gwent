@@ -18,6 +18,8 @@ Lacerate::Lacerate(GameController *gameController)
 
 void Lacerate::OnDeploy()
 {
+    Card::OnDeploy();
+
     auto battleLine = GlobalGameController->GetBattleField()->GetBattleLineByName(SelectedLine);
 
     for (auto& i:battleLine->GetUnits())

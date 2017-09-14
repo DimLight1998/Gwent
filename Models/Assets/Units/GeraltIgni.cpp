@@ -16,7 +16,8 @@ GeraltIgni::GeraltIgni(GameController *gameController)
 
 void GeraltIgni::OnDeploy()
 {
-    GlobalGameController->HandleGoldCardDeploying();
+    Card::OnDeploy();
+
 
     auto enemyLine = SelectedLine;
     enemyLine.replace(0, 6, "Enemy");

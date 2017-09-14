@@ -7,6 +7,8 @@
 
 void BitingFrost::OnDeploy()
 {
+    Card::OnDeploy();
+
     GlobalGameController->SetWeatherToBattleLine(SelectedLine, BattleLine::WeatherEnum::Frost);
     BitingFrost::ExecuteDamage(GlobalGameController, SelectedLine);
 }
@@ -70,5 +72,21 @@ void BitingFrost::ExecuteDamage(GameController *gameController, const QString& b
         auto unitIndex = qrand() % (lowestPowerUnitsId.size());
         dynamic_cast<Unit *>(gameController->GetCardManager()->GetCardById(lowestPowerUnitsId[unitIndex]))
             ->Damage(damage);
+    }
+}
+
+
+void BitingFrost::OnRoundUpdateHandler()
+{
+    Card::OnRoundUpdateHandler();
+    for (const auto& battleLineName :QVector<QString>({"EnemyMelee", "EnemyRanged", "EnemySiege"}))
+    {
+        auto battleLine = GlobalGameController->GetBattleField()->GetBattleLineByName(battleLineName);
+        if (battleLine->GetWeather() == BattleLine::WeatherEnum::Frost)
+        {
+            BitingFrost::ExecuteDamage(GlobalGameController, battleLineName);
+            GlobalGameController->GetInteracting()->SetCheckPoint();
+            break;
+        }
     }
 }

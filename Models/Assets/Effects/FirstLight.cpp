@@ -7,6 +7,8 @@
 
 void FirstLight::OnDeploy()
 {
+    Card::OnDeploy();
+
     QVector<CardMeta *> cardMeta = QVector<CardMeta *>(
         {
             CardMeta::GetMetaByCardName("ClearSkies"),

@@ -16,6 +16,8 @@ Arachas::Arachas(GameController *gameController)
 
 void Arachas::OnDeploy()
 {
+    Card::OnDeploy();
+
     // todo maybe incorrect
     bool success = true;
 
