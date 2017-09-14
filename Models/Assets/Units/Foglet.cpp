@@ -47,4 +47,43 @@ void Foglet::OnWeatherChangedHandler(
             }
         }
     }
+    else if (originalWeather == BattleLine::WeatherEnum::Frost)
+    {
+        for (const auto& prefix:QVector<QString>({"Allied", "Enemy"}))
+        {
+            for (const auto& postfix:QVector<QString>({"Melee", "Siege", "Ranged"}))
+            {
+                auto weather = GlobalGameController->GetBattleField()->GetBattleLineByName(prefix + postfix)
+                    ->GetWeather();
+                if (weather == BattleLine::WeatherEnum::Frost)
+                {
+                    return;
+                }
+            }
+        }
+
+        QVector<int> destroyList;
+
+        for (const auto& prefix:QVector<QString>({"Allied", "Enemy"}))
+        {
+            for (const auto& postfix:QVector<QString>({"Melee", "Siege", "Ranged"}))
+            {
+                auto            battleLine = GlobalGameController->GetBattleField()
+                    ->GetBattleLineByName(prefix + postfix);
+                for (const auto item:battleLine->GetUnits())
+                {
+                    if (GlobalGameController->GetCardManager()->GetCardById(item)->GetCardMetaInfo()->GetName()
+                        == "Foglet")
+                    {
+                        destroyList.append(item);
+                    }
+                }
+            }
+        }
+
+        for (const auto item:destroyList)
+        {
+            dynamic_cast<Unit *>(GlobalGameController->GetCardManager()->GetCardById(item))->Destroy();
+        }
+    }
 }

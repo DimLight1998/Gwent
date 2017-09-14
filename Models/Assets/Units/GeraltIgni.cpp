@@ -18,7 +18,6 @@ void GeraltIgni::OnDeploy()
 {
     Card::OnDeploy();
 
-
     auto enemyLine = SelectedLine;
     enemyLine.replace(0, 6, "Enemy");
 
@@ -36,13 +35,19 @@ void GeraltIgni::OnDeploy()
 
     if (totalPower >= 25)
     {
-        for (auto i:GlobalGameController->GetBattleField()->GetBattleLineByName(enemyLine)->GetUnits())
+        QVector<Unit *> destoryList;
+        for (auto       i:GlobalGameController->GetBattleField()->GetBattleLineByName(enemyLine)->GetUnits())
         {
             auto unit = dynamic_cast<Unit *>(GlobalGameController->GetCardManager()->GetCardById(i));
             if (unit->GetPower() == highestPower)
             {
-                unit->Destroy();
+                destoryList.append(unit);
             }
+        }
+
+        for (const auto item:destoryList)
+        {
+            item->Destroy();
         }
     }
 }
