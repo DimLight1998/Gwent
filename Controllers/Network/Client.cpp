@@ -154,3 +154,15 @@ QString Client::GetLocalAddress()
 void Client::HandleMessage(const QString& message)
 {
 }
+
+
+void Client::Unregister()
+{
+    auto localHost = GetLocalAddress();
+    auto port      = ClientServer->serverPort();
+
+    auto message = "UNREGISTER|" + localHost + "|" + QString::number(port);
+    SendMessage(message);
+
+    ClientServer->close();
+}

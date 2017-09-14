@@ -526,6 +526,8 @@ void GameController::StartGameEntry()
         InitializeRoundGameData();
         bool isRoundOver = false;
 
+        Lock();
+
         //<editor-fold desc="Handle drawing cards and redraw">
         switch (i)
         {
@@ -555,7 +557,11 @@ void GameController::StartGameEntry()
         }
         //</editor-fold>
 
+        Lock();
+
         SynchronizeRemoteDataAllySideOnly();
+
+        Lock();
 
         while (!isRoundOver)
         {
@@ -576,7 +582,6 @@ void GameController::StartGameEntry()
 
                 if (!IsAllyAbdicated)
                 {
-                    std::cout << "Ally input <================>\n";
                     if (AllyHasCards())
                     {
                         Interacting->GetRoundInput(abdicate, cardId);
@@ -612,49 +617,33 @@ void GameController::StartGameEntry()
             {
                 isRoundOver = true;
                 UpdateRoundPower();
-                SendMessage("OperationDone|" + QString::number(PlayerNumber));
+
+                auto totalPower = GetBattleLineScores();
+                switch (i)
+                {
+                case 0:
+                {
+                    AllyRound1Score  = totalPower[3] + totalPower[4] + totalPower[5];
+                    EnemyRound1Score = totalPower[0] + totalPower[1] + totalPower[2];
+                    break;
+                }
+                case 1:
+                {
+                    AllyRound2Score  = totalPower[3] + totalPower[4] + totalPower[5];
+                    EnemyRound2Score = totalPower[0] + totalPower[1] + totalPower[2];
+                    break;
+                }
+                case 2:
+                {
+                    AllyRound3Score  = totalPower[3] + totalPower[4] + totalPower[5];
+                    EnemyRound3Score = totalPower[0] + totalPower[1] + totalPower[2];
+                    break;
+                }
+                }
             }
         }
 
-        auto totalPower = GetBattleLineScores();
-        switch (i)
-        {
-        case 0:
-        {
-            AllyRound1Score  = totalPower[3] + totalPower[4] + totalPower[5];
-            EnemyRound1Score = totalPower[0] + totalPower[1] + totalPower[2];
-            break;
-        }
-        case 1:
-        {
-            AllyRound2Score  = totalPower[3] + totalPower[4] + totalPower[5];
-            EnemyRound2Score = totalPower[0] + totalPower[1] + totalPower[2];
-            break;
-        }
-        case 2:
-        {
-            AllyRound3Score  = totalPower[3] + totalPower[4] + totalPower[5];
-            EnemyRound3Score = totalPower[0] + totalPower[1] + totalPower[2];
-            break;
-        }
-        }
-
-        QVector<Unit *> units;
-        for (auto       item:QVector<QString>({"AlliedSiege", "AlliedRanged", "AlliedMelee"}))
-        {
-            auto      battleLine = _battleField->GetBattleLineByName(item);
-            for (auto unit:battleLine->GetUnits())
-            {
-                units.append(dynamic_cast<Unit *>(_cardManager->GetCardById(unit)));
-            }
-        }
-
-        for (auto unit:units)
-        {
-            unit->Destroy();
-        }
-
-        SynchronizeRemoteDataAllySideOnly();
+        Lock();
 
         //<editor-fold desc="Statistics">
         if (AllyRoundPower > EnemyRoundPower)
@@ -696,6 +685,32 @@ void GameController::StartGameEntry()
             break;
         }
         //</editor-fold>
+
+        Lock();
+
+        // clear all units and weathers
+        QVector<Unit *> units;
+        for (auto       item:QVector<QString>({"AlliedSiege", "AlliedRanged", "AlliedMelee"}))
+        {
+            auto battleLine = _battleField->GetBattleLineByName(item);
+            battleLine->SetWeather(BattleLine::WeatherEnum::None);
+
+            for (auto unit:battleLine->GetUnits())
+            {
+                units.append(dynamic_cast<Unit *>(_cardManager->GetCardById(unit)));
+            }
+        }
+
+        for (auto unit:units)
+        {
+            unit->Destroy();
+        }
+
+        Lock();
+
+        SynchronizeRemoteDataAllySideOnly();
+
+        Lock();
     }
 
     if (hadRound3)
@@ -720,6 +735,8 @@ void GameController::StartGameEntry()
             EnemyRound2Score
         );
     }
+
+    Unregister();
 }
 
 
@@ -834,6 +851,11 @@ void GameController::HandleMessage(const QString& message)
         emit(BothSidesGetReady());
 
         return;
+    }
+
+    if (message.startsWith("UNLOCK"))
+    {
+        IsLocked = false;
     }
 }
 
@@ -1229,6 +1251,21 @@ void GameController::SetPortOfRemoteServer(quint16 PortOfRemoteServer)
 void GameController::SetAllyCardGroup(const CardGroup& AllyCardGroup)
 {
     GameController::AllyCardGroup = AllyCardGroup;
+}
+
+
+void GameController::Lock()
+{
+
+    IsLocked = true;
+    SendMessage("READYUNLOCK");
+
+    while (IsLocked)
+    {
+        QEventLoop eventLoop;
+        QTimer::singleShot(500, &eventLoop, &QEventLoop::quit);
+        eventLoop.exec();
+    }
 }
 
 //</editor-fold>

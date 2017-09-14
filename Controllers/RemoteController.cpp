@@ -40,6 +40,16 @@ void RemoteController::HandleMessage(const QString& message)
             PlayerCounter = 0;
         }
     }
+
+    if (message.startsWith("READYUNLOCK"))
+    {
+        NumPlayerReadyUnlock++;
+        if (NumPlayerReadyUnlock == 2)
+        {
+            NumPlayerReadyUnlock = 0;
+            Broadcast("UNLOCK");
+        }
+    }
 }
 
 

@@ -200,11 +200,14 @@ protected:
     int PlayerNumber;
 
     bool IsAllyTurn;
+    bool IsLocked;
 
     QString FirstMoveInfo;
 
     CardGroup        AllyCardGroup;
     QVector<QString> AllyCardBlackList;
+
+    void Lock();
 
     /// \brief reset the data used for a game
     void ResetGameData();

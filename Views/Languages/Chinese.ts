@@ -58,7 +58,7 @@
     <message>
         <location filename="../States/CardGroupEditState.cpp" line="45"/>
         <source>Invalid card group or name</source>
-        <translation type="unfinished"></translation>
+        <translation>无效卡组或卡组名</translation>
     </message>
     <message>
         <location filename="../States/CardGroupEditState.cpp" line="72"/>

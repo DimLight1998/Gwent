@@ -70,6 +70,20 @@ void Server::HandleNewConnection()
         auto port    = readMessage.split('|', QString::SkipEmptyParts)[2].toInt();
         Clients.append(QPair<QString, quint16>(address, static_cast<const quint16&>(port)));
     }
+    else if (readMessage.startsWith("UNREGISTER"))
+    {
+        auto address = readMessage.split('|', QString::SkipEmptyParts)[1];
+        auto port    = readMessage.split('|', QString::SkipEmptyParts)[2].toInt();
+
+        for (int i = 0; i < Clients.size(); i++)
+        {
+            if (Clients[i].first == address && Clients[i].second == static_cast<const quint16&>(port))
+            {
+                Clients.remove(i);
+                break;
+            }
+        }
+    }
     else
     {
         // broadcast

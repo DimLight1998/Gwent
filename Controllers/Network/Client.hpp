@@ -14,6 +14,7 @@ class Client : public QObject
 Q_OBJECT
 public:
     void RegisterToHost();
+    void Unregister();
 
     void SendMessage(const QString& message);
 protected:

@@ -15,7 +15,8 @@ protected:
     void HandleMessage(const QString& message) override;
 
     void ResetServerData();
-    int PlayerCounter = 0;
+    int PlayerCounter        = 0;
+    int NumPlayerReadyUnlock = 0;
 };
 
 
