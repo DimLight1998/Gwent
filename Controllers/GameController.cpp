@@ -380,8 +380,8 @@ void GameController::StartGameEntry()
 
     ResetGameData();
 
-    bool isWinner  = false;
-    bool hadRound3 = false;
+    QString resultText = "";
+    bool    hadRound3  = false;
 
     for (int i = 0; i < 3; i++)
     {
@@ -543,16 +543,22 @@ void GameController::StartGameEntry()
             }
         }
 
-        if (AllyTotalScore == 2)
+        if (AllyTotalScore == 2 && EnemyTotalScore == 2)
         {
-            isWinner = true;
+            resultText = "Draw";
+            break;
+        }
+        else if (AllyTotalScore == 2)
+        {
+            resultText = "You Win!";
             break;
         }
         else if (EnemyTotalScore == 2)
         {
-            isWinner = false;
+            resultText = "You Lose!";
             break;
         }
+
         //</editor-fold>
 
         SetSynchronizationPoint();
@@ -585,7 +591,7 @@ void GameController::StartGameEntry()
     if (hadRound3)
     {
         Interacting->InformResult(
-            isWinner,
+            resultText,
             AllyRound1Score,
             AllyRound2Score,
             AllyRound3Score,
@@ -597,7 +603,7 @@ void GameController::StartGameEntry()
     else
     {
         Interacting->InformResult(
-            isWinner,
+            resultText,
             AllyRound1Score,
             AllyRound2Score,
             EnemyRound1Score,

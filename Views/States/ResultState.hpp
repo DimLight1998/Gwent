@@ -21,7 +21,7 @@ public:
     ResultState(QWidget *parent);
 
     void SetResult(
-        bool isWin,
+        const QString& text,
         int allyRound1,
         int allyRound2,
         int allyRound3,
@@ -31,7 +31,7 @@ public:
     );
 
     void SetResult(
-        bool isWin,
+        const QString& text,
         int allyRound1,
         int allyRound2,
         int enemyRound1,

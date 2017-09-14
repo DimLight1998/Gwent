@@ -91,7 +91,7 @@ public:
     void SetCheckPoint();
 
     void InformResult(
-        bool isWinner,
+        const QString& text,
         int allyRound1,
         int allyRound2,
         int allyRound3,
@@ -101,7 +101,7 @@ public:
     );
 
     void InformResult(
-        bool isWinner,
+        const QString& text,
         int allyRound1,
         int allyRound2,
         int enemyRound1,

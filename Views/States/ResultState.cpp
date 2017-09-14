@@ -21,7 +21,7 @@ ResultState::ResultState(QWidget *parent)
 
 
 void ResultState::SetResult(
-    bool isWin,
+    const QString& text,
     int allyRound1,
     int allyRound2,
     int allyRound3,
@@ -30,14 +30,7 @@ void ResultState::SetResult(
     int enemyRound3
 )
 {
-    if (isWin)
-    {
-        ResultStateUi->label->setText(tr("You Win!"));
-    }
-    else
-    {
-        ResultStateUi->label->setText("You Lose!");
-    }
+    ResultStateUi->label->setText(text);
 
     ResultStateUi->label_2->setText(QString(tr("You: %1 | Oppenent: %2")).arg(allyRound1).arg(enemyRound1));
     ResultStateUi->label_3->setText(QString(tr("You: %1 | Oppenent: %2")).arg(allyRound2).arg(enemyRound2));
@@ -46,21 +39,14 @@ void ResultState::SetResult(
 
 
 void ResultState::SetResult(
-    bool isWin,
+    const QString& text,
     int allyRound1,
     int allyRound2,
     int enemyRound1,
     int enemyRound2
 )
 {
-    if (isWin)
-    {
-        ResultStateUi->label->setText(tr("You Win!"));
-    }
-    else
-    {
-        ResultStateUi->label->setText(tr("You Lose!"));
-    }
+    ResultStateUi->label->setText(text);
 
     ResultStateUi->label_2->setText(QString(tr("You: %1 | Oppenent: %2")).arg(allyRound1).arg(enemyRound1));
     ResultStateUi->label_3->setText(QString(tr("You: %1 | Oppenent: %2")).arg(allyRound2).arg(enemyRound2));

@@ -481,7 +481,7 @@ void InteractingController::SetCheckPoint()
 
 
 void InteractingController::InformResult(
-    bool isWinner,
+    const QString& text,
     int allyRound1,
     int allyRound2,
     int allyRound3,
@@ -493,7 +493,8 @@ void InteractingController::InformResult(
     PlayingState->GetBase()->SwitchToState("Result");
     auto resultState = PlayingState->GetBase()->GetSharedData("ResultState").value<ResultState *>();
     resultState->SetResult(
-        isWinner, allyRound1,
+        text,
+        allyRound1,
         allyRound2,
         allyRound3,
         enemyRound1,
@@ -504,7 +505,7 @@ void InteractingController::InformResult(
 
 
 void InteractingController::InformResult(
-    bool isWinner,
+    const QString& text,
     int allyRound1,
     int allyRound2,
     int enemyRound1,
@@ -514,7 +515,7 @@ void InteractingController::InformResult(
     PlayingState->GetBase()->SwitchToState("Result");
     auto resultState = PlayingState->GetBase()->GetSharedData("ResultState").value<ResultState *>();
     resultState->SetResult(
-        isWinner,
+        text,
         allyRound1,
         allyRound2,
         enemyRound1,
