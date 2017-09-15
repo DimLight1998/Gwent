@@ -31,11 +31,14 @@ void VranWarrior::OnDeploy()
         GainPower(powerUp);
         GlobalGameController->HandleUnitSwallowed(swallowedUnitId);
     }
+
+    CountDown = 2;
 }
 
 
 void VranWarrior::RoundUpdate()
 {
+    qDebug() << "Vran cd:" << GetTimeCount();
     CountDown--;
     if (CountDown == 0)
     {

@@ -22,9 +22,15 @@ void Lacerate::OnDeploy()
 
     auto battleLine = GlobalGameController->GetBattleField()->GetBattleLineByName(SelectedLine);
 
+    auto damageList = QVector<Unit *>();
+
     for (auto& i:battleLine->GetUnits())
     {
-        auto card = GlobalGameController->GetCardManager()->GetCardById(i);
-        dynamic_cast<Unit *>(card)->Damage(3);
+        damageList.append(dynamic_cast<Unit *>(GlobalGameController->GetCardManager()->GetCardById(i)));
+    }
+
+    for (auto item:damageList)
+    {
+        item->Damage(3);
     }
 }

@@ -92,14 +92,6 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../States/GamePlayingState.ui" line="52"/>
-        <location filename="../States/GamePlayingState.ui" line="74"/>
-        <location filename="../States/GamePlayingState.ui" line="138"/>
-        <location filename="../States/GamePlayingState.ui" line="160"/>
-        <source>TextLabel</source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../States/GamePlayingState.ui" line="106"/>
         <source>Please wait...</source>
         <translation>Please wait...</translation>

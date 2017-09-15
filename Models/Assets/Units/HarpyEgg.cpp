@@ -19,21 +19,32 @@ void HarpyEgg::OnDeathWish()
 {
     Card::OnDeploy();
 
+    QString prefix;
+
+    if (GlobalGameController->IsThisUnitEnemy(CardId))
+    {
+        prefix = "Enemy";
+    }
+    else if (GlobalGameController->IsThisUnitAllied(CardId))
+    {
+        prefix = "Allied";
+    }
+
     qsrand(static_cast<uint>(QDateTime::currentMSecsSinceEpoch()));
     auto    randomNumber = qrand() % 3;
     QString deployLine;
 
     if (randomNumber == 0)
     {
-        deployLine = "AlliedSiege";
+        deployLine = prefix + "Siege";
     }
     if (randomNumber == 1)
     {
-        deployLine = "AlliedRanged";
+        deployLine = prefix + "Ranged";
     }
     if (randomNumber == 2)
     {
-        deployLine = "AlliedMelee";
+        deployLine = prefix + "Melee";
     }
 
     GlobalGameController->SpawnCard("HarpyHatchling", deployLine, -1);

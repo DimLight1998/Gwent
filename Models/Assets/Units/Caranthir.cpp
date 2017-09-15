@@ -18,7 +18,6 @@ void Caranthir::OnDeploy()
 {
     Card::OnDeploy();
 
-
     auto enemyLine = SelectedLine;
     if (SelectedLine.startsWith("Allied"))
     {
@@ -27,17 +26,21 @@ void Caranthir::OnDeploy()
 
     GlobalGameController->SetWeatherToBattleLine(enemyLine, BattleLine::WeatherEnum::Frost);
 
-    auto count = 0;
-    count += GlobalGameController->GetBattleField()->GetBattleLineByName("EnemySiege")->GetUnits().size();
-    count += GlobalGameController->GetBattleField()->GetBattleLineByName("EnemyRanged")->GetUnits().size();
-    count += GlobalGameController->GetBattleField()->GetBattleLineByName("EnemyMelee")->GetUnits().size();
+    int count = 0;
+    for (const auto& item:QVector<QString>({"EnemySiege", "EnemyRanged", "EnemyMelee"}))
+    {
+        if (item != enemyLine)
+        {
+            count += GlobalGameController->GetBattleField()->GetBattleLineByName(item)->GetUnits().size();
+        }
+    }
+
+    auto isValid = false;
 
     if (count <= 0)
     {
         return;
     }
-
-    auto isValid = false;
 
     do
     {

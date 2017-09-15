@@ -35,7 +35,7 @@ void Frightener::OnDeploy()
         }
     }
 
-    if (count <= 1)
+    if (count <= 0)
     {
         return;
     }

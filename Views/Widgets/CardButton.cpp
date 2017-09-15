@@ -105,10 +105,13 @@ void CardButton::paintEvent(QPaintEvent *event)
                              "|" + QString::number(dynamic_cast<Unit *>(card)->GetArmor()));
         }
 
-        QRect countDownPower(0, 54, 30, 18);
-        painter.drawRect(countDownPower);
-        painter.drawText(countDownPower, Qt::AlignCenter,
-                         ":" + QString::number(dynamic_cast<Unit *>(card)->GetTimeCount()));
+        if (dynamic_cast<Unit *>(card)->GetTimeCount() > 0)
+        {
+            QRect countDownPower(0, 54, 30, 18);
+            painter.drawRect(countDownPower);
+            painter.drawText(countDownPower, Qt::AlignCenter,
+                             ":" + QString::number(dynamic_cast<Unit *>(card)->GetTimeCount()));
+        }
     }
 }
 

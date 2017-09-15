@@ -564,21 +564,21 @@ void GameController::StartGameEntry()
         SetSynchronizationPoint();
 
         // clear all units and weathers
-        QVector<Unit *> units;
-        for (auto       item:QVector<QString>({"AlliedSiege", "AlliedRanged", "AlliedMelee"}))
+        QVector<int> units;
+        for (const auto& item:QVector<QString>({"AlliedSiege", "AlliedRanged", "AlliedMelee"}))
         {
             auto battleLine = _battleField->GetBattleLineByName(item);
             battleLine->SetWeather(BattleLine::WeatherEnum::None);
 
             for (auto unit:battleLine->GetUnits())
             {
-                units.append(dynamic_cast<Unit *>(_cardManager->GetCardById(unit)));
+                units.append(unit);
             }
         }
 
         for (auto unit:units)
         {
-            unit->Destroy();
+            dynamic_cast<Unit *>(_cardManager->GetCardById(unit))->Destroy();
         }
 
         SetSynchronizationPoint();
@@ -656,7 +656,7 @@ void GameController::ResetGameData()
     SynchronizeRemoteDataAllySideOnly();
 
     // setting up special handlers
-    for (auto item :QVector<QString>(
+    for (const auto& item :QVector<QString>(
         {
             "FirstLight", "BitingFrost", "ImpenetrableFog", "Foglet", "TorrentialRain",
             "Lacerate", "CommandersHorn", "BekkersTwistedMirror", "GeraltIgni", "Dagon",
