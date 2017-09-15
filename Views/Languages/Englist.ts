@@ -49,14 +49,14 @@
         <translation>Exit</translation>
     </message>
     <message>
-        <location filename="../States/CardGroupEditState.cpp" line="45"/>
+        <location filename="../States/CardGroupEditState.cpp" line="53"/>
         <location filename="../States/CardGroupEditState.cpp" line="72"/>
         <location filename="../States/CardGroupEditState.cpp" line="94"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../States/CardGroupEditState.cpp" line="45"/>
+        <location filename="../States/CardGroupEditState.cpp" line="53"/>
         <source>Invalid card group or name</source>
         <translation type="unfinished"></translation>
     </message>

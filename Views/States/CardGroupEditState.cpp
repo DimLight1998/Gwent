@@ -39,19 +39,19 @@ void CardGroupEditState::OnSave()
     if (cardGroup.IsValid() && name != "")
     {
         exportString = cardGroup.ToString();
+
+        QFile data("./" + name + ".cg");
+        if (data.open(QFile::WriteOnly | QIODevice::Truncate))
+        {
+            QTextStream out(&data);
+            out << exportString;
+        }
+        data.close();
     }
     else
     {
         QMessageBox::critical(this, tr("Error"), tr("Invalid card group or name"));
     }
-
-    QFile data("./" + name + ".cg");
-    if (data.open(QFile::WriteOnly | QIODevice::Truncate))
-    {
-        QTextStream out(&data);
-        out << exportString;
-    }
-    data.close();
 
     CardGroupEditStateUi->lineEdit->clear();
     Base->GetSharedData("StartGameSettingsState").value<StartGameSettingsState *>()->RefreshList();

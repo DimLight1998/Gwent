@@ -2,6 +2,7 @@
 // Created on 2017/09/11 at 21:08.
 //
 
+#include <QtCore/QTranslator>
 #include "MainMenuState.hpp"
 #include "ui_MainMenuState.h"
 
